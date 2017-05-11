@@ -53,12 +53,31 @@ public class JobSeeker {
 	private boolean isVerified;
 	@Column(name="PROFILE_IMAGE_PATH")
 	private String profileImagePath;
+	@Column(name="PASSWORD")
+	private String password;
 	
 	
 	
+	
+	public JobSeeker(String firstName, String lastName, String emailId, String selfIntroduction, String phone,
+			String skills, String workExp, String verificationCode, boolean isVerified, String password) {
+		super();
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.emailId = emailId;
+		this.selfIntroduction = selfIntroduction;
+		this.phone = phone;
+		this.skills = skills;
+		this.workExp = workExp;
+		this.verificationCode = verificationCode;
+		this.isVerified = isVerified;
+		this.password = password;
+	}
+
+
 	public JobSeeker(String jobSeekerId, String firstName, String lastName, String emailId, String selfIntroduction,
 			String phone, String skills, Education education, String workExp, String verificationCode,
-			boolean isVerified, String profileImagePath) {
+			boolean isVerified, String profileImagePath, String password) {
 		super();
 		this.jobSeekerId = jobSeekerId;
 		this.firstName = firstName;
@@ -72,8 +91,10 @@ public class JobSeeker {
 		this.verificationCode = verificationCode;
 		this.isVerified = isVerified;
 		this.profileImagePath = profileImagePath;
+		this.password = password;
 	}
-	
+
+
 	public JobSeeker(){
 		
 	}
