@@ -29,18 +29,18 @@ public class JobSeeker {
 	@Column(name="JOB_SEEKER_ID")
 	@GeneratedValue(generator="system-uuid") 
 	@GenericGenerator(name="system-uuid", strategy = "uuid")
-	private String job_seeker_id;
+	private String jobSeekerId;
 	
 	@Column(name="FIRSTNAME", nullable = false)
-	private String firstname;
+	private String firstName;
 	@Column(name="LASTNAME", nullable = false)
-	private String lastname;
+	private String lastName;
 	@Column(name="EMAIL", unique = true, nullable = false)
 	private String emailId;
 	@Column(name="SELF_INTRODUCTION")
 	private String selfIntroduction;
 	@Column(name="PHONE", unique = true, nullable = false)
-	private String phone; //must be unique
+	private String phone; 
 	@Column(name="SKILLS")
 	private String skills;
 	@Embedded
@@ -56,13 +56,13 @@ public class JobSeeker {
 	
 	
 	
-	public JobSeeker(String job_seeker_id, String firstname, String lastname, String emailId, String selfIntroduction,
+	public JobSeeker(String jobSeekerId, String firstName, String lastName, String emailId, String selfIntroduction,
 			String phone, String skills, Education education, String workExp, String verificationCode,
 			boolean isVerified, String profileImagePath) {
 		super();
-		this.job_seeker_id = job_seeker_id;
-		this.firstname = firstname;
-		this.lastname = lastname;
+		this.jobSeekerId = jobSeekerId;
+		this.firstName = firstName;
+		this.lastName = lastName;
 		this.emailId = emailId;
 		this.selfIntroduction = selfIntroduction;
 		this.phone = phone;
@@ -78,24 +78,31 @@ public class JobSeeker {
 		
 	}
 	
-	public String getJob_seeker_id() {
-		return job_seeker_id;
+	
+	public String getJobSeekerId() {
+		return jobSeekerId;
 	}
-	public void setJob_seeker_id(String job_seeker_id) {
-		this.job_seeker_id = job_seeker_id;
+
+	public void setJobSeekerId(String jobSeekerId) {
+		this.jobSeekerId = jobSeekerId;
 	}
-	public String getFirstname() {
-		return firstname;
+
+	public String getFirstName() {
+		return firstName;
 	}
-	public void setFirstname(String firstname) {
-		this.firstname = firstname;
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
 	}
-	public String getLastname() {
-		return lastname;
+
+	public String getLastName() {
+		return lastName;
 	}
-	public void setLastname(String lastname) {
-		this.lastname = lastname;
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
+
 	public String getEmailId() {
 		return emailId;
 	}
