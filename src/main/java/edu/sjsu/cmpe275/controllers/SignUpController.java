@@ -29,6 +29,25 @@ public class SignUpController {
 		
 		URI location;
 		
+		/*
+		 * $.ajax({
+    type: 'get', // it's easier to read GET request parameters
+    url: 'masterpaket',
+    dataType: 'JSON',
+    data: { 
+      loadProds: 1,
+      test: JSON.stringify(test) // look here!
+    },
+    success: function(data) {
+
+    },
+    error: function(data) {
+        alert('fail');
+    }
+});
+		 * 
+		 */
+		System.out.println("request: " + request);
 		JSONObject jsonObject = new JSONObject(request.getParameter("data"));
 		
 		String emailId = jsonObject.getString("email");
