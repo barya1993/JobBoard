@@ -32,6 +32,21 @@ public class JobPostDAOImpl implements JobPostDAO{
 		
 	}
 
+	@Override
+	public JobPost getJobDetails(String jobid) {
+		
+		try{
+			JobPost jobPost = em.find(JobPost.class, jobid);
+			System.out.println("jobPost1 "+jobPost.getTitle());
+			return jobPost;
+		}catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+		
+		
+	}
+
 	
 
 }

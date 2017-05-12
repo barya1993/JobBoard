@@ -27,6 +27,13 @@ public class CompanyServiceImpl implements CompanyService {
 		
 	}
 
+	@Override
+	public JobPost getJobDetails(String jobid) {
+		
+		return jobPostDAO.getJobDetails(jobid);
+				
+	}
+
 	
 
 }
