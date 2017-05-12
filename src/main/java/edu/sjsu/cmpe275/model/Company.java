@@ -54,7 +54,7 @@ Is_verified*/
 	private String verificationCode;
 	
 	@Column(name="IS_VERIFIED")
-	private boolean isVerified;
+	private String isVerified;
 	
 	
 	public String getCompanyId() {
@@ -105,10 +105,10 @@ Is_verified*/
 	public void setVerificationCode(String verificationCode) {
 		this.verificationCode = verificationCode;
 	}
-	public boolean getIsVerified() {
+	public String getIsVerified() {
 		return isVerified;
 	}
-	public void setIsVerified(boolean isVerified) {
+	public void setIsVerified(String isVerified) {
 		this.isVerified = isVerified;
 	}
 	
