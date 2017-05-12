@@ -45,6 +45,17 @@ public class JobPost {
 	private String salary;
 		
 	
+	public JobPost(String companyId, String title, String description, String responsibilities,
+			String officeLocation, String salary) {
+		super();
+		this.companyId = companyId;
+		this.title = title;
+		this.description = description;
+		this.responsibilities = responsibilities;
+		this.officeLocation = officeLocation;
+		this.salary = salary;
+	}
+	
 	public String getJobPostId() {
 		return jobPostId;
 	}
