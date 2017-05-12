@@ -23,16 +23,19 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import edu.sjsu.cmpe275.Util;
 import edu.sjsu.cmpe275.model.Education;
+
 import edu.sjsu.cmpe275.model.JobPost;
 import edu.sjsu.cmpe275.model.JobSeeker;
 import edu.sjsu.cmpe275.model.ResponseObject;
 import edu.sjsu.cmpe275.services.CompanyService;
+
 import edu.sjsu.cmpe275.services.EducationService;
 import edu.sjsu.cmpe275.services.SignUpService;
 
 @RestController
 public class CompanyController {
 	
+
 	@Autowired
 	CompanyService companyService;
 	
@@ -67,4 +70,5 @@ public class CompanyController {
 		}
 		
 	}
+
 }
