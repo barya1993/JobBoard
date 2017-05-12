@@ -40,18 +40,28 @@ public class JobSeekerController {
 		String skills = jsonObject.getString("skills");
 		
 		String workExp = jsonObject.getString("workExp");
-		String password = jsonObject.getString("password");
 		
-		JobSeeker jobseeker = new JobSeeker(firstName, lastName,emailId, selfIntroduction, phone,
-				skills, workExp);
+		System.out.println(emailId);
+		JobSeeker jobseeker = jobSeekerService.getJobSeekerProfile(emailId);
+		System.out.println(jobseeker.getFirstName());
+		jobseeker.setFirstName(firstName);
+		jobseeker.setLastName(lastName);
+		jobseeker.setPhone(phone);
+		jobseeker.setSelfIntroduction(selfIntroduction);
+		jobseeker.setSkills(skills);
 		
-		JobSeeker updatedSeeker = jobSeekerService.updateJobSeekerProfile(jobseeker);
-		
+		JobSeeker updatedSeeker = 
+				jobSeekerService.updateJobSeekerProfile(jobseeker);
+		System.out.println(updatedSeeker.getEmailId());
 		JSONObject returnData = new JSONObject();
 		
 		returnData.put("email", updatedSeeker.getEmailId());
-		
-		
+		returnData.put("firstName", updatedSeeker.getFirstName());
+		returnData.put("lastName", updatedSeeker.getLastName());
+		returnData.put("selfIntroduction", updatedSeeker.getSelfIntroduction());
+		returnData.put("phone", updatedSeeker.getPhone());
+		returnData.put("skills", updatedSeeker.getSkills());
+		returnData.put("workExp", updatedSeeker.getWorkExp());
 		return new ResponseEntity(returnData.toString(),HttpStatus.OK);
 
 	}

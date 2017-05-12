@@ -7,5 +7,9 @@ import edu.sjsu.cmpe275.model.JobSeeker;
 @Repository
 public interface JobSeekerDAO {
 	public JobSeeker updateJobSeekerProfile(JobSeeker jobSeeker);
+
 	public boolean applyToJobPost(String jobSeekerId, String jobPostId);
+
+	public JobSeeker getJobSeekerProfile(String emailid);
+
 }
