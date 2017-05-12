@@ -61,7 +61,7 @@ public class JobSeeker {
 	@Column(name="VERIFICATION_CODE")
 	private String verificationCode;
 	@Column(name="IS_VERIFIED")
-	private boolean isVerified;
+	private String isVerified;
 	@Column(name="PROFILE_IMAGE_PATH")
 	private String profileImagePath;
 	@Column(name="PASSWORD")
@@ -74,7 +74,7 @@ public class JobSeeker {
 	
 
 	public JobSeeker(String firstName, String lastName, String emailId, String selfIntroduction, String phone,
-			String skills, String workExp, String verificationCode, boolean isVerified, String password) {
+			String skills, String workExp, String verificationCode, String isVerified, String password) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -91,7 +91,7 @@ public class JobSeeker {
 
 	public JobSeeker(String jobSeekerId, String firstName, String lastName, String emailId, String selfIntroduction,
 			String phone, String skills, ArrayList<Education> education, String workExp, String verificationCode,
-			boolean isVerified, String profileImagePath, String password) {
+			String isVerified, String profileImagePath, String password) {
 		super();
 		this.jobSeekerId = jobSeekerId;
 		this.firstName = firstName;
@@ -207,10 +207,10 @@ public class JobSeeker {
 	public void setVerificationCode(String verificationCode) {
 		this.verificationCode = verificationCode;
 	}
-	public boolean isVerified() {
+	public String isVerified() {
 		return isVerified;
 	}
-	public void setVerified(boolean isVerified) {
+	public void setVerified(String isVerified) {
 		this.isVerified = isVerified;
 	}
 	public String getProfileImagePath() {

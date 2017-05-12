@@ -1,7 +1,9 @@
 package edu.sjsu.cmpe275.daoImpl;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,5 +27,24 @@ public class SignUpDAOImpl implements SignUpDAO{
 			e.printStackTrace();
 			return false;
 		}
+	}
+	
+	@Override
+	@Transactional
+	public boolean updateVerifyJobSeeker(String emailId, String verifyStatus) {
+		
+		JobSeeker jobSeeker = null;
+		Query query = em.createQuery("update JobSeeker j set j.isVerified=:arg1 where j.emailId=:arg2");
+		query.setParameter("arg1", verifyStatus);
+		query.setParameter("arg2", emailId);
+		
+		try {
+			query.executeUpdate();
+			
+		} catch (NoResultException e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
 	}
 }
