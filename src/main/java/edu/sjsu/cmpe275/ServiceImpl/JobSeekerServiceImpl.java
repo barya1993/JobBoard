@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import edu.sjsu.cmpe275.dao.JobSeekerDAO;
+import edu.sjsu.cmpe275.model.Application;
 import edu.sjsu.cmpe275.model.JobSeeker;
 import edu.sjsu.cmpe275.services.JobSeekerService;
 
@@ -20,12 +21,10 @@ public class JobSeekerServiceImpl implements JobSeekerService {
 	}
 
 	@Override
-
-	public boolean applyToJobPost(String jobSeekerId, String jobPostId){
+	public boolean applyToJobPost(Application application){
 		
+		return jobSeekerDAO.applyToJobPost(application);
 		
-		
-		return true;
 	}
 
 	public JobSeeker getJobSeekerProfile(String emailid) {

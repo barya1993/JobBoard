@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.sjsu.cmpe275.dao.JobSeekerDAO;
-
+import edu.sjsu.cmpe275.model.Application;
 import edu.sjsu.cmpe275.model.JobSeeker;
 
 @Repository
@@ -59,8 +59,9 @@ public class JobSeekerDAOImpl implements JobSeekerDAO{
 	
 	@Override
 	@Transactional
-	public boolean applyToJobPost(String jobSeekerId, String jobPostId){
+	public boolean applyToJobPost(Application application){
 		try{
+			em.persist(application);
 			return true;
 		}catch(Exception e){
 			e.printStackTrace();
