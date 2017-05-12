@@ -19,4 +19,10 @@ public class JobSeekerServiceImpl implements JobSeekerService {
 		return jobSeekerDAO.updateJobSeekerProfile(jobSeeker);
 	}
 
+	@Override
+	public JobSeeker getJobSeekerProfile(String emailid) {
+		// TODO Auto-generated method stub
+		return jobSeekerDAO.getJobSeekerProfile(emailid);
+	}
+
 }
