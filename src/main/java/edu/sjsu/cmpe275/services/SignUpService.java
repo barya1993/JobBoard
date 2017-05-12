@@ -7,4 +7,5 @@ import edu.sjsu.cmpe275.model.JobSeeker;
 @Service
 public interface SignUpService {
 	public boolean signUpJobSeeker(JobSeeker jobseeker);
+	public boolean updateVerifyJobSeeker(String emailId, String verifyStatus);
 }

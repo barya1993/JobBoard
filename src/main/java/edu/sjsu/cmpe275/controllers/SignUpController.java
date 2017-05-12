@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -26,6 +28,7 @@ import edu.sjsu.cmpe275.model.Education;
 import edu.sjsu.cmpe275.model.JobSeeker;
 import edu.sjsu.cmpe275.model.ResponseObject;
 import edu.sjsu.cmpe275.services.EducationService;
+import edu.sjsu.cmpe275.services.JobSeekerService;
 import edu.sjsu.cmpe275.services.SignUpService;
 
 @RestController
@@ -37,7 +40,10 @@ public class SignUpController {
 	@Autowired
 	EducationService educationService;
 	
-	@CrossOrigin(origins = "http://localhost:8000")
+	@Autowired
+	JobSeekerService jobSeekerService;
+	
+	@CrossOrigin(origins = Util.BASE_URL)
 	@RequestMapping(value="/signUpJobSeeker",method = RequestMethod.POST)
 	public ResponseEntity<?> signUpJobSeeker(HttpServletRequest request, HttpServletResponse response) throws JSONException{
 		
@@ -82,18 +88,17 @@ public class SignUpController {
 		
 		String workExp = jsonObject.getString("workExp");
 		String password = jsonObject.getString("password");
-		String verificationCode = "";
-		Boolean isVerified = false;
+		Random random = new Random();
+		
+		String verificationCode = (new Integer(100000000 + random.nextInt(900000000))).toString();
+		String isVerified = "false";
 		
 		//String profileImagePath = request.getParameter("profileImagePath");
 		
 		JobSeeker jobseeker = new JobSeeker(firstName, lastName, emailId, selfIntroduction, phone,
 				skills, workExp, verificationCode, isVerified, password);
 		
-		
-		
 		boolean isSignUpSuccessful = signUpService.signUpJobSeeker(jobseeker);
-		
 		
 		if(!isSignUpSuccessful){
 			
@@ -115,13 +120,41 @@ public class SignUpController {
 			
 			educationService.saveEducation(educationList);
 			
+			String id = jobSeekerService.getIdByEmailID(emailId);
+			
+			String textToSend = "Dear user please follow the below given: \n" + Util.BASE_URL;
+			textToSend = textToSend + "verifyJobSeeker/" + verificationCode ;
+			textToSend = textToSend + "/" + id;
+			
+			Util.sendEmail(textToSend, emailId);
+			
 			JSONObject returnData = new JSONObject();
-			returnData.put("verificationCode", "1234");
-			returnData.put("verificationCode1", "12342");
+			returnData.put("verificationCode", verificationCode);
 			
 			return new ResponseEntity(returnData.toString(),HttpStatus.OK);
 		}
 		
 		
+	}
+	
+	@CrossOrigin(origins = Util.BASE_URL)
+	@RequestMapping(value="/verifyJobSeeker/{verificationCode}/{jobSeekerId}",method = RequestMethod.GET)
+	public ResponseEntity<?> verifyJobSeeker(@PathVariable(value="verificationCode") String verificationCode, @PathVariable(value="jobSeekerId") String jobSeekerId,HttpServletRequest request, HttpServletResponse response) throws JSONException{
+		
+		JobSeeker jobSeeker = jobSeekerService.getJobSeekerByIdAndVerCode(verificationCode, jobSeekerId);
+		
+		if(jobSeeker == null){
+			return new ResponseEntity(new JSONObject().toString(),HttpStatus.BAD_REQUEST);
+		}
+		
+		boolean isVerifySuccessful = signUpService.updateVerifyJobSeeker(jobSeeker.getEmailId(), "true");
+		JSONObject returnData = new JSONObject();
+		returnData.put("isVerifySuccessful", isVerifySuccessful);
+		
+		if(isVerifySuccessful){
+			return new ResponseEntity(returnData.toString(),HttpStatus.OK);
+		}else{
+			return new ResponseEntity(returnData.toString(),HttpStatus.BAD_REQUEST);
+		}
 	}
 }
