@@ -56,8 +56,12 @@ public class JobSeekerController {
 		JSONObject returnData = new JSONObject();
 		
 		returnData.put("email", updatedSeeker.getEmailId());
-		
-		
+		returnData.put("firstName", updatedSeeker.getFirstName());
+		returnData.put("lastName", updatedSeeker.getLastName());
+		returnData.put("selfIntroduction", updatedSeeker.getSelfIntroduction());
+		returnData.put("phone", updatedSeeker.getPhone());
+		returnData.put("skills", updatedSeeker.getSkills());
+		returnData.put("workExp", updatedSeeker.getWorkExp());
 		return new ResponseEntity(returnData.toString(),HttpStatus.OK);
 
 	}
