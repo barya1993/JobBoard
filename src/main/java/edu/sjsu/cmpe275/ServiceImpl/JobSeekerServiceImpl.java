@@ -25,8 +25,6 @@ public class JobSeekerServiceImpl implements JobSeekerService {
 		return jobSeekerDAO.getJobSeekerByIdAndVerCode(verificationCode, jobSeekerId);
 	}
 	
-	@Autowired
-	JobSeekerDAO jobSeekerDAO;
 
 	@Override
 	public JobSeeker updateJobSeekerProfile(JobSeeker jobSeeker) {
