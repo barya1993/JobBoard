@@ -53,9 +53,9 @@ public class JobSeeker {
 	@Column(name="SKILLS")
 	private String skills;
 	
-	@OneToMany
-	@JoinColumn(name="EDUCATION_ID")
+	@OneToMany(mappedBy = "jobSeeker")
 	private List<Education> education;
+
 	@Column(name="WORKEXP")
 	private String workExp;
 	@Column(name="VERIFICATION_CODE")
@@ -100,7 +100,7 @@ public class JobSeeker {
 		this.selfIntroduction = selfIntroduction;
 		this.phone = phone;
 		this.skills = skills;
-		this.education = education;
+		//this.education = education;
 		this.workExp = workExp;
 		this.verificationCode = verificationCode;
 		this.isVerified = isVerified;
@@ -109,6 +109,15 @@ public class JobSeeker {
 	}
 
 
+	public List<Education> getEducation() {
+		return education;
+	}
+
+
+	public void setEducation(List<Education> education) {
+		this.education = education;
+	}
+	
 	public JobSeeker(){
 		
 	}
@@ -180,12 +189,12 @@ public class JobSeeker {
 	public void setSkills(String skills) {
 		this.skills = skills;
 	}
-	public List<Education> getEducation() {
+	/*public List<Education> getEducation() {
 		return education;
 	}
 	public void setEducation(List<Education> education) {
 		this.education = education;
-	}
+	}*/
 	public String getWorkExp() {
 		return workExp;
 	}
