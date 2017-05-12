@@ -11,7 +11,7 @@ import javax.persistence.Query;
 import org.springframework.stereotype.Repository;
 
 import edu.sjsu.cmpe275.dao.JobSeekerDAO;
-
+import edu.sjsu.cmpe275.model.Application;
 import edu.sjsu.cmpe275.model.JobSeeker;
 
 @Repository
@@ -54,6 +54,18 @@ public class JobSeekerDAOImpl implements JobSeekerDAO{
 			e.printStackTrace();
 			return null;
 			
+		}
+	}
+	
+	@Override
+	@Transactional
+	public boolean applyToJobPost(Application application){
+		try{
+			em.persist(application);
+			return true;
+		}catch(Exception e){
+			e.printStackTrace();
+			return false;
 		}
 	}
 	

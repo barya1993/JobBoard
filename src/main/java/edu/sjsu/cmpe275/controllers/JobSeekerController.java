@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import edu.sjsu.cmpe275.Util;
+import edu.sjsu.cmpe275.model.JobPost;
 import edu.sjsu.cmpe275.model.JobSeeker;
 import edu.sjsu.cmpe275.services.JobSeekerService;
 
@@ -65,4 +66,29 @@ public class JobSeekerController {
 		return new ResponseEntity(returnData.toString(),HttpStatus.OK);
 
 	}
+	
+	
+	@CrossOrigin(origins = "http://localhost:8000")
+	@RequestMapping(value="/applyToJobPost",method = RequestMethod.POST)
+	public ResponseEntity<?> applyToJobPost(HttpServletRequest request, HttpServletResponse response) throws JSONException{
+		
+		JSONObject jsonObject = new JSONObject(Util.getDataString(request));
+		
+		String jobPostId = jsonObject.getString("jobPostId");
+		//String jobSeekerId = session.get;
+		String jobSeekerEmailId = "";
+		
+		JobSeeker jobSeeker = jobSeekerService.getJobSeekerProfile(jobSeekerEmailId);
+		
+		
+		return new ResponseEntity("",HttpStatus.OK);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 }
