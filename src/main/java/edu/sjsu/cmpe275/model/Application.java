@@ -37,6 +37,12 @@ public class Application {
 	
 	@Column(name = "RESUME")
 	private String resume;
+	
+	
+	public Application(JobPost jobPost, JobSeeker jobSeeker){
+		this.jobPostId = jobPost;
+		this.jobSeekerId = jobSeeker;
+	}
 
 	public String getApplicationId() {
 		return applicationId;

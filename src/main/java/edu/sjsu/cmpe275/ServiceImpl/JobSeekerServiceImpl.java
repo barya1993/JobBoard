@@ -19,4 +19,11 @@ public class JobSeekerServiceImpl implements JobSeekerService {
 		return jobSeekerDAO.updateJobSeekerProfile(jobSeeker);
 	}
 
+	@Override
+	public boolean applyToJobPost(String jobSeekerId, String jobPostId){
+		
+		
+		
+		return true;
+	}
 }

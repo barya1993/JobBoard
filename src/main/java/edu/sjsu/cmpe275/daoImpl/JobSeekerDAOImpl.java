@@ -31,6 +31,17 @@ public class JobSeekerDAOImpl implements JobSeekerDAO{
 		
 	}
 	
+	@Override
+	@Transactional
+	public boolean applyToJobPost(String jobSeekerId, String jobPostId){
+		try{
+			
+		}catch(Exception e){
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
 	/*@Override
 	Transactional*/
 	/*public boolean signUpJobSeeker(JobSeeker jobSeeker) {
