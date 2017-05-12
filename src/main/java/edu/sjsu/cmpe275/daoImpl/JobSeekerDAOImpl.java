@@ -61,7 +61,7 @@ public class JobSeekerDAOImpl implements JobSeekerDAO{
 	@Transactional
 	public boolean applyToJobPost(String jobSeekerId, String jobPostId){
 		try{
-			
+			return true;
 		}catch(Exception e){
 			e.printStackTrace();
 			return false;
