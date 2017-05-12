@@ -5,6 +5,6 @@ import org.springframework.stereotype.Repository;
 import edu.sjsu.cmpe275.model.JobSeeker;
 
 @Repository
-public interface JobSeekerDAO {
-	public JobSeeker updateJobSeekerProfile(JobSeeker jobSeeker);
+public interface CompanyDAO {
+	
 }
