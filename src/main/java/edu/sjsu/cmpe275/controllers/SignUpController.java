@@ -1,5 +1,6 @@
 package edu.sjsu.cmpe275.controllers;
 
+import java.io.BufferedReader;
 import java.net.URI;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,26 +30,23 @@ public class SignUpController {
 		
 		URI location;
 		
-		/*
-		 * $.ajax({
-    type: 'get', // it's easier to read GET request parameters
-    url: 'masterpaket',
-    dataType: 'JSON',
-    data: { 
-      loadProds: 1,
-      test: JSON.stringify(test) // look here!
-    },
-    success: function(data) {
-
-    },
-    error: function(data) {
-        alert('fail');
-    }
-});
+		/*JSON required from frontend:
+		 *{
+			"data": {
+				"email": "xyz@zbc.com",
+				"firstName": "firstname1",
+				"lastName": "lastname1",
+				"selfIntroduction": "introduction1",
+				"phone": "6692459505",
+				"skills": "java, python",
+				"workExp": "2 years",
+				"password": "mypassword"
+			}
+		}
 		 * 
 		 */
-		System.out.println("request: " + request);
-		JSONObject jsonObject = new JSONObject(request.getParameter("data"));
+		
+		JSONObject jsonObject = new JSONObject(Util.getDataString(request));
 		
 		String emailId = jsonObject.getString("email");
 		String firstName = jsonObject.getString("firstName");
@@ -73,14 +71,14 @@ public class SignUpController {
 		            .fromCurrentServletMapping().path("/applicationError").build().toUri();
 		}else{
 			location = ServletUriComponentsBuilder
-		            .fromCurrentServletMapping().path("/jobSeekerHome").build().toUri();
+		            .fromCurrentServletMapping().path("/verifyJobSeeker").build().toUri();
 		}
 		
 		return Util.redirectTo(location);
 		
 	}
 	
-	@RequestMapping(value="/jobSeekerHome",method = RequestMethod.GET)
+	@RequestMapping(value="/verifyJobSeeker",method = RequestMethod.POST)
 	public <E> ResponseEntity<E> jobSeekerHome(HttpServletRequest request, HttpServletResponse response){
 		
 		return null;
