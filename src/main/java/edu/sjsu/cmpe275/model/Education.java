@@ -45,6 +45,14 @@ public class Education {
 	private String gpa;
 	
 	
+	
+	public Education(JobSeeker jobSeeker, String school, String degree, String fieldOfStudy, String gpa) {
+		this.jobSeeker = jobSeeker;
+		this.school = school;
+		this.degree = degree;
+		this.fieldOfStudy = fieldOfStudy;
+		this.gpa = gpa;
+	}
 	public String getSchool() {
 		return school;
 	}
