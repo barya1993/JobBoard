@@ -1,13 +1,20 @@
 package edu.sjsu.cmpe275.model;
 
+import java.util.ArrayList;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 @Entity
 @Table(name="JobSeeker")
@@ -44,7 +51,7 @@ public class JobSeeker {
 	@Column(name="SKILLS")
 	private String skills;
 	@Embedded
-	private Education education;
+	private ArrayList<Education> education;
 	@Column(name="WORKEXP")
 	private String workExp;
 	@Column(name="VERIFICATION_CODE")
@@ -57,6 +64,9 @@ public class JobSeeker {
 	private String password;
 	
 	
+	@ManyToMany(cascade=CascadeType.ALL)
+	@JoinTable(name = "Applications", joinColumns = { @JoinColumn(name = "JOB_SEEKER_ID") }, inverseJoinColumns = { @JoinColumn(name = "JOB_POST_ID")})
+	private ArrayList<JobPost> jobPost;
 	
 	
 	public JobSeeker(String firstName, String lastName, String emailId, String selfIntroduction, String phone,
@@ -76,7 +86,7 @@ public class JobSeeker {
 
 
 	public JobSeeker(String jobSeekerId, String firstName, String lastName, String emailId, String selfIntroduction,
-			String phone, String skills, Education education, String workExp, String verificationCode,
+			String phone, String skills, ArrayList<Education> education, String workExp, String verificationCode,
 			boolean isVerified, String profileImagePath, String password) {
 		super();
 		this.jobSeekerId = jobSeekerId;
@@ -148,10 +158,10 @@ public class JobSeeker {
 	public void setSkills(String skills) {
 		this.skills = skills;
 	}
-	public Education getEducation() {
+	public ArrayList<Education> getEducation() {
 		return education;
 	}
-	public void setEducation(Education education) {
+	public void setEducation(ArrayList<Education> education) {
 		this.education = education;
 	}
 	public String getWorkExp() {
