@@ -1,6 +1,7 @@
 package edu.sjsu.cmpe275.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -66,9 +67,9 @@ public class JobSeeker {
 	
 	@ManyToMany(cascade=CascadeType.ALL)
 	@JoinTable(name = "Applications", joinColumns = { @JoinColumn(name = "JOB_SEEKER_ID") }, inverseJoinColumns = { @JoinColumn(name = "JOB_POST_ID")})
-	private ArrayList<JobPost> jobPost;
+	private List<JobPost> jobPost;
 	
-	
+
 	public JobSeeker(String firstName, String lastName, String emailId, String selfIntroduction, String phone,
 			String skills, String workExp, String verificationCode, boolean isVerified, String password) {
 		super();
@@ -109,6 +110,24 @@ public class JobSeeker {
 		
 	}
 	
+	public String getPassword() {
+		return password;
+	}
+
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+
+	public List<JobPost> getJobPost() {
+		return jobPost;
+	}
+
+
+	public void setJobPost(List<JobPost> jobPost) {
+		this.jobPost = jobPost;
+	}
 	
 	public String getJobSeekerId() {
 		return jobSeekerId;
