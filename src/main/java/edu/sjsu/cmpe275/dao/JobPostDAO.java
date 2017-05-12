@@ -1,16 +1,13 @@
-package edu.sjsu.cmpe275.services;
+package edu.sjsu.cmpe275.dao;
 
-import org.springframework.stereotype.Service;
-
+import org.springframework.stereotype.Repository;
 
 import edu.sjsu.cmpe275.model.JobPost;
-
 import edu.sjsu.cmpe275.model.JobSeeker;
 
-@Service
-public interface CompanyService {
+@Repository
+public interface JobPostDAO {
 
 	public boolean addNewJob(JobPost jobPost);
-
 	
 }
