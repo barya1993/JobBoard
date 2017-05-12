@@ -5,6 +5,8 @@ import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -23,6 +25,12 @@ public class Education {
 	@GeneratedValue(generator="system-uuid") 
 	@GenericGenerator(name="system-uuid", strategy = "uuid")
 	private String educationId;
+	
+	@ManyToOne
+	@JoinColumn(name = "JOB_SEEKER_ID")
+	//@Column(name = "JOB_SEEKER_ID")
+	private JobSeeker jobSeeker;
+	
 	
 	@Column(name="SCHOOL")
 	private String school;
