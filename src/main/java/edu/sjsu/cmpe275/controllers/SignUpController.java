@@ -82,7 +82,7 @@ public class SignUpController {
 			returnData.put("verificationCode", "1234");
 			returnData.put("verificationCode1", "12342");
 			
-			return new ResponseEntity(returnData,HttpStatus.OK);
+			return new ResponseEntity(returnData.toString(),HttpStatus.OK);
 		}
 		
 		

@@ -2,8 +2,15 @@ package edu.sjsu.cmpe275.model;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
-@Embeddable
+import org.hibernate.annotations.GenericGenerator;
+
+@Entity
+@Table(name="Education")
 public class Education {
 
 /*	School
@@ -11,6 +18,11 @@ public class Education {
 	field_of_study	
 		gpa*/
 	
+	@Id 
+	@Column(name="EDUCATION_ID")
+	@GeneratedValue(generator="system-uuid") 
+	@GenericGenerator(name="system-uuid", strategy = "uuid")
+	private String educationId;
 	
 	@Column(name="SCHOOL")
 	private String school;

@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -51,8 +52,10 @@ public class JobSeeker {
 	private String phone; 
 	@Column(name="SKILLS")
 	private String skills;
-	@Embedded
-	private ArrayList<Education> education;
+	
+	@OneToMany
+	@JoinColumn(name="EDUCATION_ID")
+	private List<Education> education;
 	@Column(name="WORKEXP")
 	private String workExp;
 	@Column(name="VERIFICATION_CODE")
@@ -177,10 +180,10 @@ public class JobSeeker {
 	public void setSkills(String skills) {
 		this.skills = skills;
 	}
-	public ArrayList<Education> getEducation() {
+	public List<Education> getEducation() {
 		return education;
 	}
-	public void setEducation(ArrayList<Education> education) {
+	public void setEducation(List<Education> education) {
 		this.education = education;
 	}
 	public String getWorkExp() {
