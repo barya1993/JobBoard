@@ -9,14 +9,17 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import edu.sjsu.cmpe275.Util;
 import edu.sjsu.cmpe275.model.JobSeeker;
+import edu.sjsu.cmpe275.model.ResponseObject;
 import edu.sjsu.cmpe275.services.SignUpService;
 
 @RestController
@@ -26,7 +29,7 @@ public class SignUpController {
 	SignUpService signUpService;
 	
 	@RequestMapping(value="/signUpJobSeeker",method = RequestMethod.POST)
-	public <E> ResponseEntity<E> signUpJobSeeker(HttpServletRequest request, HttpServletResponse response) throws JSONException{
+	public ResponseEntity<?> signUpJobSeeker(HttpServletRequest request, HttpServletResponse response) throws JSONException{
 		
 		URI location;
 		
@@ -67,20 +70,20 @@ public class SignUpController {
 		boolean isSignUpSuccessful = signUpService.signUpJobSeeker(jobseeker);
 		
 		if(!isSignUpSuccessful){
-			location = ServletUriComponentsBuilder
-		            .fromCurrentServletMapping().path("/applicationError").build().toUri();
+			
+			return new ResponseEntity(new JSONObject().toString(),HttpStatus.BAD_REQUEST);
+			
 		}else{
-			location = ServletUriComponentsBuilder
-		            .fromCurrentServletMapping().path("/verifyJobSeeker").build().toUri();
+			/*ObjectMapper mapper = new ObjectMapper();
+			String Json =  mapper.writeValueAsString(object);*/
+			
+			JSONObject returnData = new JSONObject();
+			returnData.put("verificationCode", "1234");
+			returnData.put("verificationCode1", "12342");
+			
+			return new ResponseEntity(returnData.toString(),HttpStatus.OK);
 		}
 		
-		return Util.redirectTo(location);
 		
-	}
-	
-	@RequestMapping(value="/verifyJobSeeker",method = RequestMethod.POST)
-	public <E> ResponseEntity<E> jobSeekerHome(HttpServletRequest request, HttpServletResponse response){
-		
-		return null;
 	}
 }
