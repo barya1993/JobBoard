@@ -122,6 +122,25 @@ public class JobSeeker {
 		
 	}
 	
+	public JobSeeker(String firstName, String lastName, String emailId, String selfIntroduction, String phone, String skills,
+			String workExp) {
+		super();
+	//	this.jobSeekerId = jobSeekerId;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.emailId = emailId;
+		this.selfIntroduction = selfIntroduction;
+		this.phone = phone;
+		this.skills = skills;
+		//this.education = education;
+		this.workExp = workExp;
+	//	this.verificationCode = verificationCode;
+	//	this.isVerified = isVerified;
+		//this.profileImagePath = profileImagePath;
+		//this.password = password;
+	}
+
+
 	public String getPassword() {
 		return password;
 	}
