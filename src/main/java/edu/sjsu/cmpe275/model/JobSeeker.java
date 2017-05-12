@@ -68,9 +68,9 @@ public class JobSeeker {
 	private String password;
 	
 	
-	@ManyToMany(cascade=CascadeType.ALL)
+/*	@ManyToMany(cascade=CascadeType.ALL)
 	@JoinTable(name = "Applications", joinColumns = { @JoinColumn(name = "JOB_SEEKER_ID") }, inverseJoinColumns = { @JoinColumn(name = "JOB_POST_ID")})
-	private List<JobPost> jobPost;
+	private List<JobPost> jobPost;*/
 	
 
 	public JobSeeker(String firstName, String lastName, String emailId, String selfIntroduction, String phone,
@@ -122,6 +122,25 @@ public class JobSeeker {
 		
 	}
 	
+	public JobSeeker(String firstName, String lastName, String emailId, String selfIntroduction, String phone, String skills,
+			String workExp) {
+		super();
+	//	this.jobSeekerId = jobSeekerId;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.emailId = emailId;
+		this.selfIntroduction = selfIntroduction;
+		this.phone = phone;
+		this.skills = skills;
+		//this.education = education;
+		this.workExp = workExp;
+	//	this.verificationCode = verificationCode;
+	//	this.isVerified = isVerified;
+		//this.profileImagePath = profileImagePath;
+		//this.password = password;
+	}
+
+
 	public String getPassword() {
 		return password;
 	}
@@ -132,14 +151,14 @@ public class JobSeeker {
 	}
 
 
-	public List<JobPost> getJobPost() {
+/*	public List<JobPost> getJobPost() {
 		return jobPost;
 	}
 
 
 	public void setJobPost(List<JobPost> jobPost) {
 		this.jobPost = jobPost;
-	}
+	}*/
 	
 	public String getJobSeekerId() {
 		return jobSeekerId;

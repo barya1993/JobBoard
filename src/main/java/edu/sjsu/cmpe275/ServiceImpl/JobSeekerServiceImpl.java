@@ -24,13 +24,19 @@ public class JobSeekerServiceImpl implements JobSeekerService {
 		return jobSeekerDAO.getJobSeekerByIdAndVerCode(verificationCode, jobSeekerId);
 	}
 	
-	/*@Autowired
-	SignUpDAO signUpDAO;
+	@Autowired
+	JobSeekerDAO jobSeekerDAO;
 
 	@Override
-	public boolean signUpJobSeeker(JobSeeker jobSeeker) {
-		
-		return signUpDAO.signUpJobSeeker(jobSeeker);
+	public JobSeeker updateJobSeekerProfile(JobSeeker jobSeeker) {
+		//return null;
+		return jobSeekerDAO.updateJobSeekerProfile(jobSeeker);
 	}
-*/
+
+	@Override
+	public JobSeeker getJobSeekerProfile(String emailid) {
+		// TODO Auto-generated method stub
+		return jobSeekerDAO.getJobSeekerProfile(emailid);
+	}
+
 }
