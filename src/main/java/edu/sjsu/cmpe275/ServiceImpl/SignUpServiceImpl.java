@@ -19,4 +19,9 @@ public class SignUpServiceImpl implements SignUpService {
 		return signUpDAO.signUpJobSeeker(jobSeeker);
 	}
 
+	@Override
+	public boolean updateVerifyJobSeeker(String emailId, String verifyStatus) {
+		return signUpDAO.updateVerifyJobSeeker(emailId, verifyStatus);
+	}
+
 }

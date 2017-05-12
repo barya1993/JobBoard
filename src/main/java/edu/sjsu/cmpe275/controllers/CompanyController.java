@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -70,5 +71,42 @@ public class CompanyController {
 		}
 		
 	}
+	
+	
+	@RequestMapping(value="/retrieveJobById",method = RequestMethod.POST)
+	public ResponseEntity<?> retrieveJobs(HttpServletRequest request, HttpServletResponse response) throws JSONException
+	{
+		
+		JSONObject jsonObject1 = new JSONObject(Util.getDataString(request));
+		
+		String jobid = jsonObject1.getString("jobid");
+		
+		JobPost jobPost = companyService.getJobDetails(jobid);
+		
+		System.out.println("jobPost "+jobPost);
+		
+		if(jobPost !=null)
+		{
+			JSONObject jsonObject = new JSONObject();
+			
+			jsonObject.put("job_post_id", jobPost.getJobPostId());
+			jsonObject.put("company_id", jobPost.getCompanyId());
+			jsonObject.put("description", jobPost.getDescription());
+			jsonObject.put("office_location", jobPost.getOfficeLocation());
+			jsonObject.put("responsibilities", jobPost.getResponsibilities());
+			jsonObject.put("salary", jobPost.getSalary());
+			jsonObject.put("title", jobPost.getTitle());
+			
+			return new ResponseEntity(jsonObject.toString(),HttpStatus.OK);
+		}
+		
+		else
+		{
+			return new ResponseEntity("No job found",HttpStatus.BAD_REQUEST);
+		}	
+	}
+	
+	
+	
 
 }

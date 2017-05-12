@@ -10,6 +10,20 @@ import edu.sjsu.cmpe275.services.JobSeekerService;
 
 @Service
 public class JobSeekerServiceImpl implements JobSeekerService {
+
+	@Autowired
+	JobSeekerDAO jobSeekerDAO;
+	
+	@Override
+	public String getIdByEmailID(String emailId) {
+		
+		return jobSeekerDAO.getIdByEmailID(emailId);
+	}
+
+	@Override
+	public JobSeeker getJobSeekerByIdAndVerCode(String verificationCode, String jobSeekerId) {
+		return jobSeekerDAO.getJobSeekerByIdAndVerCode(verificationCode, jobSeekerId);
+	}
 	
 	@Autowired
 	JobSeekerDAO jobSeekerDAO;

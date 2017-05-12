@@ -56,6 +56,11 @@ public class JobPost {
 		this.salary = salary;
 	}
 	
+	public JobPost()
+	{
+		
+	}
+	
 	public String getJobPostId() {
 		return jobPostId;
 	}
