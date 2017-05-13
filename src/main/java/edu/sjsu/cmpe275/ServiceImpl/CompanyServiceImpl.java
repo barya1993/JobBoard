@@ -75,4 +75,9 @@ public class CompanyServiceImpl implements CompanyService {
 		return companyDAO.getCompanyByIdAndVerCode(verificationCode, companyId);
 	}
 
+	@Override
+	public boolean updateCompanyDetails(Company company) {
+		return companyDAO.updateCompanyDetails(company);
+	}
+
 }

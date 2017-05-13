@@ -77,6 +77,7 @@ public class CompanyDAOImpl implements CompanyDAO{
 	}
 
 	@Override
+	@Transactional
 	public Company findCompanyById(String companyId) {	
 		try 
 		{
@@ -90,6 +91,20 @@ public class CompanyDAOImpl implements CompanyDAO{
 			return null;
 		}
 		
+		
+	}
+
+	@Override
+	@Transactional
+	public boolean updateCompanyDetails(Company company) {
+		
+		try {
+			em.merge(company);
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
 		
 	}
 

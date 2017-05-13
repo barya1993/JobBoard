@@ -40,8 +40,60 @@ public class CompanyController {
 	@Autowired
 	CompanyService companyService;
 	
+	
+	@RequestMapping(value="/updateCompanyDetails",method = RequestMethod.POST)
+	public ResponseEntity<?> updateCompanyDetails(HttpServletRequest request, HttpServletResponse response) throws JSONException
+	{
+		
+		//Dummy company_id, will be replaced by session_id later
+		String companyId = "1";
+		
+		JSONObject jsonObject = new JSONObject(Util.getDataString(request));
+		
+		String email = jsonObject.getString("email");
+		String name = jsonObject.getString("name");
+		String website = jsonObject.getString("website");
+		String imageURL = jsonObject.getString("imageURL");
+		String address = jsonObject.getString("address");
+		String description = jsonObject.getString("description");
+		String password = jsonObject.getString("password");
+		
+		
+		Company company = companyService.findCompanyById(companyId);
+		
+		if(company != null){
+			
+			company.setAddress(address);
+			company.setDescription(description);
+			company.setEmail(email);
+			company.setImageURL(imageURL);
+			company.setName(name);
+			company.setPassword(password);
+			company.setWebsite(website);
+				
+			Boolean successFlag = companyService.updateCompanyDetails(company);
+				
+			if(successFlag)
+			{
+				return new ResponseEntity("Updated successfully",HttpStatus.OK);
+			
+			}
+			else
+			{
+				return new ResponseEntity("Bad request",HttpStatus.BAD_REQUEST);
+			}
+		
+		}
+		else
+		{
+			return new ResponseEntity("Not found",HttpStatus.NOT_FOUND);
+		}
+		
+	}
+	
+	
 	@RequestMapping(value="/findAllCompanies",method = RequestMethod.GET)
-	public ResponseEntity<?> findAllCompany() throws JSONException
+	public ResponseEntity<?> findAllCompanies() throws JSONException
 	{
 		
 		//Dummy company_id, will be replaced by session_id later
@@ -92,7 +144,7 @@ public class CompanyController {
 		
 		else
 		{
-			return new ResponseEntity("No Company found",HttpStatus.BAD_REQUEST);
+			return new ResponseEntity("No Company found",HttpStatus.NOT_FOUND);
 		}	
 		
 	}
@@ -104,9 +156,9 @@ public class CompanyController {
 		JSONObject jsonObject = new JSONObject(Util.getDataString(request));
 		
 		//Dummy company_id, will be replaced by session_id later
-		//String companyId = "1";
+		String companyId = "1";
 		
-		String companyId = jsonObject.getString("companyId");
+		//String companyId = jsonObject.getString("companyId");
 		String title = jsonObject.getString("title");
 		String description = jsonObject.getString("description");
 		String office_location = jsonObject.getString("office_location");
@@ -178,8 +230,7 @@ public class CompanyController {
 		JSONObject jsonObject = new JSONObject(Util.getDataString(request));
 		
 		//Dummy company_id, will be replaced by session_id later
-		//String companyId = "1";
-		String companyId = jsonObject.getString("companyId");
+		String companyId = "1";
 		String jobId = jsonObject.getString("jobId");
 		String title = jsonObject.getString("title");
 		String description = jsonObject.getString("description");
@@ -218,14 +269,11 @@ public class CompanyController {
 		
 	}
 	
-	@RequestMapping(value="/findJobsByCompany",method = RequestMethod.POST)
-	public ResponseEntity<?> findAllJobsOfCompany(HttpServletRequest request, HttpServletResponse response) throws JSONException
+	@RequestMapping(value="/findJobsByCompany",method = RequestMethod.GET)
+	public ResponseEntity<?> findAllJobsOfCompany() throws JSONException
 	{
-		JSONObject jsonObject = new JSONObject(Util.getDataString(request));
-		
 		//Dummy company_id, will be replaced by session_id later
-		//String companyId = "1";
-		String companyId = jsonObject.getString("companyId");
+		String companyId = "1";
 		
 		List<JobPost> jobPosts = companyService.getJobsByCompany(companyId);
 		
