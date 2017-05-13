@@ -1,6 +1,7 @@
 package edu.sjsu.cmpe275.controllers;
 
 import java.net.URI;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,9 +16,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+
 import edu.sjsu.cmpe275.Util;
+import edu.sjsu.cmpe275.model.Application;
 import edu.sjsu.cmpe275.model.JobPost;
 import edu.sjsu.cmpe275.model.JobSeeker;
+import edu.sjsu.cmpe275.services.CompanyService;
 import edu.sjsu.cmpe275.services.JobSeekerService;
 
 @RestController
@@ -25,6 +29,9 @@ public class JobSeekerController {
 	
 	@Autowired
 	JobSeekerService jobSeekerService;
+	
+	@Autowired
+	CompanyService companyService;
 	
 	@CrossOrigin(origins = "http://localhost:8000")
 	@RequestMapping(value="/updateJobSeekerProfile",method = RequestMethod.POST)
@@ -76,12 +83,65 @@ public class JobSeekerController {
 		
 		String jobPostId = jsonObject.getString("jobPostId");
 		//String jobSeekerId = session.get;
-		String jobSeekerEmailId = "";
+		String jobSeekerEmailId = "xyz2@zbc.com";
+		String resumeOrProfile = jsonObject.getString("applyWithResumeOrProfile");
+		String resume;
+		if(resumeOrProfile.equals("Resume"))
+			resume = jsonObject.getString("resume");
+		else
+			resume = null;		
 		
 		JobSeeker jobSeeker = jobSeekerService.getJobSeekerProfile(jobSeekerEmailId);
+		JobPost jobPost = companyService.getJobDetails(jobPostId);
+		
+		List<Application> applicationList = jobSeekerService.getJobSeekerApplications(jobSeeker);
+		
+		System.out.println(applicationList.size()+"::::::::::::::::::::"+applicationList.get(0).getJobPostId().getJobPostId());
+		int pendingCounter=0;
+		int flag=0;
+		for(int i=0; i<applicationList.size();i++)
+		{
+			if(applicationList.get(i).getStatus().equals("PENDING"))
+				pendingCounter++;
+			if(applicationList.get(i).getJobPostId().getJobPostId().equals(jobPost.getJobPostId()))
+				flag=1;
+		}
+		
+		if(flag==1)
+		{
+			JSONObject returnObj = new JSONObject();
+			returnObj.put("result", "You already applied for this Job Post!");
+			return new ResponseEntity(returnObj.toString(),HttpStatus.BAD_REQUEST);
+		}
+		
+		if(pendingCounter>=5)
+		{
+			JSONObject returnObj = new JSONObject();
+			returnObj.put("result", "You cannot apply in more then 5 JobPosts in a Pending State");
+			return new ResponseEntity(returnObj.toString(),HttpStatus.BAD_REQUEST);
+		}
 		
 		
-		return new ResponseEntity("",HttpStatus.OK);
+		Application newApplication = new Application(jobPost, jobSeeker, resume, "NEW");
+		
+		if(jobSeekerService.applyToJobPost(newApplication))
+		{
+			String textToSend = "You successfully applied for position "+jobPost.getTitle()+"\n Good luck!";
+			String emailId = jobSeeker.getEmailId();
+			Util.sendEmail(textToSend, emailId);
+			
+			JSONObject returnObj = new JSONObject();
+			returnObj.put("result", "Application Submitted!");
+			return new ResponseEntity(returnObj.toString(),HttpStatus.OK);
+		}
+		else
+		{
+			JSONObject returnObj = new JSONObject();
+			returnObj.put("result", "Error in Applying for the desired Job Post!");
+			return new ResponseEntity(returnObj.toString(),HttpStatus.BAD_REQUEST);
+		}
+		
+		
 	}
 	
 	

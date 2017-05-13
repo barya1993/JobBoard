@@ -42,6 +42,7 @@ public class Util {
 	    SimpleMailMessage message = new SimpleMailMessage(); 
 		try{
 			//should be message.setTo(emailId);
+			message.setFrom("CMPE275JobBoard@gmail.com");
 			message.setTo("siddharth.daftari@gmail.com");
 			message.setSubject("Confirmation email - JobBoard");  
 			

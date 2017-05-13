@@ -1,5 +1,7 @@
 package edu.sjsu.cmpe275.ServiceImpl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -42,6 +44,11 @@ public class JobSeekerServiceImpl implements JobSeekerService {
 	public JobSeeker getJobSeekerProfile(String emailid) {
 		// TODO Auto-generated method stub
 		return jobSeekerDAO.getJobSeekerProfile(emailid);
+	}
+	
+	public List<Application> getJobSeekerApplications(JobSeeker jobSeekerId){
+		
+		return jobSeekerDAO.getJobSeekerApplications(jobSeekerId);
 	}
 
 

@@ -120,6 +120,24 @@ public class JobSeekerDAOImpl implements JobSeekerDAO{
 		return jobSeeker;
 	}
 
-	
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Application> getJobSeekerApplications(JobSeeker jobSeekerId){
+		
+		List<Application> returnObj = null;
+		
+		Query query = em.createQuery("Select j from Application j where j.jobSeekerId=:arg1");
+		query.setParameter("arg1", jobSeekerId);
+		
+		try {
+			returnObj = (List<Application>) query.getResultList();
+		} catch (NoResultException e) {
+			e.printStackTrace();
+		}
+		return returnObj;
+		
+	}
+
 	
 }
