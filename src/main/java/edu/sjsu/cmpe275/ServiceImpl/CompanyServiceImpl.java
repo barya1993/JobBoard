@@ -34,6 +34,13 @@ public class CompanyServiceImpl implements CompanyService {
 				
 	}
 
+	@Override
+	public boolean updateJobDetails(JobPost jobPost) {
+		
+		return jobPostDAO.updateJobDetails(jobPost);	
+	
+	}
+
 	
 
 }

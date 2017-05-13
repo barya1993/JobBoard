@@ -107,6 +107,53 @@ public class CompanyController {
 	}
 	
 	
+	@RequestMapping(value="/updateJob",method = RequestMethod.POST)
+	public ResponseEntity<?> updateJob(HttpServletRequest request, HttpServletResponse response) throws JSONException
+	{
+		JSONObject jsonObject = new JSONObject(Util.getDataString(request));
+		
+		//Dummy company_id, will be replaced by session_id later
+		//String companyId = "1";
+		String companyId = jsonObject.getString("companyId");
+		String jobId = jsonObject.getString("jobId");
+		String title = jsonObject.getString("title");
+		String description = jsonObject.getString("description");
+		String office_location = jsonObject.getString("office_location");
+		String responsibilities = jsonObject.getString("responsibilities");
+		String salary = jsonObject.getString("salary");
+		
+		JobPost jobPost = companyService.getJobDetails(jobId);
+		
+		if(jobPost != null){
+			
+			jobPost.setCompanyId(companyId);
+			jobPost.setDescription(description);
+			jobPost.setOfficeLocation(office_location);
+			jobPost.setResponsibilities(responsibilities);
+			jobPost.setSalary(salary);
+			jobPost.setTitle(title);
+			
+			Boolean successFlag = companyService.updateJobDetails(jobPost);
+			
+			if(successFlag)
+			{
+				return new ResponseEntity("Updated successfully",HttpStatus.OK);
+				
+				//need to notify all the applicants
+			}
+			else
+			{
+				return new ResponseEntity("Bad request",HttpStatus.BAD_REQUEST);
+			}
+		}
+		else
+		{
+			return new ResponseEntity("Not found",HttpStatus.NOT_FOUND);
+		}
+		
+	}
+	
+	
 	
 
 }

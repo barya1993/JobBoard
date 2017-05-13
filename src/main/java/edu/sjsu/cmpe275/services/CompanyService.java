@@ -13,4 +13,6 @@ public interface CompanyService {
 	public boolean addNewJob(JobPost jobPost);
 
 	public JobPost getJobDetails(String jobid);
+	
+	public boolean updateJobDetails(JobPost jobPost);
 }
