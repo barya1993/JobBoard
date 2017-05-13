@@ -20,4 +20,6 @@ public interface JobPostDAO {
 	public List<JobPost> getJobsByCompany(String CompanyId);
 	
 	public List<Application> getJobPostApplications(JobPost jobPost);
+	
+	public List<JobPost> searchByText(String keyword);
 }

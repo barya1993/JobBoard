@@ -1,6 +1,7 @@
 package edu.sjsu.cmpe275;
 import java.io.BufferedReader;
 import java.net.URI;
+import java.util.List;
 import java.util.Properties;
 
 import javax.mail.Message;
@@ -57,6 +58,43 @@ public class Util {
 		
 		return true;
 	}
+	
+	
+	public static boolean sendBulkEmail(String textToSend, String[] emailIds, String subject){
+		JavaMailSenderImpl mailSender = new JavaMailSenderImpl(); 
+	    mailSender.setHost("smtp.gmail.com");
+	    mailSender.setPort(587);
+	     
+	    mailSender.setUsername("CMPE275JobBoard@gmail.com");
+	    mailSender.setPassword("CMPE275@JobBoard");
+	     
+	    Properties props = mailSender.getJavaMailProperties();
+	    props.put("mail.transport.protocol", "smtp");
+	    props.put("mail.smtp.auth", "true");
+	    props.put("mail.smtp.starttls.enable", "true");
+	    props.put("mail.debug", "true");
+	    
+	    System.out.println("fds "+emailIds[0]);
+	    
+	    SimpleMailMessage message = new SimpleMailMessage(); 
+		try{
+			//should be message.setTo(emailId);
+			message.setFrom("CMPE275JobBoard@gmail.com");
+			message.setTo(emailIds);
+			message.setSubject(subject);  
+			
+			message.setText(textToSend); 
+	        
+	        mailSender.send(message);
+	        System.out.println("sent");
+			
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		
+		return true;
+	}
+	
 	
 	public static <E> ResponseEntity<E> redirectTo(URI location){
 		HttpHeaders headers = new HttpHeaders();
