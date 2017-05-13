@@ -28,5 +28,7 @@ public interface CompanyService {
 
 	
 	public Company findCompanyById(String companyId);
+	
+	public boolean updateCompanyDetails(Company company);
 
 }
