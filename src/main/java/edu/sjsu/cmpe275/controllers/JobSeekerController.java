@@ -5,10 +5,13 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -22,6 +25,7 @@ import edu.sjsu.cmpe275.model.Application;
 import edu.sjsu.cmpe275.model.JobPost;
 import edu.sjsu.cmpe275.model.JobSeeker;
 import edu.sjsu.cmpe275.services.CompanyService;
+import edu.sjsu.cmpe275.services.JobPostService;
 import edu.sjsu.cmpe275.services.JobSeekerService;
 
 @RestController
@@ -32,6 +36,9 @@ public class JobSeekerController {
 	
 	@Autowired
 	CompanyService companyService;
+	
+	@Autowired
+	JobPostService jobPostService;
 	
 	@CrossOrigin(origins = "http://localhost:8000")
 	@RequestMapping(value="/updateJobSeekerProfile",method = RequestMethod.POST)
@@ -73,6 +80,61 @@ public class JobSeekerController {
 		return new ResponseEntity(returnData.toString(),HttpStatus.OK);
 
 	}
+	
+	
+	@CrossOrigin(origins = "http://localhost:8000")
+	@RequestMapping(value="/fetchJobPostApplications",method = RequestMethod.POST)
+	public ResponseEntity<?> fetchJobPostApplications(HttpServletRequest request, HttpServletResponse response) throws JSONException{
+	
+		JSONObject jsonObject = new JSONObject(Util.getDataString(request));
+		HttpSession session=request.getSession();
+		String jobPostId = jsonObject.getString("jobPostId");
+		
+		JobPost jobPost = companyService.getJobDetails(jobPostId);
+		
+		List<Application> applicationList = jobPostService.getJobPostApplications(jobPost);
+		
+		JSONArray resultArray = new JSONArray();
+		resultArray.put(applicationList);
+		
+		JSONObject returnObj = new JSONObject();
+		returnObj.put("result", resultArray);
+		return new ResponseEntity(returnObj.toString(),HttpStatus.BAD_REQUEST);
+		
+	}
+	
+	
+	@CrossOrigin(origins = "http://localhost:8000")
+	@RequestMapping(value="/fetchJobSeekerApplications",method = RequestMethod.POST)
+	public ResponseEntity<?> fetchJobSeekerApplications(HttpServletRequest request, HttpServletResponse response) throws JSONException{
+	
+		JSONObject jsonObject = new JSONObject(Util.getDataString(request));
+		HttpSession session=request.getSession();
+		String jobSeekerEmailId;
+		if(session!=null)
+		{
+			jobSeekerEmailId = (String)session.getAttribute("email");
+		}
+		else
+		{
+			JSONObject returnObj = new JSONObject();
+			returnObj.put("result", "Log in first!");
+			return new ResponseEntity(returnObj.toString(),HttpStatus.BAD_REQUEST);
+		}
+		JobSeeker jobSeeker = jobSeekerService.getJobSeekerProfile(jobSeekerEmailId);
+		//JobPost jobPost = companyService.getJobDetails(jobPostId);
+		
+		List<Application> applicationList = jobSeekerService.getJobSeekerApplications(jobSeeker);
+		
+		JSONArray resultArray = new JSONArray();
+		resultArray.put(applicationList);
+		
+		JSONObject returnObj = new JSONObject();
+		returnObj.put("result", resultArray);
+		return new ResponseEntity(returnObj.toString(),HttpStatus.BAD_REQUEST);
+		
+	}
+	
 	
 	
 	@CrossOrigin(origins = "http://localhost:8000")
