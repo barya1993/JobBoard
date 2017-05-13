@@ -74,7 +74,7 @@ public class JobSeeker {
 	
 
 	public JobSeeker(String firstName, String lastName, String emailId, String selfIntroduction, String phone,
-			String skills, String workExp, String verificationCode, String isVerified, String password) {
+			String skills, String workExp, String verificationCode, String isVerified, String password, String profileImagePath) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -86,6 +86,7 @@ public class JobSeeker {
 		this.verificationCode = verificationCode;
 		this.isVerified = isVerified;
 		this.password = password;
+		this.profileImagePath = profileImagePath;
 	}
 
 

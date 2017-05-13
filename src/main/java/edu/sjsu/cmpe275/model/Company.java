@@ -60,6 +60,45 @@ Is_verified*/
 	private String password;
 	
 	
+	public Company(String email, String name, String website, String imageURL, String address, String description,
+			String verificationCode, String isVerified, String password) {
+		super();
+		this.email = email;
+		this.name = name;
+		this.website = website;
+		this.imageURL = imageURL;
+		this.address = address;
+		this.description = description;
+		this.verificationCode = verificationCode;
+		this.isVerified = isVerified;
+		this.password = password;
+	}
+	
+	
+	
+	public Company(String companyId, String email, String name, String website, String imageURL, String address,
+			String description, String verificationCode, String isVerified, String password) {
+		super();
+		this.companyId = companyId;
+		this.email = email;
+		this.name = name;
+		this.website = website;
+		this.imageURL = imageURL;
+		this.address = address;
+		this.description = description;
+		this.verificationCode = verificationCode;
+		this.isVerified = isVerified;
+		this.password = password;
+	}
+
+
+
+	public Company() {
+		super();
+	}
+
+
+
 	public String getPassword() {
 		return password;
 	}
