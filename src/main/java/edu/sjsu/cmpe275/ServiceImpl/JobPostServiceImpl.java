@@ -25,5 +25,10 @@ public class JobPostServiceImpl implements JobPostService{
 		// TODO Auto-generated method stub
 		return jobPostDAO.getJobPostApplications(jobPost);
 	}
+
+	@Override
+	public List<JobPost> searchByText(String keyword) {
+		return jobPostDAO.searchByText(keyword);
+	}
 	
 }
