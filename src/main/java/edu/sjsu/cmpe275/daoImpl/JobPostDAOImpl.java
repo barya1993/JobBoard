@@ -1,7 +1,11 @@
 package edu.sjsu.cmpe275.daoImpl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -60,6 +64,38 @@ public class JobPostDAOImpl implements JobPostDAO{
 			e.printStackTrace();
 			return false;
 		}
+		
+	}
+
+	@Override
+	@Transactional
+	public List<JobPost> getJobsByCompany(String CompanyId) {
+		
+		Query query = em.createQuery("SELECT p FROM JobPost p ORDER BY p.id");
+		
+		try {
+			
+			List<JobPost> resultList = new ArrayList<JobPost>();
+			
+			@SuppressWarnings("unchecked")
+			List<JobPost> jobPosts = query.getResultList();
+			
+			for(int i = 0 ; i < jobPosts.size() ; i++)
+			{
+				if(jobPosts.get(i).getCompanyId().equalsIgnoreCase(CompanyId))
+				{
+					resultList.add(jobPosts.get(i));
+				}
+			}
+		
+			return resultList;
+		} 
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+			return null;
+		}
+		
 		
 	}
 

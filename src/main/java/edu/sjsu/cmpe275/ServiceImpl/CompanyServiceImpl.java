@@ -1,5 +1,7 @@
 package edu.sjsu.cmpe275.ServiceImpl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,6 +41,12 @@ public class CompanyServiceImpl implements CompanyService {
 		
 		return jobPostDAO.updateJobDetails(jobPost);	
 	
+	}
+
+	@Override
+	public List<JobPost> getJobsByCompany(String CompanyId) {
+
+		return jobPostDAO.getJobsByCompany(CompanyId);
 	}
 
 	
