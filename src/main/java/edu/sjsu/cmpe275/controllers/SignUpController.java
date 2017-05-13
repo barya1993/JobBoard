@@ -1,13 +1,12 @@
 package edu.sjsu.cmpe275.controllers;
 
-import java.io.BufferedReader;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -19,14 +18,11 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import edu.sjsu.cmpe275.Util;
 import edu.sjsu.cmpe275.model.Education;
 import edu.sjsu.cmpe275.model.JobSeeker;
-import edu.sjsu.cmpe275.model.ResponseObject;
 import edu.sjsu.cmpe275.services.EducationService;
 import edu.sjsu.cmpe275.services.JobSeekerService;
 import edu.sjsu.cmpe275.services.SignUpService;
@@ -44,39 +40,66 @@ public class SignUpController {
 	JobSeekerService jobSeekerService;
 	
 	@CrossOrigin(origins = Util.BASE_URL)
+	@RequestMapping(value="/login",method = RequestMethod.POST)
+	public ResponseEntity<?> login(HttpServletRequest request, HttpServletResponse response) throws JSONException{
+		
+		JSONObject returnData = new JSONObject();
+		
+		JSONObject jsonObject = new JSONObject(Util.getDataString(request));
+		String emailId = jsonObject.getString("email");
+		String password = jsonObject.getString("password");
+		String usertype = jsonObject.getString("usertype"); // should be "jobseeker" or "company"
+		
+		boolean isValidUser = signUpService.checkLoginCredentials(emailId, password, usertype);
+		
+		if(isValidUser){
+			HttpSession session=request.getSession(); 
+			session.setAttribute("email",emailId);  
+			session.setAttribute("password",password); 
+			session.setAttribute("usertype",usertype); 
+			
+			returnData.put("isValidUser", isValidUser);
+			return new ResponseEntity(returnData.toString(),HttpStatus.OK);
+		}else{
+			returnData.put("isValidUser", isValidUser);
+			return new ResponseEntity(returnData.toString(),HttpStatus.NOT_FOUND);
+		}
+		
+	}
+	
+	@CrossOrigin(origins = Util.BASE_URL)
+	@RequestMapping(value="/logout",method = RequestMethod.GET)
+	public ResponseEntity<?> logout(HttpServletRequest request, HttpServletResponse response) throws JSONException{
+		
+		HttpSession session=request.getSession(false);  
+		
+		if(session != null){
+			session.invalidate();
+		}
+		return null;
+	}
+	
+	@CrossOrigin(origins = Util.BASE_URL)
+	@RequestMapping(value="/giveUserName",method = RequestMethod.GET)
+	public ResponseEntity<?> giveUserName(HttpServletRequest request, HttpServletResponse response) throws JSONException{
+		
+		JSONObject returnData = new JSONObject();
+		String email = "";
+		HttpSession session=request.getSession(false);  
+		
+		if(session != null){
+			email = (String)session.getAttribute("email");
+		}
+		
+		returnData.put("user", email);
+		return new ResponseEntity(returnData.toString(),HttpStatus.NOT_FOUND);
+		
+	}
+	
+	@CrossOrigin(origins = Util.BASE_URL)
 	@RequestMapping(value="/signUpJobSeeker",method = RequestMethod.POST)
 	public ResponseEntity<?> signUpJobSeeker(HttpServletRequest request, HttpServletResponse response) throws JSONException{
-		
-		URI location;
-		
-		/*JSON required from frontend:
-		 *{
-				"data": {
-					"email": "xyz@zbc.com",
-					"firstName": "firstname1",
-					"lastName": "lastname1",
-					"selfIntroduction": "introduction1",
-					"phone": "6692459505",
-					"skills": "java, python",
-					"workExp": "2 years",
-					"password": "mypassword",
-					"education":[{
-						"school": "school1",
-						"degree": "degree1",
-						"fieldOfStudy": "fieldOfStudy1",
-						"gpa": "gpa1"
-					},
-					{
-						"school": "school2",
-						"degree": "degree2",
-						"fieldOfStudy": "fieldOfStudy2",
-						"gpa": "gpa2"
-					}]
-				}
-			}
-		 * 
-		 */
-		
+	
 		JSONObject jsonObject = new JSONObject(Util.getDataString(request));
 		
 		String emailId = jsonObject.getString("email");

@@ -8,4 +8,6 @@ import edu.sjsu.cmpe275.model.JobSeeker;
 public interface SignUpDAO {
 	public boolean signUpJobSeeker(JobSeeker jobSeeker);
 	public boolean updateVerifyJobSeeker(String emailId, String verifyStatus);
+	public boolean checkLoginCredentialsCompany(String emailId, String password);
+	public boolean checkLoginCredentialsJobSeeker(String emailId, String password);
 }

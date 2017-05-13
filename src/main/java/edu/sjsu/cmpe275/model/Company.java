@@ -56,7 +56,16 @@ Is_verified*/
 	@Column(name="IS_VERIFIED")
 	private String isVerified;
 	
+	@Column(name="PASSWORD")
+	private String password;
 	
+	
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
 	public String getCompanyId() {
 		return companyId;
 	}
