@@ -1,42 +1,46 @@
 package edu.sjsu.cmpe275.aspects;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.apache.log4j.Logger;
-import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
+import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import edu.sjsu.cmpe275.model.CustomException;
 
 @Aspect
+@Component
 public class Aspects {
 	
 	Logger logger;
 	
-	@Before("execution(* *(..)) && @annotation(Loggable)")
-	public void beforeLoggableMethod(JoinPoint joinPoint){
-		logger = Logger.getLogger(joinPoint.getSignature().getClass());
-		
-		logger.info("Going into method: " + joinPoint.getSignature().getName() + " of class: " + joinPoint.getSignature().getClass().getName());
-	}
-	
-	
-	@After("execution(* *(..)) && @annotation(Loggable)")
-	public void afterLoggableMethod(JoinPoint joinPoint){
-		logger = Logger.getLogger(joinPoint.getSignature().getClass());
-		
-		logger.info("Moving out of method: " + joinPoint.getSignature().getName() + " of class: " + joinPoint.getSignature().getClass().getName());
-	}
-	
-	@Around("execution(* *(..)) && @annotation(Secured)")
-	public void aroundAnyMethod(ProceedingJoinPoint proceedingJoinPoint){
+	@Around("@annotation(Secured)")
+	public Object aroundAnyMethod(ProceedingJoinPoint proceedingJoinPoint){
 		logger = Logger.getLogger(proceedingJoinPoint.getSignature().getClass());
 		
+		Object object = null;
 		try{
+			HttpServletRequest request1 = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
 			
-			proceedingJoinPoint.proceed();
+			HttpSession session=request1.getSession(false);  
+			System.out.println("session " + session);
+			
+			if(session != null){
+				
+				String email = (String)session.getAttribute("email");
+				
+				System.out.println("email " + email);
+				
+				if(email != null && !"".equalsIgnoreCase(email)){
+					object = proceedingJoinPoint.proceed();
+				}
+			}
+			
 			
 		}catch(CustomException ce){
 			logger.error("Error with response code: " + ce.getCode() + " and message: " + ce.getMessage());
@@ -54,5 +58,6 @@ public class Aspects {
 			
 			//reroute to error handling controller
 		}
+		return object;
 	}
 }
