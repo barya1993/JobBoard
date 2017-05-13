@@ -45,6 +45,10 @@ public class Application {
 		this.resume = resume;
 		this.status = status;
 	}
+	
+	public Application(){
+		
+	}
 
 	public String getApplicationId() {
 		return applicationId;
