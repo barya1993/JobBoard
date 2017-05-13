@@ -25,6 +25,7 @@ public class CompanyServiceImpl implements CompanyService {
 		return jobPostDAO.addNewJob(jobPost);
 		
 		
+		
 	}
 
 	@Override

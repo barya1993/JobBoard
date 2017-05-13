@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import edu.sjsu.cmpe275.Util;
+import edu.sjsu.cmpe275.model.Application;
 import edu.sjsu.cmpe275.model.JobPost;
 import edu.sjsu.cmpe275.model.JobSeeker;
+import edu.sjsu.cmpe275.services.CompanyService;
 import edu.sjsu.cmpe275.services.JobSeekerService;
 
 @RestController
@@ -25,6 +27,9 @@ public class JobSeekerController {
 	
 	@Autowired
 	JobSeekerService jobSeekerService;
+	
+	@Autowired
+	CompanyService companyService;
 	
 	@CrossOrigin(origins = "http://localhost:8000")
 	@RequestMapping(value="/updateJobSeekerProfile",method = RequestMethod.POST)
@@ -76,12 +81,30 @@ public class JobSeekerController {
 		
 		String jobPostId = jsonObject.getString("jobPostId");
 		//String jobSeekerId = session.get;
-		String jobSeekerEmailId = "";
+		String jobSeekerEmailId = "xyz2@zbc.com";
+		String resumeOrProfile = jsonObject.getString("applyWithResumeOrProfile");
+		String resume;
+		if(resumeOrProfile.equals("Resume"))
+			resume = jsonObject.getString("resume");
+		else
+			resume = null;
+		
 		
 		JobSeeker jobSeeker = jobSeekerService.getJobSeekerProfile(jobSeekerEmailId);
+		JobPost jobPost = companyService.getJobDetails(jobPostId);
+		
+		Application newApplication = new Application(jobPost, jobSeeker, resume, "NEW");
+		
+		if(jobSeekerService.applyToJobPost(newApplication))
+		{
+			return new ResponseEntity("Application Submitted",HttpStatus.OK);
+		}
+		else
+		{
+			return new ResponseEntity("Error in Applying for the desired Job Post",HttpStatus.BAD_REQUEST);
+		}
 		
 		
-		return new ResponseEntity("",HttpStatus.OK);
 	}
 	
 	
