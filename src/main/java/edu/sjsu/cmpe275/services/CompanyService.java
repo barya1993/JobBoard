@@ -26,4 +26,7 @@ public interface CompanyService {
 	
 	public List<Company> getAllCompanies();
 
+	
+	public Company findCompanyById(String companyId);
+
 }

@@ -40,7 +40,7 @@ public class CompanyController {
 	@Autowired
 	CompanyService companyService;
 	
-	@RequestMapping(value="/findAllCompanies",method = RequestMethod.POST)
+	@RequestMapping(value="/findAllCompanies",method = RequestMethod.GET)
 	public ResponseEntity<?> findAllCompany() throws JSONException
 	{
 		
@@ -62,6 +62,39 @@ public class CompanyController {
 			return new ResponseEntity("No Companies",HttpStatus.NOT_FOUND);
 		}
 	}
+	
+	
+	@RequestMapping(value="/findCompanyById",method = RequestMethod.POST)
+	public ResponseEntity<?> findCompanyById(HttpServletRequest request, HttpServletResponse response) throws JSONException
+	{
+		JSONObject jsonObject = new JSONObject(Util.getDataString(request));
+		
+		String companyId = jsonObject.getString("companyId");
+		
+		Company company = companyService.findCompanyById(companyId);
+		
+		if(company !=null)
+		{
+			JSONObject jsonObject1 = new JSONObject();
+			
+			jsonObject1.put("Name", company.getName());
+			jsonObject1.put("Address", company.getAddress());
+			jsonObject1.put("CompanyId", company.getCompanyId());
+			jsonObject1.put("Email", company.getEmail());
+			jsonObject1.put("Website", company.getWebsite());
+			jsonObject1.put("Description", company.getDescription());
+			jsonObject1.put("ImageURL", company.getImageURL());
+			
+			return new ResponseEntity(jsonObject1.toString(),HttpStatus.OK);
+		}
+		
+		else
+		{
+			return new ResponseEntity("No Company found",HttpStatus.BAD_REQUEST);
+		}	
+		
+	}
+	
 	
 	@RequestMapping(value="/addJobByCompany",method = RequestMethod.POST)
 	public ResponseEntity<?> addJobByCompany(HttpServletRequest request, HttpServletResponse response) throws JSONException
@@ -179,8 +212,6 @@ public class CompanyController {
 		}
 		
 	}
-	
-	
 	
 	@RequestMapping(value="/findJobsByCompany",method = RequestMethod.POST)
 	public ResponseEntity<?> findAllJobsOfCompany(HttpServletRequest request, HttpServletResponse response) throws JSONException

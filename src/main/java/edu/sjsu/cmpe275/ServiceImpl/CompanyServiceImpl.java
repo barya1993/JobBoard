@@ -28,16 +28,12 @@ public class CompanyServiceImpl implements CompanyService {
 	public boolean addNewJob(JobPost jobPost) {
 		
 		return jobPostDAO.addNewJob(jobPost);
-		
-		
-		
 	}
 
 	@Override
 	public JobPost getJobDetails(String jobid) {
-		
 		return jobPostDAO.getJobDetails(jobid);
-				
+		
 	}
 
 
@@ -58,6 +54,13 @@ public class CompanyServiceImpl implements CompanyService {
 	public List<Company> getAllCompanies() {
 		
 		return companyDAO.getAllCompanies();
+	}
+
+	@Override
+	public Company findCompanyById(String companyId) {
+		
+		return companyDAO.findCompanyById(companyId);
+		
 	}
 
 	

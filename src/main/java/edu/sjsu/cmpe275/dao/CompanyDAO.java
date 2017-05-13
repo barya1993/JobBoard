@@ -14,7 +14,11 @@ public interface CompanyDAO {
 
 	public List<Company> getAllCompanies();
 	
+
+	public Company findCompanyById(String companyId);
+
 	public String getIdByEmailID(String emailId);
 	public Company getCompanyByIdAndVerCode(String verificationCode, String companyId);
+
 	
 }
