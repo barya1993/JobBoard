@@ -49,7 +49,7 @@ public class SignUpController {
 	//========================================================
 	// Login for both jobseeker and company
 	//========================================================
-	@CrossOrigin(origins = Util.BASE_URL)
+	/*@CrossOrigin(origins = "http://localhost:8000")*/
 	@RequestMapping(value="/login",method = RequestMethod.POST)
 	public ResponseEntity<?> login(HttpServletRequest request, HttpServletResponse response) throws JSONException{
 		
@@ -119,7 +119,7 @@ public class SignUpController {
 	// Sign up and verification for job seeker
 	//========================================================
 	
-	@CrossOrigin(origins = Util.BASE_URL)
+	/*@CrossOrigin(origins = Util.BASE_URL)*/
 	@RequestMapping(value="/signUpJobSeeker",method = RequestMethod.POST)
 	public ResponseEntity<?> signUpJobSeeker(HttpServletRequest request, HttpServletResponse response) throws JSONException{
 	
@@ -212,7 +212,7 @@ public class SignUpController {
 	// Sign up and verification for company
 	//========================================================
 	
-	@CrossOrigin(origins = Util.BASE_URL)
+	/*@CrossOrigin(origins = Util.BASE_URL)*/
 	@RequestMapping(value="/signUpCompany",method = RequestMethod.POST)
 	public ResponseEntity<?> signUpCompany(HttpServletRequest request, HttpServletResponse response) throws JSONException{
 	

@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 import edu.sjsu.cmpe275.Util;
+import edu.sjsu.cmpe275.aspects.Secured;
 import edu.sjsu.cmpe275.model.Application;
 import edu.sjsu.cmpe275.model.JobPost;
 import edu.sjsu.cmpe275.model.JobSeeker;
@@ -109,7 +110,7 @@ public class JobSeekerController {
 	public ResponseEntity<?> fetchJobSeekerApplications(HttpServletRequest request, HttpServletResponse response) throws JSONException{
 	
 		JSONObject jsonObject = new JSONObject(Util.getDataString(request));
-		HttpSession session=request.getSession();
+		HttpSession session=request.getSession(false);
 		String jobSeekerEmailId;
 		if(session!=null)
 		{
@@ -137,15 +138,30 @@ public class JobSeekerController {
 	
 	
 	
-	@CrossOrigin(origins = "http://localhost:8000")
+	/*@CrossOrigin(origins = "http://localhost:8000")*/
 	@RequestMapping(value="/applyToJobPost",method = RequestMethod.POST)
+	@Secured
 	public ResponseEntity<?> applyToJobPost(HttpServletRequest request, HttpServletResponse response) throws JSONException{
 		
 		JSONObject jsonObject = new JSONObject(Util.getDataString(request));
 		
 		String jobPostId = jsonObject.getString("jobPostId");
-		//String jobSeekerId = session.get;
-		String jobSeekerEmailId = "xyz2@zbc.com";
+		HttpSession session=request.getSession(false);
+		String jobSeekerEmailId;
+		if(session!=null)
+		{
+			jobSeekerEmailId = (String)session.getAttribute("email");
+		}
+		else
+		{
+			JSONObject returnObj = new JSONObject();
+			returnObj.put("result", "Log in first!");
+			return new ResponseEntity(returnObj.toString(),HttpStatus.BAD_REQUEST);
+		}
+		
+		//String jobSeekerEmailId = (String)session.getAttribute("email");
+		//String jobSeekerEmailId = "xyz2@zbc.com";
+		System.out.println("session email::::::"+jobSeekerEmailId);
 		String resumeOrProfile = jsonObject.getString("applyWithResumeOrProfile");
 		String resume;
 		if(resumeOrProfile.equals("Resume"))
@@ -158,7 +174,7 @@ public class JobSeekerController {
 		
 		List<Application> applicationList = jobSeekerService.getJobSeekerApplications(jobSeeker);
 		
-		System.out.println(applicationList.size()+"::::::::::::::::::::"+applicationList.get(0).getJobPostId().getJobPostId());
+		//System.out.println(applicationList.size()+"::::::::::::::::::::"+applicationList.get(0).getJobPostId().getJobPostId());
 		int pendingCounter=0;
 		int flag=0;
 		for(int i=0; i<applicationList.size();i++)
