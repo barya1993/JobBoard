@@ -24,4 +24,22 @@ public class SignUpServiceImpl implements SignUpService {
 		return signUpDAO.updateVerifyJobSeeker(emailId, verifyStatus);
 	}
 
+	@Override
+	public boolean checkLoginCredentials(String emailId, String password, String userType) {
+		boolean isValidUser = false;
+		
+		if("jobseeker".equalsIgnoreCase(userType)){
+			
+			isValidUser = signUpDAO.checkLoginCredentialsJobSeeker(emailId, password);
+			
+		}else if("company".equalsIgnoreCase(userType)){
+			isValidUser = signUpDAO.checkLoginCredentialsCompany(emailId, password);
+		}else{
+			isValidUser = false;
+		}
+		
+		return isValidUser;
+		
+	}
+
 }
