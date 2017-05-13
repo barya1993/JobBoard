@@ -53,7 +53,7 @@ public class CompanyController {
 		{
 			JSONObject jsonObject = new JSONObject();
 			JSONArray jsonArray = new JSONArray(companies);
-			jsonObject.put("Companies", jsonArray);
+			jsonObject.put("Response", jsonArray);
 			return new ResponseEntity(jsonObject.toString(),HttpStatus.OK);
 		}
 		
@@ -75,6 +75,7 @@ public class CompanyController {
 		
 		if(company !=null)
 		{
+			JSONObject result = new JSONObject();
 			JSONObject jsonObject1 = new JSONObject();
 			
 			jsonObject1.put("Name", company.getName());
@@ -85,7 +86,8 @@ public class CompanyController {
 			jsonObject1.put("Description", company.getDescription());
 			jsonObject1.put("ImageURL", company.getImageURL());
 			
-			return new ResponseEntity(jsonObject1.toString(),HttpStatus.OK);
+			result.put("Response", jsonObject1);
+			return new ResponseEntity(result.toString(),HttpStatus.OK);
 		}
 		
 		else
@@ -110,8 +112,9 @@ public class CompanyController {
 		String office_location = jsonObject.getString("office_location");
 		String responsibilities = jsonObject.getString("responsibilities");
 		String salary = jsonObject.getString("salary");
+		String status = "Open";
 		
-		JobPost jobPost = new JobPost(companyId, title, description, office_location, responsibilities, salary);
+		JobPost jobPost = new JobPost(companyId, title, description, office_location, responsibilities, salary,status);
 		
 		boolean isJobAddingSuccessful = companyService.addNewJob(jobPost);
 		
@@ -143,6 +146,7 @@ public class CompanyController {
 		
 		if(jobPost !=null)
 		{
+			JSONObject result = new JSONObject();
 			JSONObject jsonObject = new JSONObject();
 			
 			jsonObject.put("job_post_id", jobPost.getJobPostId());
@@ -153,7 +157,8 @@ public class CompanyController {
 			jsonObject.put("salary", jobPost.getSalary());
 			jsonObject.put("title", jobPost.getTitle());
 			
-			return new ResponseEntity(jsonObject.toString(),HttpStatus.OK);
+			result.put("Response", jsonObject);
+			return new ResponseEntity(result.toString(),HttpStatus.OK);
 		}
 		
 		else
@@ -228,7 +233,7 @@ public class CompanyController {
 		{
 			JSONObject jsonObject1 = new JSONObject();
 			JSONArray jsonArray = new JSONArray(jobPosts);
-			jsonObject1.put("Jobs", jsonArray);
+			jsonObject1.put("Response", jsonArray);
 			return new ResponseEntity(jsonObject1.toString(),HttpStatus.OK);
 		}
 		

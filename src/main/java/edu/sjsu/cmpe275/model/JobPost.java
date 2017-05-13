@@ -43,10 +43,13 @@ public class JobPost {
 	
 	@Column(name="SALARY")
 	private String salary;
+	
+	@Column(name="STATUS")
+	private String status;
 		
 	
 	public JobPost(String companyId, String title, String description, String responsibilities,
-			String officeLocation, String salary) {
+			String officeLocation, String salary, String status) {
 		super();
 		this.companyId = companyId;
 		this.title = title;
@@ -54,6 +57,7 @@ public class JobPost {
 		this.responsibilities = responsibilities;
 		this.officeLocation = officeLocation;
 		this.salary = salary;
+		this.status = status;
 	}
 	
 	public JobPost()
