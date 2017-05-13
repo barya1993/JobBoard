@@ -97,6 +97,10 @@ public class JobSeekerController {
 		
 		if(jobSeekerService.applyToJobPost(newApplication))
 		{
+			String textToSend = "You successfully applied for position "+jobPost.getTitle()+"\n Good luck!";
+			String emailId = jobSeeker.getEmailId();
+			Util.sendEmail(textToSend, emailId);
+			
 			return new ResponseEntity("Application Submitted",HttpStatus.OK);
 		}
 		else
