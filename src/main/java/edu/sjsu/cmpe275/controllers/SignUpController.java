@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import edu.sjsu.cmpe275.Util;
+import edu.sjsu.cmpe275.aspects.Secured;
 import edu.sjsu.cmpe275.model.Company;
 import edu.sjsu.cmpe275.model.Education;
 import edu.sjsu.cmpe275.model.JobSeeker;
@@ -63,8 +64,7 @@ public class SignUpController {
 		
 		if(isValidUser){
 			HttpSession session=request.getSession(); 
-			session.setAttribute("email",emailId);  
-			session.setAttribute("password",password); 
+			session.setAttribute("email",emailId);   
 			session.setAttribute("usertype",usertype); 
 			
 			returnData.put("isValidUser", isValidUser);
@@ -81,6 +81,7 @@ public class SignUpController {
 	//========================================================
 	@CrossOrigin(origins = Util.BASE_URL)
 	@RequestMapping(value="/logout",method = RequestMethod.GET)
+	@Secured
 	public ResponseEntity<?> logout(HttpServletRequest request, HttpServletResponse response) throws JSONException{
 		
 		HttpSession session=request.getSession(false);  
@@ -95,8 +96,10 @@ public class SignUpController {
 	//========================================================
 	// get user's email id - for testing purpose of session
 	//========================================================
+	//@Secured
 	@CrossOrigin(origins = Util.BASE_URL)
 	@RequestMapping(value="/giveUserName",method = RequestMethod.GET)
+	@Secured
 	public ResponseEntity<?> giveUserName(HttpServletRequest request, HttpServletResponse response) throws JSONException{
 		
 		JSONObject returnData = new JSONObject();
