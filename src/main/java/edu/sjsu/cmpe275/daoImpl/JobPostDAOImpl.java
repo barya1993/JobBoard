@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
@@ -13,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import edu.sjsu.cmpe275.dao.CompanyDAO;
 import edu.sjsu.cmpe275.dao.JobPostDAO;
 import edu.sjsu.cmpe275.dao.SignUpDAO;
+import edu.sjsu.cmpe275.model.Application;
 import edu.sjsu.cmpe275.model.JobPost;
 import edu.sjsu.cmpe275.model.JobSeeker;
 
@@ -96,6 +98,23 @@ public class JobPostDAOImpl implements JobPostDAO{
 			return null;
 		}
 		
+		
+	}
+
+	@Override
+	public List<Application> getJobPostApplications(JobPost jobPost) {
+
+List<Application> returnObj = null;
+		
+		Query query = em.createQuery("Select j from Application j where j.jobPostId=:arg1");
+		query.setParameter("arg1", jobPost);
+		
+		try {
+			returnObj = (List<Application>) query.getResultList();
+		} catch (NoResultException e) {
+			e.printStackTrace();
+		}
+		return returnObj;
 		
 	}
 
