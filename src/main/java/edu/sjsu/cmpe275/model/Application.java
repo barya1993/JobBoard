@@ -39,9 +39,11 @@ public class Application {
 	private String resume;
 	
 	
-	public Application(JobPost jobPost, JobSeeker jobSeeker){
+	public Application(JobPost jobPost, JobSeeker jobSeeker, String resume, String status){
 		this.jobPostId = jobPost;
 		this.jobSeekerId = jobSeeker;
+		this.resume = resume;
+		this.status = status;
 	}
 
 	public String getApplicationId() {
