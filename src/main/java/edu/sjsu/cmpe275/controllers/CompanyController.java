@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import edu.sjsu.cmpe275.Util;
+import edu.sjsu.cmpe275.model.Application;
 import edu.sjsu.cmpe275.model.Company;
 import edu.sjsu.cmpe275.model.Education;
 
@@ -32,6 +33,7 @@ import edu.sjsu.cmpe275.model.ResponseObject;
 import edu.sjsu.cmpe275.services.CompanyService;
 
 import edu.sjsu.cmpe275.services.EducationService;
+import edu.sjsu.cmpe275.services.JobPostService;
 import edu.sjsu.cmpe275.services.SignUpService;
 
 @RestController
@@ -39,6 +41,9 @@ public class CompanyController {
 	
 	@Autowired
 	CompanyService companyService;
+	
+	@Autowired
+	JobPostService jobPostService;
 	
 	
 	@RequestMapping(value="/updateCompanyDetails",method = RequestMethod.POST)
@@ -253,9 +258,24 @@ public class CompanyController {
 			
 			if(successFlag)
 			{
-				return new ResponseEntity("Updated successfully",HttpStatus.OK);
 				
 				//need to notify all the applicants
+				List<Application> applicationList = jobPostService.getJobPostApplications(jobPost);
+				
+					List<String> emails = new ArrayList<>();
+					
+					for(int i = 0 ; i< applicationList.size() ; i++)
+					{
+						emails.add(applicationList.get(i).getJobSeekerId().getEmailId());
+					}
+				
+					String[] emailArray = emails.toArray(new String[0]);
+					String textToSend = "Job description changed";
+					String subject = "Job description changed";
+					Util.sendBulkEmail(textToSend, emailArray, subject);
+				
+				
+				return new ResponseEntity("Updated successfully",HttpStatus.OK);
 			}
 			else
 			{
