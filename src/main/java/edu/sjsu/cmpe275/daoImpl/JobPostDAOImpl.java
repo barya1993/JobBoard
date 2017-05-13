@@ -33,6 +33,7 @@ public class JobPostDAOImpl implements JobPostDAO{
 	}
 
 	@Override
+	@Transactional
 	public JobPost getJobDetails(String jobid) {
 		
 		try{
@@ -44,6 +45,21 @@ public class JobPostDAOImpl implements JobPostDAO{
 			return null;
 		}
 		
+		
+	}
+
+	@Override
+	@Transactional
+	public boolean updateJobDetails(JobPost jobPost) {
+		
+		try {
+			System.out.println("inside "+jobPost.getTitle());
+			em.merge(jobPost);
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
 		
 	}
 

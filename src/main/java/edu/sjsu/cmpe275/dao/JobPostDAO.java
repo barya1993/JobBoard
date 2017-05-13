@@ -12,4 +12,6 @@ public interface JobPostDAO {
 	
 	public JobPost getJobDetails(String jobid);
 	
+	public boolean updateJobDetails(JobPost jobPost);
+	
 }
