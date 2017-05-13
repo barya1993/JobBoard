@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import edu.sjsu.cmpe275.Util;
+import edu.sjsu.cmpe275.model.Company;
 import edu.sjsu.cmpe275.model.Education;
 
 import edu.sjsu.cmpe275.model.JobPost;
@@ -36,9 +37,31 @@ import edu.sjsu.cmpe275.services.SignUpService;
 @RestController
 public class CompanyController {
 	
-
 	@Autowired
 	CompanyService companyService;
+	
+	@RequestMapping(value="/findAllCompanies",method = RequestMethod.POST)
+	public ResponseEntity<?> findAllCompany() throws JSONException
+	{
+		
+		//Dummy company_id, will be replaced by session_id later
+		//String companyId = "1"
+		
+		List<Company> companies = companyService.getAllCompanies();
+		
+		if(companies.size() != 0)
+		{
+			JSONObject jsonObject = new JSONObject();
+			JSONArray jsonArray = new JSONArray(companies);
+			jsonObject.put("Companies", jsonArray);
+			return new ResponseEntity(jsonObject.toString(),HttpStatus.OK);
+		}
+		
+		else
+		{
+			return new ResponseEntity("No Companies",HttpStatus.NOT_FOUND);
+		}
+	}
 	
 	@RequestMapping(value="/addJobByCompany",method = RequestMethod.POST)
 	public ResponseEntity<?> addJobByCompany(HttpServletRequest request, HttpServletResponse response) throws JSONException
