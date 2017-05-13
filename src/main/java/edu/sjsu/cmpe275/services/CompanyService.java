@@ -1,5 +1,7 @@
 package edu.sjsu.cmpe275.services;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 
@@ -15,4 +17,6 @@ public interface CompanyService {
 	public JobPost getJobDetails(String jobid);
 	
 	public boolean updateJobDetails(JobPost jobPost);
+	
+	public List<JobPost> getJobsByCompany(String CompanyId);
 }

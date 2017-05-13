@@ -40,8 +40,8 @@ public class CompanyController {
 	@Autowired
 	CompanyService companyService;
 	
-	@RequestMapping(value="/addNewJob",method = RequestMethod.POST)
-	public ResponseEntity<?> addNewJob(HttpServletRequest request, HttpServletResponse response) throws JSONException
+	@RequestMapping(value="/addJobByCompany",method = RequestMethod.POST)
+	public ResponseEntity<?> addJobByCompany(HttpServletRequest request, HttpServletResponse response) throws JSONException
 	{
 		JSONObject jsonObject = new JSONObject(Util.getDataString(request));
 		
@@ -74,7 +74,7 @@ public class CompanyController {
 	
 	
 	@RequestMapping(value="/retrieveJobById",method = RequestMethod.POST)
-	public ResponseEntity<?> retrieveJobs(HttpServletRequest request, HttpServletResponse response) throws JSONException
+	public ResponseEntity<?> retrieveJobById(HttpServletRequest request, HttpServletResponse response) throws JSONException
 	{
 		
 		JSONObject jsonObject1 = new JSONObject(Util.getDataString(request));
@@ -107,8 +107,12 @@ public class CompanyController {
 	}
 	
 	
-	@RequestMapping(value="/updateJob",method = RequestMethod.POST)
-	public ResponseEntity<?> updateJob(HttpServletRequest request, HttpServletResponse response) throws JSONException
+	
+	
+	
+	
+	@RequestMapping(value="/updateJobByCompany",method = RequestMethod.POST)
+	public ResponseEntity<?> updateJobByCompany(HttpServletRequest request, HttpServletResponse response) throws JSONException
 	{
 		JSONObject jsonObject = new JSONObject(Util.getDataString(request));
 		
@@ -149,6 +153,34 @@ public class CompanyController {
 		else
 		{
 			return new ResponseEntity("Not found",HttpStatus.NOT_FOUND);
+		}
+		
+	}
+	
+	
+	
+	@RequestMapping(value="/findJobsByCompany",method = RequestMethod.POST)
+	public ResponseEntity<?> findAllJobsOfCompany(HttpServletRequest request, HttpServletResponse response) throws JSONException
+	{
+		JSONObject jsonObject = new JSONObject(Util.getDataString(request));
+		
+		//Dummy company_id, will be replaced by session_id later
+		//String companyId = "1";
+		String companyId = jsonObject.getString("companyId");
+		
+		List<JobPost> jobPosts = companyService.getJobsByCompany(companyId);
+		
+		if(jobPosts.size() != 0)
+		{
+			JSONObject jsonObject1 = new JSONObject();
+			JSONArray jsonArray = new JSONArray(jobPosts);
+			jsonObject1.put("Jobs", jsonArray);
+			return new ResponseEntity(jsonObject1.toString(),HttpStatus.OK);
+		}
+		
+		else
+		{
+			return new ResponseEntity("No jobs",HttpStatus.NOT_FOUND);
 		}
 		
 	}
