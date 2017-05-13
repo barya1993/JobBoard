@@ -118,6 +118,12 @@ List<Application> returnObj = null;
 		
 	}
 
+	@Override
+	public List<JobPost> searchByText(String keyword) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	
 
 }

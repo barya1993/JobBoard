@@ -12,4 +12,5 @@ import edu.sjsu.cmpe275.model.JobPost;
 @Transactional
 public interface JobPostService {
 	public List<Application> getJobPostApplications(JobPost jobPost);
+	public List<JobPost> searchByText(String keyword);
 }
