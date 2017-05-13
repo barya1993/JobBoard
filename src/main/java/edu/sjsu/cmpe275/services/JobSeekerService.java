@@ -1,4 +1,6 @@
 package edu.sjsu.cmpe275.services;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import org.springframework.stereotype.Service;
@@ -17,6 +19,8 @@ public interface JobSeekerService {
 
   public String getIdByEmailID(String emailId);
 	public JobSeeker getJobSeekerByIdAndVerCode(String verificationCode, String jobSeekerId);
+	
+	public List<Application> getJobSeekerApplications(JobSeeker jobSeekerId);
 
 
 }
