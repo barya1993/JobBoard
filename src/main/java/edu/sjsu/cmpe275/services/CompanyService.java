@@ -21,4 +21,6 @@ public interface CompanyService {
 	public List<JobPost> getJobsByCompany(String CompanyId);
 	
 	public List<Company> getAllCompanies();
+	
+	public Company findCompanyById(String companyId);
 }

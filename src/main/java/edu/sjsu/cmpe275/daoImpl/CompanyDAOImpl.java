@@ -45,4 +45,21 @@ public class CompanyDAOImpl implements CompanyDAO{
 		
 	}
 
+	@Override
+	public Company findCompanyById(String companyId) {	
+		try 
+		{
+			Company company = em.find(Company.class, companyId);
+			return company;
+			
+		} 
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+			return null;
+		}
+		
+		
+	}
+
 }
