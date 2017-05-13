@@ -90,6 +90,7 @@ public class JobSeekerDAOImpl implements JobSeekerDAO{
 	}
 
 	@Override
+	@Transactional
 	public String getIdByEmailID(String emailId) {
 		
 		String id = "";
@@ -104,6 +105,7 @@ public class JobSeekerDAOImpl implements JobSeekerDAO{
 	}
 
 	@Override
+	@Transactional
 	public JobSeeker getJobSeekerByIdAndVerCode(String verificationCode, String jobSeekerId) {
 		JobSeeker jobSeeker = null;
 		Query query = em.createQuery("Select j from JobSeeker j where j.id=:arg1 and j.verificationCode=:arg2");
@@ -118,6 +120,6 @@ public class JobSeekerDAOImpl implements JobSeekerDAO{
 		return jobSeeker;
 	}
 
-
+	
 	
 }

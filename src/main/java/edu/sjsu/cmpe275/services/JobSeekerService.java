@@ -15,7 +15,7 @@ public interface JobSeekerService {
 
 	public JobSeeker getJobSeekerProfile(String emailid);
 
-  public String getIdByEmailID(String emailId);
+	public String getIdByEmailID(String emailId);
 	public JobSeeker getJobSeekerByIdAndVerCode(String verificationCode, String jobSeekerId);
 
 
