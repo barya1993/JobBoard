@@ -80,4 +80,9 @@ public class CompanyServiceImpl implements CompanyService {
 		return companyDAO.updateCompanyDetails(company);
 	}
 
+	@Override
+	public Company getCompanyByEmail(String email) {
+		return companyDAO.getCompanyByEmail(email);
+	}
+
 }

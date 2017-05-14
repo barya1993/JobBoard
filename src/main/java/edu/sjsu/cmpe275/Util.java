@@ -44,7 +44,7 @@ public class Util {
 		try{
 			//should be message.setTo(emailId);
 			message.setFrom("CMPE275JobBoard@gmail.com");
-			message.setTo("siddharth.daftari@gmail.com");
+			message.setTo("mukesh1357911@gmail.com");
 			message.setSubject("Confirmation email - JobBoard");  
 			
 			message.setText(textToSend); 

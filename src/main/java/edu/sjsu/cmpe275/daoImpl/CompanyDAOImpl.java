@@ -108,4 +108,20 @@ public class CompanyDAOImpl implements CompanyDAO{
 		
 	}
 
+	@Override
+	public Company getCompanyByEmail(String email) {
+		Company company = null;
+		Query query = em.createQuery("Select c from Company c where c.email=:arg1");
+		query.setParameter("arg1", email);
+		
+		try {
+			Object object = query.getSingleResult();
+			if(object != null)
+				company = (Company) object;
+		} catch (NoResultException e) {
+			e.printStackTrace();
+		}
+		return company;
+	}
+
 }

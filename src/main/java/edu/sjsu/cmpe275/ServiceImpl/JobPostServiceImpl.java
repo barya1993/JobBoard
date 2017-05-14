@@ -28,7 +28,14 @@ public class JobPostServiceImpl implements JobPostService{
 
 	@Override
 	public List<JobPost> searchByText(String keyword) {
+		
 		return jobPostDAO.searchByText(keyword);
+	}
+
+	@Override
+	public List<JobPost> searchByFilter(List<String> companyList, List<String> locationList, Integer start, Integer end,
+			String rangeType) {
+		return  jobPostDAO.searchByFilter(companyList, locationList, start, end, rangeType);
 	}
 	
 }
