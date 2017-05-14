@@ -22,4 +22,6 @@ public interface JobPostDAO {
 	public List<Application> getJobPostApplications(JobPost jobPost);
 	
 	public List<JobPost> searchByText(String keyword);
+	
+	public List<JobPost> searchByFilter(List<String> companyList, List<String> locationList, Integer start, Integer end, String rangeType);
 }

@@ -4,6 +4,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -26,8 +28,9 @@ public class JobPost {
 	@GenericGenerator(name="system-uuid", strategy = "uuid")
 	private String jobPostId;
 	
-	@Column(name="COMPANY_ID")
-	private String companyId;
+	@ManyToOne
+	@JoinColumn(name = "COMPANY_ID")
+	private Company company;
 	
 	@Column(name="TITLE")
 	private String title;
@@ -48,10 +51,10 @@ public class JobPost {
 	private String status;
 		
 	
-	public JobPost(String companyId, String title, String description, String responsibilities,
+	public JobPost(Company company, String title, String description, String responsibilities,
 			String officeLocation, String salary, String status) {
 		super();
-		this.companyId = companyId;
+		this.company = company;
 		this.title = title;
 		this.description = description;
 		this.responsibilities = responsibilities;
@@ -71,11 +74,11 @@ public class JobPost {
 	public void setJobPostId(String jobPostId) {
 		this.jobPostId = jobPostId;
 	}
-	public String getCompanyId() {
-		return companyId;
+	public Company getCompany() {
+		return company;
 	}
-	public void setCompanyId(String companyId) {
-		this.companyId = companyId;
+	public void setCompany(Company company) {
+		this.company = company;
 	}
 	public String getTitle() {
 		return title;

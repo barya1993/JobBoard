@@ -26,7 +26,7 @@ public interface CompanyService {
 	
 	public List<Company> getAllCompanies();
 
-	
+	public Company getCompanyByEmail(String email);
 	public Company findCompanyById(String companyId);
 	
 	public boolean updateCompanyDetails(Company company);

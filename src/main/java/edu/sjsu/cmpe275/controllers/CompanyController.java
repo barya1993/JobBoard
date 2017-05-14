@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -154,14 +155,15 @@ public class CompanyController {
 		
 	}
 	
-	
+	//changed here
 	@RequestMapping(value="/addJobByCompany",method = RequestMethod.POST)
 	public ResponseEntity<?> addJobByCompany(HttpServletRequest request, HttpServletResponse response) throws JSONException
 	{
 		JSONObject jsonObject = new JSONObject(Util.getDataString(request));
 		
-		//Dummy company_id, will be replaced by session_id later
-		String companyId = "1";
+		HttpSession session=request.getSession(false); 
+		String email = (String)session.getAttribute("email");
+		Company company = companyService.getCompanyByEmail(email);
 		
 		//String companyId = jsonObject.getString("companyId");
 		String title = jsonObject.getString("title");
@@ -171,7 +173,7 @@ public class CompanyController {
 		String salary = jsonObject.getString("salary");
 		String status = "Open";
 		
-		JobPost jobPost = new JobPost(companyId, title, description, office_location, responsibilities, salary,status);
+		JobPost jobPost = new JobPost(company, title, description, responsibilities, office_location, salary,status);
 		
 		boolean isJobAddingSuccessful = companyService.addNewJob(jobPost);
 		
@@ -188,7 +190,7 @@ public class CompanyController {
 		
 	}
 	
-	
+	//changed here
 	@RequestMapping(value="/retrieveJobById",method = RequestMethod.POST)
 	public ResponseEntity<?> retrieveJobById(HttpServletRequest request, HttpServletResponse response) throws JSONException
 	{
@@ -207,7 +209,8 @@ public class CompanyController {
 			JSONObject jsonObject = new JSONObject();
 			
 			jsonObject.put("job_post_id", jobPost.getJobPostId());
-			jsonObject.put("company_id", jobPost.getCompanyId());
+			
+			jsonObject.put("company", new JSONObject(jobPost.getCompany()));
 			jsonObject.put("description", jobPost.getDescription());
 			jsonObject.put("office_location", jobPost.getOfficeLocation());
 			jsonObject.put("responsibilities", jobPost.getResponsibilities());
@@ -228,14 +231,16 @@ public class CompanyController {
 	
 	
 	
-	
+	//changed here
 	@RequestMapping(value="/updateJobByCompany",method = RequestMethod.POST)
 	public ResponseEntity<?> updateJobByCompany(HttpServletRequest request, HttpServletResponse response) throws JSONException
 	{
 		JSONObject jsonObject = new JSONObject(Util.getDataString(request));
 		
-		//Dummy company_id, will be replaced by session_id later
-		String companyId = "1";
+		HttpSession session=request.getSession(false); 
+		String email = (String)session.getAttribute("email");
+		Company company = companyService.getCompanyByEmail(email);
+		
 		String jobId = jsonObject.getString("jobId");
 		String title = jsonObject.getString("title");
 		String description = jsonObject.getString("description");
@@ -247,7 +252,7 @@ public class CompanyController {
 		
 		if(jobPost != null){
 			
-			jobPost.setCompanyId(companyId);
+			jobPost.setCompany(company);
 			jobPost.setDescription(description);
 			jobPost.setOfficeLocation(office_location);
 			jobPost.setResponsibilities(responsibilities);

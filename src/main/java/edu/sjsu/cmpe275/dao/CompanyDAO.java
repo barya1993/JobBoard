@@ -21,6 +21,7 @@ public interface CompanyDAO {
 	public Company getCompanyByIdAndVerCode(String verificationCode, String companyId);
 	
 	public boolean updateCompanyDetails(Company company);
+	public Company getCompanyByEmail(String email);
 
 	
 }

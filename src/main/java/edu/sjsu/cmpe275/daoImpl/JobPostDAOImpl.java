@@ -7,16 +7,23 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Expression;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import edu.sjsu.cmpe275.dao.CompanyDAO;
 import edu.sjsu.cmpe275.dao.JobPostDAO;
-import edu.sjsu.cmpe275.dao.SignUpDAO;
 import edu.sjsu.cmpe275.model.Application;
+import edu.sjsu.cmpe275.model.Company;
+import edu.sjsu.cmpe275.model.Company_;
 import edu.sjsu.cmpe275.model.JobPost;
-import edu.sjsu.cmpe275.model.JobSeeker;
+import edu.sjsu.cmpe275.model.JobPost_;
 
 @Repository
 public class JobPostDAOImpl implements JobPostDAO{
@@ -79,12 +86,12 @@ public class JobPostDAOImpl implements JobPostDAO{
 			
 			List<JobPost> resultList = new ArrayList<JobPost>();
 			
-			@SuppressWarnings("unchecked")
+			
 			List<JobPost> jobPosts = query.getResultList();
 			
 			for(int i = 0 ; i < jobPosts.size() ; i++)
 			{
-				if(jobPosts.get(i).getCompanyId().equalsIgnoreCase(CompanyId))
+				if(jobPosts.get(i).getCompany()!=null && jobPosts.get(i).getCompany().getCompanyId().equalsIgnoreCase(CompanyId))
 				{
 					resultList.add(jobPosts.get(i));
 				}
@@ -104,7 +111,7 @@ public class JobPostDAOImpl implements JobPostDAO{
 	@Override
 	public List<Application> getJobPostApplications(JobPost jobPost) {
 
-List<Application> returnObj = null;
+		List<Application> returnObj = null;
 		
 		Query query = em.createQuery("Select j from Application j where j.jobPostId=:arg1");
 		query.setParameter("arg1", jobPost);
@@ -120,8 +127,112 @@ List<Application> returnObj = null;
 
 	@Override
 	public List<JobPost> searchByText(String keyword) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		List<JobPost> jobPostList = null;
+			
+		final List<Predicate> andPredicates = new ArrayList<Predicate>();
+		final List<Predicate> orPredicates = new ArrayList<Predicate>();
+		
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+		CriteriaQuery<JobPost> cq = cb.createQuery(JobPost.class);
+		Root<JobPost> root = cq.from(JobPost.class);
+		cq.select(root);
+		
+		Join<JobPost,Company> joinRoot = root.join(JobPost_.company);
+		String[] listOfWords = keyword.split(" ");
+		
+		if (keyword!=null && !"".equalsIgnoreCase(keyword)) {
+			for(String keywordTemp: listOfWords){
+				if (keywordTemp!=null && !"".equalsIgnoreCase(keywordTemp)) {
+					keywordTemp = keywordTemp.trim();
+			    	
+			    	orPredicates.add(cb.like(root.get(JobPost_.description), "%" + keywordTemp + "%" ));
+			    	orPredicates.add(cb.like(root.get(JobPost_.officeLocation), "%" + keywordTemp + "%" ));
+			    	orPredicates.add(cb.equal(root.get(JobPost_.salary), keywordTemp ));
+			    	orPredicates.add(cb.like(root.get(JobPost_.title), "%" + keywordTemp + "%" ));
+			    	orPredicates.add(cb.equal(joinRoot.get(Company_.name), keywordTemp ));
+			    	orPredicates.add(cb.like(root.get(JobPost_.responsibilities), "%" + keywordTemp + "%" ));
+			    	
+			    }
+			}
+		}
+		
+		andPredicates.add(cb.equal(root.get(JobPost_.status), "open" ));
+		
+		Predicate o = cb.and(andPredicates.toArray(new Predicate[andPredicates.size()]));
+        Predicate p = cb.or(orPredicates.toArray(new Predicate[orPredicates.size()]));
+        
+        cq.distinct(true);
+        cq.where(o, p);
+        
+        jobPostList = em.createQuery(cq).getResultList();
+	    
+		return jobPostList;
+	}
+
+	@Override
+	public List<JobPost> searchByFilter(List<String> companyList, List<String> locationList, Integer start, Integer end,
+			String rangeType) {
+		List<JobPost> jobPostList = null;
+		
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+		CriteriaQuery<JobPost> cq = cb.createQuery(JobPost.class);
+		Root<JobPost> root = cq.from(JobPost.class);
+		cq.select(root);
+		
+		Join<JobPost,Company> joinRoot = root.join(JobPost_.company);
+		
+		final List<Predicate> orPredicatesForCompany = new ArrayList<Predicate>();
+		final List<Predicate> orPredicatesForLocation = new ArrayList<Predicate>();
+		Predicate predicateForRange = null;
+		final List<Predicate> andPredicates = new ArrayList<Predicate>();
+		
+		if(companyList != null && !companyList.isEmpty()){
+			for(String companyName: companyList){
+				orPredicatesForCompany.add(cb.equal(joinRoot.get(Company_.name), companyName ));
+			}
+		}
+		
+		if(locationList != null && !locationList.isEmpty()){
+			for(String locationName: locationList){
+				orPredicatesForLocation.add(cb.like(root.get(JobPost_.officeLocation), "%" + locationName + "%" ));
+			}
+		}
+		
+		if(rangeType != null && !"none".equalsIgnoreCase(rangeType)){
+			if("Single_value".equalsIgnoreCase(rangeType)){
+				predicateForRange = cb.equal(root.get(JobPost_.salary), start );
+			}else if("Only_start".equalsIgnoreCase(rangeType)){
+				predicateForRange = cb.ge(root.get(JobPost_.salary).as(Integer.class), start );
+			}else if("Only_end".equalsIgnoreCase(rangeType)){
+				predicateForRange = cb.le(root.get(JobPost_.salary).as(Integer.class), end );
+			}else if("both".equalsIgnoreCase(rangeType)){
+				predicateForRange = cb.between(root.get(JobPost_.salary).as(Integer.class), start, end );
+			}
+		}
+		
+		if(orPredicatesForCompany != null & !orPredicatesForCompany.isEmpty()){
+			Predicate predicateForCompany = cb.or(orPredicatesForCompany.toArray(new Predicate[orPredicatesForCompany.size()]));
+			andPredicates.add(predicateForCompany);
+		}
+		if(orPredicatesForLocation != null & !orPredicatesForLocation.isEmpty()){
+			Predicate predicateForLocation = cb.or(orPredicatesForLocation.toArray(new Predicate[orPredicatesForLocation.size()]));
+			andPredicates.add(predicateForLocation);
+		}
+		if(predicateForRange != null){
+			andPredicates.add(predicateForRange);
+		}
+		
+		andPredicates.add(cb.equal(root.get(JobPost_.status), "open" ));
+		
+		Predicate o = cb.and(andPredicates.toArray(new Predicate[andPredicates.size()]));
+        
+		cq.distinct(true);
+        cq.where(o);
+        
+        jobPostList = em.createQuery(cq).getResultList();
+	    
+		return jobPostList;
 	}
 
 	
