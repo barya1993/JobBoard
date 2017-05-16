@@ -66,8 +66,9 @@
 						</button>
 						<div class="menu-container">
 							<ul class="header-top-nav header-top-nav__tertiary">
+								<li><a ui-sref="updateCompany"><i class="fa fa-user-plus"></i> Update Profile</a></li>
 								<li><a ui-sref="postJob"><i class="fa fa-user-plus"></i> Post a Job</a></li>
-								<li><a ><i class="fa fa-sign-in"></i> Logout</a></li>
+								<li><a ng-click="vm.logout()"><i class="fa fa-sign-in"></i> Logout</a></li>
 							</ul>
 						</div>
 					</div>
@@ -176,27 +177,29 @@
 							<table class="job-manager-jobs table table-bordered table-striped">
 								<thead>
 									<tr>
-										<th class="job_title">Job Title</th>
-										<th class="date">Date Posted</th>
-										<th class="status">Status</th>
-										<th class="expires">Expires</th>
-										<th class="filled">Filled?</th>
+										<th >Job Title</th>
+										<th >Description</th>
+										<th >Location</th>
+										<th >Responsibilities</th>
+										<th >Salary</th>
+										<th >Status</th>
 									</tr>
 								</thead>
 								<tbody>
-									<tr>
+									<tr ng-repeat="jobPostObj in vm.data.jobPostList track by $index">
 										<td class="job_title">
-											<a ui-sref="viewApplicants" class="job_title_link">Front End Developer</a>
+											<a ui-sref="viewApplicants" class="job_title_link" ng-model="jobPostObj.title">{{jobPostObj.title}}</a>
 											<ul class="job-dashboard-actions">
 												<li><a href="#" class="job-dashboard-action-edit">Edit</a></li>
-												<li><a href="#" class="job-dashboard-action-mark_filled">Mark filled</a></li>
+												<li><a href="#" class="job-dashboard-action-mark_filled">Close</a></li>
 												<li><a href="#" class="job-dashboard-action-delete">Delete</a></li>
 											</ul>
 										</td>
-										<td class="date">April 3, 2015</td>
-										<td class="status"><div class="fa fa-check"></div></td>
-										<td class="expires">May 3, 2015</td>
-										<td class="filled">&ndash;</td>
+										<td >{{jobPostObj.description}}</td>
+										<td >{{jobPostObj.officeLocation}}</td>
+										<td >{{jobPostObj.responsibilities}}</td>
+										<td >{{jobPostObj.salary}}</td>
+										<td >{{jobPostObj.status}}</td>
 									</tr>
 									
 								</tbody>

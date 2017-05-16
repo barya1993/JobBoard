@@ -7,7 +7,7 @@
 	<!-- Basic Page Needs
 	================================================== -->
 	<meta charset="utf-8">
-	<title>Login | Register - Job Board </title>
+	<title>Update Company profile - Job Board </title>
 	
 	
 
@@ -69,9 +69,8 @@
 						</button>
 						<div class="menu-container">
 							<ul class="header-top-nav header-top-nav__tertiary">
-								<li> For Job Seekers :</li>
-								<li><a ui-sref="jobSeekerLogin"><i class="fa fa-user-plus"></i> Register</a></li>
-								<li><a ui-sref="jobSeekerLogin"><i class="fa fa-sign-in"></i> Login</a></li>
+								<<li><a ui-sref="companyHome"><i class="fa fa-user-plus"></i> Home</a></li>
+								<li><a ng-click="vm.logout()"><i class="fa fa-sign-in"></i> Logout</a></li>
 							</ul>
 						</div>
 					</div>
@@ -114,7 +113,7 @@
 				<div class="container">
 					<div class="row">
 						<div class="col-md-12">
-							<h1>Login to post a job</h1>
+							<h1>Update your profile</h1>
 						</div>
 					</div>
 				</div>
@@ -128,81 +127,46 @@
 						<label >{{vm.home.message}}</label>
 					</div>
 					<div class="row">
-						<div class="col-md-6">
-							<div class="box">
-								<h3>Login</h3>
-								<form role="form">
-									<div class="form-group">
-										<label>Username or email address <span class="required">*</span></label>
-										<input type="text"  ng-model="vm.user.emailId" class="form-control">
-									</div>
-									<div class="form-group">
-										<div class="clearfix">
-											<label class="pull-left">
-												Password <span class="required">*</span>
-											</label>
-											<span class="pull-right"><a href="#">Lost password?</a></span>
-										</div>
-										<input type="password" ng-model="vm.user.password" class="form-control">
-									</div>
-									<a ng-click="vm.login()" class="btn btn-primary btn-inline">Login</a>&nbsp; &nbsp; &nbsp; 
-									<label for="remember" class="checkbox-inline">
-										<input type="checkbox" name="remember" id="remember"> Remember me
-									</label>
-								</form>
-							</div>
-						</div>
+						
 						<div class="col-md-6">
 							<div class="spacer-lg visible-sm visible-xs"></div>
 							<div class="box">
-								<h3>Register</h3>
 								<form action="#" method="POST" role="form">
 									<div class="form-group">
 										<label>Email address <span class="required">*</span></label>
-										<input type="text" ng-model="vm.register.emailId" ng-init="vm.register.emailId = 'xyz4@zbc.com'" class="form-control">
+										<input type="text" ng-model="vm.update.email" ng-init="vm.update.email = 'xyz4@zbc.com'" ng-disabled="true" class="form-control">
 									</div>
-									<div class="row">
-										<div class="col-md-6">
-											<div class="form-group">
-												<label>
-													Password <span class="required">*</span>
-												</label>
-												<input type="password" ng-model="vm.register.password" ng-init="vm.register.password = 'mypassword'" class="form-control">
-											</div>
-										</div>
-										<div class="col-md-6">
-											<div class="form-group">
-												<label>
-													Re-enter Password <span class="required">*</span>
-												</label>
-												<input type="password" ng-model="vm.register.reEnterPassword" ng-init="vm.register.password = 'mypassword'" class="form-control">
-											</div>
-										</div>
+									<div class="form-group">
+										<label>
+											Password <span class="required">*</span>
+										</label>
+										<input type="password" ng-model="vm.update.password" ng-init="vm.update.password = 'mypassword'" class="form-control">
 									</div>
 									<div class="form-group">
 										<label> Name <span class="required">*</span></label>
-										<input type="text" ng-model="vm.register.name" ng-init="vm.register.name = 'Google'" class="form-control">
+										<input type="text" ng-model="vm.update.name" ng-init="vm.update.name = 'Google'" class="form-control">
 									</div>
 									<div class="form-group">
 										<label> Website <span class="required">*</span></label>
-										<input type="text" ng-model="vm.register.website" ng-init="vm.register.website = 'www.google.com'" class="form-control">
+										<input type="text" ng-model="vm.update.website" ng-init="vm.update.website = 'www.google.com'" class="form-control">
 									</div>
 									<div class="form-group">
 										<label> Image <span class="required"></span></label>
-										<input type="text" ng-model="vm.register.imageURL" ng-init="vm.register.imageURL = 'http://localhost:8080/myImage.jpg'" class="form-control">
+										<input type="text" ng-model="vm.update.imageURL" ng-init="vm.update.imageURL = 'http://localhost:8080/myImage.jpg'" class="form-control">
 									</div>
 
 									<div class="form-group">
 										<label> Address <span class="required">*</span></label>
-										<input type="text" ng-model="vm.register.address" ng-init="vm.register.address = 'san jose'" class="form-control">
+										<input type="text" ng-model="vm.update.address" ng-init="vm.update.address = 'san jose'" class="form-control">
 									</div>
 									<div class="form-group">
 										<label> Description <span class="required">*</span></label>
-										<input type="text" ng-model="vm.register.description" ng-init="vm.register.description = 'The company provides search services'" class="form-control">
+										<input type="text" ng-model="vm.update.description" ng-init="vm.update.description = 'The company provides search services'" class="form-control">
 									</div>
 									<br/>
 									<br/>
-									<a ng-click="vm.registerCompany()" class="btn btn-primary btn-inline">Register</a>
+									<a ng-click="vm.updateCompany()" class="btn btn-primary btn-inline">Save</a>&nbsp; &nbsp; &nbsp;
+									<a ng-click="vm.cancelCompany()" class="btn btn-primary btn-inline">Cancel</a>
 								</form>
 							</div>
 						</div>

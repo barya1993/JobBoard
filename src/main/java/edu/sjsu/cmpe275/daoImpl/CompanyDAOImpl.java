@@ -1,6 +1,5 @@
 package edu.sjsu.cmpe275.daoImpl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -12,11 +11,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.sjsu.cmpe275.dao.CompanyDAO;
-
-import edu.sjsu.cmpe275.dao.SignUpDAO;
 import edu.sjsu.cmpe275.model.Company;
-import edu.sjsu.cmpe275.model.JobPost;
-import edu.sjsu.cmpe275.model.JobSeeker;
 
 @Repository
 public class CompanyDAOImpl implements CompanyDAO{

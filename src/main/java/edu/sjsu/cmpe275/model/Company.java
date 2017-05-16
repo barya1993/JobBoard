@@ -1,7 +1,5 @@
 package edu.sjsu.cmpe275.model;
 
-import java.util.ArrayList;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
