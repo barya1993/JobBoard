@@ -12,6 +12,8 @@ function JobSearchResultsControllerFn($state,$http,$uibModal,$stateParams) {
 	if($stateParams.reqJSON == null){
 		vm.reqJSON = JSON.parse(window.localStorage.getItem('reqJSON'));
 	}
+
+
 	vm.openApplicationModal = function(job) {
 
  		var modalInstance = $uibModal.open({
@@ -85,8 +87,35 @@ function JobSearchResultsControllerFn($state,$http,$uibModal,$stateParams) {
 		})
 	}
 
-	vm.getSearchResultsByText();
+	vm.getSearchResultsByFilter = function() {
+		
+ 		$http.post("http://localhost:8080/searchByFilter",vm.reqJSON, {
+    		headers: {'Access-Control-Allow-Origin' : '*',
+                'Access-Control-Allow-Methods' : 'POST, GET, OPTIONS',
+                'Accept': 'application/json'}
+  		}).
+ 		then(function(res) {
+ 			if(res.status==200){
+ 				vm.searchResults = res.data.Response;
+ 				console.log(res.data.Response);
+ 				//$state.go("jobSeekerHome");
+ 			}
+ 		}).catch(function(res) {
+ 			if(res.status == 404){
+ 				vm.data.message ="No results found.";
+ 			}
+ 			else{
+ 				vm.data.message = 'Please enter proper details.';
+ 			}
+ 			
+		})
+	}
 
+
+	if(vm.reqJSON.type =="text")
+		vm.getSearchResultsByText();
+	else if(vm.reqJSON.type =="filter")
+		vm.getSearchResultsByFilter();
 }
 
 app.controller('JobSearchResultsController',JobSearchResultsControllerFn);

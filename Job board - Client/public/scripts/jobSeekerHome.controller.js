@@ -32,7 +32,7 @@ function JobSeekerHomeControllerFn($state,$http,$uibModal) {
 				"keyword": vm.data.searchText 
 			}
 		}
-
+		reqJSON.type = "text";
 		$state.go("jobSearchResults",{reqJSON:reqJSON});
 
 		/*$http.post("http://localhost:8080/searchByText",reqJSON, {
@@ -98,8 +98,9 @@ function JobSeekerHomeControllerFn($state,$http,$uibModal) {
 				}	
 			}
 		}
-
- 		$http.post("http://localhost:8080/searchByFilter",reqJSON, {
+		reqJSON.type = "filter";
+		$state.go("jobSearchResults",{reqJSON:reqJSON});
+ 	/*	$http.post("http://localhost:8080/searchByFilter",reqJSON, {
     		headers: {'Access-Control-Allow-Origin' : '*',
                 'Access-Control-Allow-Methods' : 'POST, GET, OPTIONS',
                 'Accept': 'application/json'}
@@ -117,7 +118,7 @@ function JobSeekerHomeControllerFn($state,$http,$uibModal) {
  				vm.data.message = 'Please enter proper details.';
  			}
  			
-		})
+		})*/
 	}
 
 	vm.getCompanies = function() {
