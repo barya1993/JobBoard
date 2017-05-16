@@ -7,9 +7,6 @@ import org.springframework.stereotype.Service;
 
 import edu.sjsu.cmpe275.dao.CompanyDAO;
 import edu.sjsu.cmpe275.dao.JobPostDAO;
-
-import edu.sjsu.cmpe275.dao.SignUpDAO;
-
 import edu.sjsu.cmpe275.model.Company;
 import edu.sjsu.cmpe275.model.JobPost;
 import edu.sjsu.cmpe275.services.CompanyService;

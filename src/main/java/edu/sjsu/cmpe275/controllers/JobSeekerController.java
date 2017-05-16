@@ -11,7 +11,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -19,16 +18,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-
 import edu.sjsu.cmpe275.Util;
 import edu.sjsu.cmpe275.aspects.Secured;
 import edu.sjsu.cmpe275.model.Application;
 import edu.sjsu.cmpe275.model.JobPost;
 import edu.sjsu.cmpe275.model.JobSeeker;
 import edu.sjsu.cmpe275.services.CompanyService;
+import edu.sjsu.cmpe275.services.EducationService;
 import edu.sjsu.cmpe275.services.JobPostService;
 import edu.sjsu.cmpe275.services.JobSeekerService;
 
+@CrossOrigin(origins = "*")
 @RestController
 public class JobSeekerController {
 	
@@ -41,7 +41,26 @@ public class JobSeekerController {
 	@Autowired
 	JobPostService jobPostService;
 	
-	@CrossOrigin(origins = "http://localhost:8000")
+	@Autowired
+	EducationService educationService;
+	
+	@RequestMapping(value="/getJobSeekerDetails",method = RequestMethod.GET)
+	public ResponseEntity<?> getJobSeekerDetails(HttpServletRequest request, HttpServletResponse response) throws JSONException{
+		JSONObject returnData = new JSONObject();
+		String email = "";
+		HttpSession session=request.getSession(false);  
+		
+		if(session != null){
+			email = (String)session.getAttribute("email");
+		}
+		JobSeeker jobseeker = jobSeekerService.getJobSeekerProfile(email);
+		
+		jobseeker.setEducation(educationService.getEducationByJobSeeker(jobseeker));
+		
+		returnData.put("Response", new JSONObject(jobseeker));
+		return new ResponseEntity(returnData.toString(),HttpStatus.OK);
+	}
+	
 	@RequestMapping(value="/updateJobSeekerProfile",method = RequestMethod.POST)
 	public ResponseEntity<?> updateJobSeekerProfile(HttpServletRequest request, HttpServletResponse response) throws JSONException{
 		URI location;
@@ -83,7 +102,6 @@ public class JobSeekerController {
 	}
 	
 	
-	@CrossOrigin(origins = "http://localhost:8000")
 	@RequestMapping(value="/fetchJobPostApplications",method = RequestMethod.POST)
 	public ResponseEntity<?> fetchJobPostApplications(HttpServletRequest request, HttpServletResponse response) throws JSONException{
 	
@@ -105,7 +123,6 @@ public class JobSeekerController {
 	}
 	
 	
-	@CrossOrigin(origins = "http://localhost:8000")
 	@RequestMapping(value="/fetchJobSeekerApplications",method = RequestMethod.POST)
 	public ResponseEntity<?> fetchJobSeekerApplications(HttpServletRequest request, HttpServletResponse response) throws JSONException{
 	
@@ -138,7 +155,6 @@ public class JobSeekerController {
 	
 	
 	
-	/*@CrossOrigin(origins = "http://localhost:8000")*/
 	@RequestMapping(value="/applyToJobPost",method = RequestMethod.POST)
 	@Secured
 	public ResponseEntity<?> applyToJobPost(HttpServletRequest request, HttpServletResponse response) throws JSONException{

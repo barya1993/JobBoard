@@ -2,9 +2,7 @@ package edu.sjsu.cmpe275.services;
 
 import java.util.List;
 
-
 import org.springframework.stereotype.Service;
-
 
 import edu.sjsu.cmpe275.model.Company;
 import edu.sjsu.cmpe275.model.JobPost;

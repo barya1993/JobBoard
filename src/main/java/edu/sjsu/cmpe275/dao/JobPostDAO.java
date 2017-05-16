@@ -6,7 +6,6 @@ import org.springframework.stereotype.Repository;
 
 import edu.sjsu.cmpe275.model.Application;
 import edu.sjsu.cmpe275.model.JobPost;
-import edu.sjsu.cmpe275.model.JobSeeker;
 
 @Repository
 public interface JobPostDAO {

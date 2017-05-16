@@ -1,14 +1,8 @@
 package edu.sjsu.cmpe275;
 import java.io.BufferedReader;
 import java.net.URI;
-import java.util.List;
 import java.util.Properties;
 
-import javax.mail.Message;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
 import javax.servlet.http.HttpServletRequest;
 
 import org.json.JSONObject;
@@ -16,10 +10,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
-
-import com.sun.mail.smtp.SMTPMessage;
 
 public class Util {
 	

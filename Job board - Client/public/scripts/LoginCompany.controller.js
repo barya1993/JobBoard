@@ -1,58 +1,37 @@
 var app = angular.module('JobBoard');
-function LoginControllerFn($state,$http,$uibModal) {
+function LoginControllerCompanyFn($state,$http,$uibModal) {
 	
 	var vm = this;
 	vm.user = {};
 	vm.register = {};
 	vm.home = {};
 	vm.home.message = '';
-	vm.register.educationList = [];
 
-
-	vm.addEducation = function() {
-		var educationTempEmpty = {
-			"school": "",
-			"degree": "",
-			"fieldOfStudy": "",
-			"gpa": ""
-		}
-		vm.register.educationList.push(educationTempEmpty)
-	}
-
-	vm.removeEducation = function(educationObj) {
-		vm.register.educationList.splice( vm.register.educationList.indexOf(educationObj), 1 );
-	}
-
-
-	vm.registerJobSeeker = function() {
+	vm.registerCompany = function() {
  		
  		var reqJSON = {
 			"data": {
 				"email": vm.register.emailId,
-				"firstName": vm.register.firstName,
-				"lastName": vm.register.lastName,
-				"selfIntroduction": vm.register.selfIntroduction,
-				"phone": vm.register.phone,
-				"skills": vm.register.skills,
-				"workExp": vm.register.workExp,
-				"password": vm.register.password,
-				"profileImagePath": vm.register.profileImagePath,
-				"education": vm.register.educationList
+				"name": vm.register.name,
+				"website": vm.register.website,
+				"imageURL": vm.register.imageURL,
+				"address": vm.register.address,
+				"description": vm.register.description,
+				"password": vm.register.password
 			}
 		}
 
 
- 		$http.post("http://localhost:8080/signUpJobSeeker",reqJSON, {
+ 		$http.post("http://localhost:8080/signUpCompany",reqJSON, {
     		headers: {'Access-Control-Allow-Origin' : '*',
                 'Access-Control-Allow-Methods' : 'POST, GET, OPTIONS',
                 'Accept': 'application/json'}
   		}).
  		then(function(res) {
- 			
  			if(res.status==200){
  				vm.register = {};
  				vm.home.message = 'Please go to verification link sent to your email.';
- 				$state.go("jobSeekerLogin");
+ 				$state.go("companyRegisterLogin");
  			}
  		}).catch(function(res) {
  			if(res.status=400){
@@ -69,7 +48,7 @@ function LoginControllerFn($state,$http,$uibModal) {
 			"data": {
 				"email": vm.user.emailId,
 				"password": vm.user.password,
-				"usertype": "JobSeeker" // or “company”
+				"usertype": "company" 
 			}
 		}
 
@@ -81,7 +60,7 @@ function LoginControllerFn($state,$http,$uibModal) {
   		}).
  		then(function(res) {
  			if(res.status==200){
- 				$state.go("jobSeekerHome");
+ 				$state.go("companyHome");
  			}
  		}).catch(function(res) {
  			vm.home.message = 'Please enter proper details.';
@@ -89,4 +68,4 @@ function LoginControllerFn($state,$http,$uibModal) {
  	} 
 }
 
-app.controller('LoginController',LoginControllerFn);
+app.controller('LoginControllerCompany',LoginControllerCompanyFn);

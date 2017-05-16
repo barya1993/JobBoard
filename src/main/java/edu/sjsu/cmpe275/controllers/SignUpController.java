@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -30,6 +31,7 @@ import edu.sjsu.cmpe275.services.EducationService;
 import edu.sjsu.cmpe275.services.JobSeekerService;
 import edu.sjsu.cmpe275.services.SignUpService;
 
+@CrossOrigin(origins = "*")
 @RestController
 public class SignUpController {
 	
@@ -49,7 +51,7 @@ public class SignUpController {
 	//========================================================
 	// Login for both jobseeker and company
 	//========================================================
-	/*@CrossOrigin(origins = "http://localhost:8000")*/
+	
 	@RequestMapping(value="/login",method = RequestMethod.POST)
 	public ResponseEntity<?> login(HttpServletRequest request, HttpServletResponse response) throws JSONException{
 		
@@ -79,7 +81,6 @@ public class SignUpController {
 	//========================================================
 	// Logout
 	//========================================================
-	@CrossOrigin(origins = Util.BASE_URL)
 	@RequestMapping(value="/logout",method = RequestMethod.GET)
 	@Secured
 	public ResponseEntity<?> logout(HttpServletRequest request, HttpServletResponse response) throws JSONException{
@@ -88,16 +89,17 @@ public class SignUpController {
 		
 		if(session != null){
 			session.invalidate();
+			
 		}
-		return null;
+		JSONObject returnJsonObject = new JSONObject();
+		returnJsonObject.put("Response", "Logged out successfully.");
+		return new ResponseEntity(returnJsonObject.toString(),HttpStatus.OK);
 	}
 	
 	
 	//========================================================
 	// get user's email id - for testing purpose of session
 	//========================================================
-	//@Secured
-	@CrossOrigin(origins = Util.BASE_URL)
 	@RequestMapping(value="/giveUserName",method = RequestMethod.GET)
 	@Secured
 	public ResponseEntity<?> giveUserName(HttpServletRequest request, HttpServletResponse response) throws JSONException{
@@ -111,15 +113,67 @@ public class SignUpController {
 		}
 		
 		returnData.put("user", email);
-		return new ResponseEntity(returnData.toString(),HttpStatus.NOT_FOUND);
+		return new ResponseEntity(returnData.toString(),HttpStatus.OK);
 		
 	}
+	
+	//========================================================
+		// Update job seeker
+		//========================================================
+		
+		@RequestMapping(value="/updateJobSeeker",method = RequestMethod.POST)
+		public ResponseEntity<?> updateJobSeeker(HttpServletRequest request, HttpServletResponse response) throws JSONException{
+		
+			JSONObject jsonObject = new JSONObject(Util.getDataString(request));
+			
+			String emailId = jsonObject.getString("email");
+			String password = jsonObject.getString("password");
+			String firstName = jsonObject.getString("firstName");
+			String lastName = jsonObject.getString("lastName");
+			String selfIntroduction = jsonObject.getString("selfIntroduction");
+			String phone = jsonObject.getString("phone");
+			String skills = jsonObject.getString("skills");
+			String workExp = jsonObject.getString("workExp");
+			String profileImagePath = jsonObject.getString("profileImagePath");
+			
+			JobSeeker jobseeker = jobSeekerService.getJobSeekerProfile(emailId);
+			
+			jobseeker.setPassword(password);
+			jobseeker.setFirstName(firstName);
+			jobseeker.setLastName(lastName);
+			jobseeker.setSelfIntroduction(selfIntroduction);
+			jobseeker.setPhone(phone);
+			jobseeker.setSkills(skills);
+			jobseeker.setWorkExp(workExp);
+			jobseeker.setProfileImagePath(profileImagePath);
+			
+			JSONArray jsonArrayEducation = jsonObject.getJSONArray("education");
+			List<Education> educationList = new ArrayList<Education>();
+			
+			for(int i=0 ; i< jsonArrayEducation.length(); i++){
+				JSONObject educationJsonObject = jsonArrayEducation.getJSONObject(i);
+				Education education = new Education( jobseeker, educationJsonObject.getString("school"), educationJsonObject.getString("degree") , educationJsonObject.getString("fieldOfStudy") , educationJsonObject.getString("gpa"));
+				educationList.add(education);
+			}
+			
+			jobseeker.setEducation(educationList);
+			
+			if(jobSeekerService.updateJobSeekerProfile(jobseeker) != null){
+				JSONObject returnJsonObject = new JSONObject();
+				returnJsonObject.put("Response", "User updated successfully.");
+				return new ResponseEntity(returnJsonObject.toString(),HttpStatus.OK);
+			}else{
+				JSONObject returnJsonObject = new JSONObject();
+				returnJsonObject.put("Response", "Something went wrong please try again.");
+				return new ResponseEntity(returnJsonObject.toString(),HttpStatus.BAD_REQUEST);
+			}
+			
+		}
 	
 	//========================================================
 	// Sign up and verification for job seeker
 	//========================================================
 	
-	/*@CrossOrigin(origins = Util.BASE_URL)*/
 	@RequestMapping(value="/signUpJobSeeker",method = RequestMethod.POST)
 	public ResponseEntity<?> signUpJobSeeker(HttpServletRequest request, HttpServletResponse response) throws JSONException{
 	
@@ -183,7 +237,6 @@ public class SignUpController {
 		
 	}
 	
-	@CrossOrigin(origins = Util.BASE_URL)
 	@RequestMapping(value="/verifyJobSeeker/{verificationCode}/{jobSeekerId}",method = RequestMethod.GET)
 	public ResponseEntity<?> verifyJobSeeker(@PathVariable(value="verificationCode") String verificationCode, @PathVariable(value="jobSeekerId") String jobSeekerId,HttpServletRequest request, HttpServletResponse response) throws JSONException{
 		
@@ -212,7 +265,6 @@ public class SignUpController {
 	// Sign up and verification for company
 	//========================================================
 	
-	/*@CrossOrigin(origins = Util.BASE_URL)*/
 	@RequestMapping(value="/signUpCompany",method = RequestMethod.POST)
 	public ResponseEntity<?> signUpCompany(HttpServletRequest request, HttpServletResponse response) throws JSONException{
 	
@@ -263,7 +315,6 @@ public class SignUpController {
 		
 	}
 	
-	@CrossOrigin(origins = Util.BASE_URL)
 	@RequestMapping(value="/verifyCompany/{verificationCode}/{companyId}",method = RequestMethod.GET)
 	public ResponseEntity<?> verifyCompany(@PathVariable(value="verificationCode") String verificationCode, @PathVariable(value="companyId") String companyId,HttpServletRequest request, HttpServletResponse response) throws JSONException{
 		

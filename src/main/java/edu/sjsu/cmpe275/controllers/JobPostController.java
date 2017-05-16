@@ -12,6 +12,7 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,6 +26,7 @@ import edu.sjsu.cmpe275.Util;
 import edu.sjsu.cmpe275.model.JobPost;
 import edu.sjsu.cmpe275.services.JobPostService;
 
+@CrossOrigin(origins = "*")
 @RestController
 public class JobPostController {
 	

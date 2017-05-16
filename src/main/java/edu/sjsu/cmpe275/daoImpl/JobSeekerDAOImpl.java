@@ -9,10 +9,13 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import edu.sjsu.cmpe275.dao.EducationDAO;
 import edu.sjsu.cmpe275.dao.JobSeekerDAO;
 import edu.sjsu.cmpe275.model.Application;
+import edu.sjsu.cmpe275.model.Education;
 import edu.sjsu.cmpe275.model.JobSeeker;
 
 @Repository
@@ -20,14 +23,33 @@ public class JobSeekerDAOImpl implements JobSeekerDAO{
 
 	@PersistenceContext
 	protected EntityManager em;
+	
+	@Autowired
+	EducationDAO educationDAO;
 
 	@Override
 	@Transactional
 	public JobSeeker updateJobSeekerProfile(JobSeeker jobSeeker) {
 		// TODO Auto-generated method stub
 		try {
-			System.out.println("inside updatejobseeker"+jobSeeker.getEmailId());
+			
+			JobSeeker jobSeekerTemp = getJobSeekerProfile(jobSeeker.getEmailId());
+			List<Education> educationList = educationDAO.getEducationByJobSeeker(jobSeeker);
+			
+			System.out.println("jobSeekerTemp.getEducation() : " + educationList);
+			
+			for(Education education: educationList){
+				System.out.println("education.getDegree() : " + education.getDegree());
+				educationDAO.deleteEducation(education);
+			}
+			
+			for(Education education: jobSeeker.getEducation()){
+				educationDAO.saveEducation(education);
+			}
+			
 			em.merge(jobSeeker);
+			
+			
 			//JobSeeker j = new JobSeeker();
 			return getJobSeekerProfile(jobSeeker.getEmailId());
 		} catch (Exception e) {

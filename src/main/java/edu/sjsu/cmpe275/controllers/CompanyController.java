@@ -1,7 +1,5 @@
 package edu.sjsu.cmpe275.controllers;
 
-import java.io.BufferedReader;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,27 +14,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import edu.sjsu.cmpe275.Util;
 import edu.sjsu.cmpe275.model.Application;
 import edu.sjsu.cmpe275.model.Company;
-import edu.sjsu.cmpe275.model.Education;
-
 import edu.sjsu.cmpe275.model.JobPost;
-import edu.sjsu.cmpe275.model.JobSeeker;
-import edu.sjsu.cmpe275.model.ResponseObject;
 import edu.sjsu.cmpe275.services.CompanyService;
-
-import edu.sjsu.cmpe275.services.EducationService;
 import edu.sjsu.cmpe275.services.JobPostService;
-import edu.sjsu.cmpe275.services.SignUpService;
 
+@CrossOrigin(origins = "*")
 @RestController
 public class CompanyController {
 	
@@ -51,9 +40,6 @@ public class CompanyController {
 	public ResponseEntity<?> updateCompanyDetails(HttpServletRequest request, HttpServletResponse response) throws JSONException
 	{
 		
-		//Dummy company_id, will be replaced by session_id later
-		String companyId = "1";
-		
 		JSONObject jsonObject = new JSONObject(Util.getDataString(request));
 		
 		String email = jsonObject.getString("email");
@@ -63,9 +49,7 @@ public class CompanyController {
 		String address = jsonObject.getString("address");
 		String description = jsonObject.getString("description");
 		String password = jsonObject.getString("password");
-		
-		
-		Company company = companyService.findCompanyById(companyId);
+		Company company = companyService.getCompanyByEmail(email);
 		
 		if(company != null){
 			
@@ -81,18 +65,24 @@ public class CompanyController {
 				
 			if(successFlag)
 			{
-				return new ResponseEntity("Updated successfully",HttpStatus.OK);
+				JSONObject returnJsonObject = new JSONObject();
+				returnJsonObject.put("Response", "Updated successfully");
+				return new ResponseEntity(returnJsonObject.toString(),HttpStatus.OK);
 			
 			}
 			else
 			{
-				return new ResponseEntity("Bad request",HttpStatus.BAD_REQUEST);
+				JSONObject returnJsonObject = new JSONObject();
+				returnJsonObject.put("Response", "Bad request");
+				return new ResponseEntity(returnJsonObject.toString(),HttpStatus.BAD_REQUEST);
 			}
 		
 		}
 		else
 		{
-			return new ResponseEntity("Not found",HttpStatus.NOT_FOUND);
+			JSONObject returnJsonObject = new JSONObject();
+			returnJsonObject.put("Response", "Not found");
+			return new ResponseEntity(returnJsonObject.toString(),HttpStatus.NOT_FOUND);
 		}
 		
 	}
@@ -102,8 +92,6 @@ public class CompanyController {
 	public ResponseEntity<?> findAllCompanies() throws JSONException
 	{
 		
-		//Dummy company_id, will be replaced by session_id later
-		//String companyId = "1"
 		
 		List<Company> companies = companyService.getAllCompanies();
 		
@@ -117,7 +105,9 @@ public class CompanyController {
 		
 		else
 		{
-			return new ResponseEntity("No Companies",HttpStatus.NOT_FOUND);
+			JSONObject returnJsonObject = new JSONObject();
+			returnJsonObject.put("Response", "Not found");
+			return new ResponseEntity(returnJsonObject.toString(),HttpStatus.NOT_FOUND);
 		}
 	}
 	
@@ -150,7 +140,9 @@ public class CompanyController {
 		
 		else
 		{
-			return new ResponseEntity("No Company found",HttpStatus.NOT_FOUND);
+			JSONObject returnJsonObject = new JSONObject();
+			returnJsonObject.put("Response", "Not found");
+			return new ResponseEntity(returnJsonObject.toString(),HttpStatus.NOT_FOUND);
 		}	
 		
 	}
@@ -180,12 +172,16 @@ public class CompanyController {
 		
 		if(!isJobAddingSuccessful){
 			
-			return new ResponseEntity("Failure",HttpStatus.BAD_REQUEST);
+			JSONObject returnJsonObject = new JSONObject();
+			returnJsonObject.put("Response", "Something went wrong.");
+			return new ResponseEntity(returnJsonObject.toString(),HttpStatus.BAD_REQUEST);
 			
 		}
 		else
 		{
-			return new ResponseEntity("Success",HttpStatus.OK);
+			JSONObject returnJsonObject = new JSONObject();
+			returnJsonObject.put("Response", "Job added.");
+			return new ResponseEntity(returnJsonObject.toString(),HttpStatus.OK);
 		}
 		
 	}
@@ -223,12 +219,23 @@ public class CompanyController {
 		
 		else
 		{
-			return new ResponseEntity("No job found",HttpStatus.BAD_REQUEST);
+			JSONObject returnJsonObject = new JSONObject();
+			returnJsonObject.put("Response", "Something went wrong.");
+			return new ResponseEntity(returnJsonObject.toString(),HttpStatus.BAD_REQUEST);
 		}	
 	}
 	
 	
-	
+	@RequestMapping(value="/getCompanyDetails",method = RequestMethod.GET)
+	public ResponseEntity<?> getCompanyDetails(HttpServletRequest request, HttpServletResponse response) throws JSONException
+	{
+		HttpSession session=request.getSession(false); 
+		String email = (String)session.getAttribute("email");
+		Company company = companyService.getCompanyByEmail(email);
+		JSONObject returnData = new JSONObject();
+		returnData.put("Response", new JSONObject(company));
+		return new ResponseEntity(returnData.toString(),HttpStatus.OK);
+	}
 	
 	
 	//changed here
@@ -267,40 +274,46 @@ public class CompanyController {
 				//need to notify all the applicants
 				List<Application> applicationList = jobPostService.getJobPostApplications(jobPost);
 				
-					List<String> emails = new ArrayList<>();
-					
-					for(int i = 0 ; i< applicationList.size() ; i++)
-					{
-						emails.add(applicationList.get(i).getJobSeekerId().getEmailId());
-					}
+				List<String> emails = new ArrayList<>();
 				
-					String[] emailArray = emails.toArray(new String[0]);
-					String textToSend = "Job description changed";
-					String subject = "Job description changed";
-					Util.sendBulkEmail(textToSend, emailArray, subject);
-				
-				
-				return new ResponseEntity("Updated successfully",HttpStatus.OK);
+				for(int i = 0 ; i< applicationList.size() ; i++)
+				{
+					emails.add(applicationList.get(i).getJobSeekerId().getEmailId());
+				}
+			
+				String[] emailArray = emails.toArray(new String[0]);
+				String textToSend = "Job description changed";
+				String subject = "Job description changed";
+				Util.sendBulkEmail(textToSend, emailArray, subject);
+			
+				JSONObject returnJsonObject = new JSONObject();
+				returnJsonObject.put("Response", "Updated successfully.");
+				return new ResponseEntity(returnJsonObject.toString(),HttpStatus.OK);
 			}
 			else
 			{
-				return new ResponseEntity("Bad request",HttpStatus.BAD_REQUEST);
+				JSONObject returnJsonObject = new JSONObject();
+				returnJsonObject.put("Response", "Something went wrong.");
+				return new ResponseEntity(returnJsonObject.toString(),HttpStatus.BAD_REQUEST);
 			}
 		}
 		else
 		{
-			return new ResponseEntity("Not found",HttpStatus.NOT_FOUND);
+			JSONObject returnJsonObject = new JSONObject();
+			returnJsonObject.put("Response", "Not found.");
+			return new ResponseEntity(returnJsonObject.toString(),HttpStatus.NOT_FOUND);
 		}
 		
 	}
 	
 	@RequestMapping(value="/findJobsByCompany",method = RequestMethod.GET)
-	public ResponseEntity<?> findAllJobsOfCompany() throws JSONException
+	public ResponseEntity<?> findAllJobsOfCompany(HttpServletRequest request, HttpServletResponse response) throws JSONException
 	{
-		//Dummy company_id, will be replaced by session_id later
-		String companyId = "1";
+		HttpSession session=request.getSession(false); 
+		String email = (String)session.getAttribute("email");
+		Company company = companyService.getCompanyByEmail(email);
 		
-		List<JobPost> jobPosts = companyService.getJobsByCompany(companyId);
+		List<JobPost> jobPosts = companyService.getJobsByCompany(company.getCompanyId());
 		
 		if(jobPosts.size() != 0)
 		{
@@ -312,7 +325,9 @@ public class CompanyController {
 		
 		else
 		{
-			return new ResponseEntity("No jobs",HttpStatus.NOT_FOUND);
+			JSONObject returnJsonObject = new JSONObject();
+			returnJsonObject.put("Response", "Not found.");
+			return new ResponseEntity(returnJsonObject.toString(),HttpStatus.NOT_FOUND);
 		}
 		
 	}

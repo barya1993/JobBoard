@@ -78,7 +78,7 @@
 						<div class="menu-container">
 							<ul class="header-top-nav header-top-nav__tertiary">
 								<!-- <li><a href="page-login.html"><i class="fa fa-user-plus"></i> Register</a></li> -->
-								<li><a href="page-login.html"><i class="fa fa-sign-in"></i> Logout</a></li>
+								<li><a ng-click="vm.logout()"><i class="fa fa-sign-in"></i> Logout</a></li>
 							</ul>
 						</div>
 					</div>
@@ -131,7 +131,10 @@
 			<!-- Page Content -->
 			<section class="page-content">
 				<div class="container">
-					
+					<div class="row">
+						<label >{{vm.home.message}}</label>
+					</div>
+
 					<div class="row">
 						<div class="col-md-8 col-md-offset-2">
 							<!-- Job Form -->
@@ -150,89 +153,50 @@
 										</div>
 									</div>
 								</fieldset> -->
-
-								<fieldset>
-									<label>Your Email <span class="required">*</span></label>
-									<div class="field">
-										<input type="email" class="form-control" name="create_account_email" id="account_email" placeholder="you@yourdomain.com" value="" />
-									</div>
-								</fieldset>
 								
 								<!-- Job Information Fields -->
 								<fieldset class="fieldset-job_title">
 									<label for="job_title">Job Title</label>
 									<div class="field">
-										<input type="text" class="form-control" name="job_title" id="job_title" placeholder="e.g. “Painter”" />
+										<input type="text" class="form-control" ng-model="vm.data.title" name="job_title" id="job_title" ng-init="vm.data.title = 'Software Engineer Intern'" placeholder="e.g. “Painter”" />
 									</div>
 								</fieldset>
 
 								<fieldset class="fieldset-job_location">
 									<label for="job_location">Job Location <small>(optional)</small></label>
 									<div class="field">
-										<input type="text" class="form-control" name="job_location" id="job_location" placeholder="e.g. &quot;London, UK&quot;, &quot;New York&quot;, &quot;Houston, TX&quot;" />
-										<small class="description">Leave this blank if the job can be done from anywhere</small>
+										<input type="text" class="form-control" name="job_location" id="job_location" ng-init="vm.data.office_location = 'Chicago'" ng-model="vm.data.office_location" placeholder="e.g. &quot;London&quot;, &quot;New York&quot;, &quot;Houston&quot;" />
 									</div>
 								</fieldset>
-
-								<div class="row">
-									<div class="col-md-6">
-										<fieldset class="fieldset-job_type">
-											<label for="job_type">Job Type</label>
-											<div class="field select-style">
-												<select name="job_type" id="job_type" class="form-control">
-													<option>Unspecified</option>
-													<option>Furniture Repair &amp; Refinish</option>
-													<option>Pools</option>
-													<option>Plaster &amp; Drywall</option>
-													<option>Painting</option>
-												</select>
-											</div>
-										</fieldset>
-									</div>
-									<div class="col-md-6">
-										<fieldset class="fieldset-job_category">
-											<label for="job_category">Job category</label>
-											<div class="field select-style">
-												<select name="job_category" id="job_category" class="form-control">
-													<option>Unspecified</option>
-													<option>Appliance Services</option>
-													<option>Electrical</option>
-													<option>Handiwork</option>
-													<option>Plumbing</option>
-													<option>Bathroom Design &amp; Remodelling</option>
-												</select>
-											</div>
-										</fieldset>
-									</div>
-								</div>
 
 								<fieldset class="fieldset-job_description">
 									<label>Description</label>
 									<div class="field">
-										<textarea name="textarea" cols="30" rows="8" class="form-control"></textarea>
+										<textarea ng-init="vm.data.description = 'We are looking for a server side developer to help build microservices in our Java/Akka platform. You will help define features, break them down into tasks, and implement them—in the most awesome way possible.'" ng-model="vm.data.description" name="textarea" cols="30" rows="8" class="form-control"></textarea>
 									</div>
 								</fieldset>
 
-								<fieldset class="fieldset-application">
-									<label for="application">Application email/URL</label>
+								<fieldset class="fieldset-job_description">
+									<label>Responsibilities</label>
 									<div class="field">
-										<input type="text" class="form-control" name="application" id="application" placeholder="Enter an email address or website URL" />
+										<input type="text" class="form-control" name="job_location" id="job_location" ng-init="vm.data.responsibilities = 'Build the first truly end-to-end supply chain graph (in the cloud)Become an expert in building mission critical applications that have a HUGE impact on the world supply chains.'" ng-model="vm.data.responsibilities" placeholder="Responsibilities of the job" />
+										
 									</div>
 								</fieldset>
 
-								<fieldset class="fieldset-company_logo">
-									<label for="company_logo">Photo <small>(optional)</small></label>
+								<fieldset class="fieldset-job_description">
+									<label>Salary (USD)</label>
 									<div class="field">
-										<input type="file" class="form-control" name="company_logo" id="company_logo" />
-										<small class="description">
-										Max. file size: 32 MB.</small>
+										<input type="text" class="form-control" name="job_location" id="job_location" ng-init="vm.data.salary = '2000'" placeholder="Please enter salary here." ng-model="vm.data.salary"/>
 									</div>
 								</fieldset>
+
 
 								<div class="spacer"></div>
 
 								<p>
-									<input type="submit" name="submit_job" class="btn btn-primary" value="Preview Job Listing &rarr;" />
+									<a ng-click="vm.createJobPost()" class="btn btn-primary btn-inline">Post Job</a>&nbsp; &nbsp; &nbsp;
+									<a ng-click="vm.cancelCreateJobPost()" class="btn btn-primary btn-inline">Cancel</a>
 								</p>
 
 							</form>
@@ -258,10 +222,15 @@
 	<script src="vendor/jquery-1.11.0.min.js"></script>
 	<script src="vendor/jquery-migrate-1.2.1.min.js"></script>
 	<script src="vendor/bootstrap.js"></script>
-		<script src="vendor/owl-carousel/owl.carousel.min.js"></script>
+	<script src="vendor/jquery.flexnav.min.js"></script>
+	<script src="vendor/jquery.hoverIntent.minified.js"></script>
+	<script src="vendor/jquery.flickrfeed.js"></script>
+	<script src="vendor/magnific-popup/jquery.magnific-popup.js"></script>
+	<script src="vendor/owl-carousel/owl.carousel.min.js"></script>
 	<script src="vendor/jquery.fitvids.js"></script>
 	<script src="vendor/jquery.appear.js"></script>
 	<script src="vendor/jquery.stellar.min.js"></script>
+	<script src="vendor/jquery.countTo.js"></script>
 	
 
 	<!-- Newsletter Form -->

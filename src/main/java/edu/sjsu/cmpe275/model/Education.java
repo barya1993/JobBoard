@@ -1,7 +1,6 @@
 package edu.sjsu.cmpe275.model;
 
 import javax.persistence.Column;
-import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -46,6 +45,9 @@ public class Education {
 	
 	
 	
+	public Education() {
+		super();
+	}
 	public Education(JobSeeker jobSeeker, String school, String degree, String fieldOfStudy, String gpa) {
 		this.jobSeeker = jobSeeker;
 		this.school = school;

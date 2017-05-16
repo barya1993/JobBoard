@@ -1,6 +1,8 @@
 var app = angular.module('JobBoard',['ui.bootstrap','ui.router']);
 
-app.config(function($stateProvider, $urlRouterProvider) {
+app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
+
+	$httpProvider.defaults.withCredentials = true;
 
 	$urlRouterProvider.otherwise('/');
 
@@ -16,19 +18,36 @@ app.config(function($stateProvider, $urlRouterProvider) {
 	.state('jobSeekerHome',{
 		url:"/jobSeekerHome",
 		templateUrl:"job-seeker-home.html",
-		
+		controller:"JobSeekerHomeController",
+		controllerAs:"vm"
+	})
+
+	.state('updateJobSeeker',{
+		url:"/updateJobSeeker",
+		templateUrl:"updateJobSeeker.html",
+		controller:"UpdateJobSeekerController",
+		controllerAs:"vm"
 	})
 
 	.state('companyHome',{
 		url:"/companyHome",
 		templateUrl:"company-dashboard.html",
-		
+		controller:"CompanyHomeController",
+		controllerAs:"vm"
+	})
+
+	.state('updateCompany',{
+		url:"/updateCompany",
+		templateUrl:"updateCompany.html",
+		controller:"UpdateCompanyController",
+		controllerAs:"vm"
 	})
 
 	.state('postJob',{
 		url:"/postJob",
 		templateUrl:"job-post-job.html",
-		
+		controller:"CreateJobPostController",
+		controllerAs:"vm"
 	})
 
 	.state('viewApplicants',{
@@ -42,12 +61,13 @@ app.config(function($stateProvider, $urlRouterProvider) {
 		url:"/jobSearchResults",
 		templateUrl:"job-search-results.html",
 		controller:"JobSearchResultsController",
-		controllerAs:"vm"
 	})
 
 	.state('companyRegisterLogin',{
 		url:"/companyRegisterLogin",
 		templateUrl:"page-login-company.html",
+		controller:"LoginControllerCompany",
+		controllerAs:"vm"
 		
 	})
 	//$location.path('/prelogin');
