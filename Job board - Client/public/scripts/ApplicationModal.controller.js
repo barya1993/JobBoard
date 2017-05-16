@@ -1,6 +1,6 @@
 var app = angular.module("JobBoard");
 
-function ApplicationModalControllerFn($uibModalInstance,$http,jobId) {
+function ApplicationModalControllerFn($uibModalInstance,$http,job) {
 	var vm = this;
 	vm.user = {};
 	//vm.user.UserType = "User"
@@ -15,9 +15,9 @@ function ApplicationModalControllerFn($uibModalInstance,$http,jobId) {
   		
 
 
-  	vm.apply = function() {
+  	/*vm.apply = function() {
   		$uibModalInstance.close("profile");
-  	}
+  	}*/
 
   	vm.uploadResume = function(){
   		console.log("in resume upload");
@@ -41,7 +41,26 @@ function ApplicationModalControllerFn($uibModalInstance,$http,jobId) {
 	var applyWithResume = function(resumeURL) {
  		var applicationJSON = {
  			"data":{
-					"jobPostId":"4028e3815c00a4d3015c00a5896c0001",
+					"jobPostId":job.jobPostId,
+					"applyWithResumeOrProfile":"Profile",
+					"resume":null		
+				}
+
+ 		}
+
+ 		$http.post("http://localhost:8080/applyToJobPost",applicationJSON).
+ 		then(function(res) {
+ 			if(res.status==200){
+ 				alert("Applied!");
+ 			}
+ 		})
+ 	}
+
+ 	vm.applyWithProfile = function() {
+ 		jobId = "4028e3815c00b671015c00b98a3b0001";
+ 		var applicationJSON = {
+ 			"data":{
+					"jobPostId":job.jobPostId,
 					"applyWithResumeOrProfile":"Profile",
 					"resume":null		
 				}

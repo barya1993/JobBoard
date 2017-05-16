@@ -10,7 +10,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
 
  app.get('/', function(req, res) {
-        res.sendfile('public/landing.html'); // load the single view file (angular will handle the page changes on the front-end)
+        res.sendfile('public/home.html'); // load the single view file (angular will handle the page changes on the front-end)
     });
 
 // Start the server

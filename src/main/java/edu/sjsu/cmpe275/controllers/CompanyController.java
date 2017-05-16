@@ -95,7 +95,7 @@ public class CompanyController {
 		
 		List<Company> companies = companyService.getAllCompanies();
 		
-		if(companies.size() != 0)
+		if(companies!=null && companies.size() != 0)
 		{
 			JSONObject jsonObject = new JSONObject();
 			JSONArray jsonArray = new JSONArray(companies);

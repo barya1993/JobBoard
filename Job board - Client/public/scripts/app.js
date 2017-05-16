@@ -61,6 +61,10 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
 		url:"/jobSearchResults",
 		templateUrl:"job-search-results.html",
 		controller:"JobSearchResultsController",
+		controllerAs:"vm",
+		params: {
+            reqJSON: null
+        },
 	})
 
 	.state('companyRegisterLogin',{
