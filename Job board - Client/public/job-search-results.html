@@ -159,19 +159,19 @@
 						</form>
 
 						<ul class="job_listings">
-							<li class="job_listing">
+							<li class="job_listing" ng-repeat="job in vm.searchResults">
 								<a href="" ng-click="vm.openApplicationModal(job)">
 									<div class="job_img">
 										<img src="images/samples/person1.jpg" alt="" class="company_logo">
 									</div>
 									<div class="position">
-										<h3>Front end developer</h3>
+										<h3>{{job.title}}</h3>
 										<div class="company">
-											<strong>Facebook</strong>
+											<strong>{{job.company.name}}</strong>
 										</div>
 									</div>
 									<div class="location">
-										<i class="fa fa-location-arrow"></i> Palo Alo, CA
+										<i class="fa fa-location-arrow"></i> {{job.officeLocation}}
 									</div>
 									<div class="rating">
 										<div class="rating-stars">
@@ -184,110 +184,15 @@
 										
 									</div>
 									<ul class="meta">
-										<li class="job-type">Job Type</li>
+										<li class="job-type">Status</li>
 										<li class="date">
-											Posted 1 month ago
+											{{job.status}}
 										</li>
 									</ul>
 								</a>
 							</li>
 
-							<li class="job_listing">
-								<a href="#">
-									<div class="job_img">
-										<img src="images/samples/person1.jpg" alt="" class="company_logo">
-									</div>
-									<div class="position">
-										<h3>Front end developer</h3>
-										<div class="company">
-											<strong>Facebook</strong>
-										</div>
-									</div>
-									<div class="location">
-										<i class="fa fa-location-arrow"></i> Palo Alo, CA
-									</div>
-									<div class="rating">
-										<div class="rating-stars">
-											<!-- <i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star-half-o"></i> -->
-										</div>
-										
-									</div>
-									<ul class="meta">
-										<li class="job-type">Job Type</li>
-										<li class="date">
-											Posted 1 month ago
-										</li>
-									</ul>
-								</a>
-							</li>
-							<li class="job_listing">
-								<a href="#">
-									<div class="job_img">
-										<img src="images/samples/person1.jpg" alt="" class="company_logo">
-									</div>
-									<div class="position">
-										<h3>Front end developer</h3>
-										<div class="company">
-											<strong>Facebook</strong>
-										</div>
-									</div>
-									<div class="location">
-										<i class="fa fa-location-arrow"></i> Palo Alo, CA
-									</div>
-									<div class="rating">
-										<div class="rating-stars">
-											<!-- <i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star-half-o"></i> -->
-										</div>
-										
-									</div>
-									<ul class="meta">
-										<li class="job-type">Job Type</li>
-										<li class="date">
-											Posted 1 month ago
-										</li>
-									</ul>
-								</a>
-							</li>
-							<li class="job_listing">
-								<a href="#">
-									<div class="job_img">
-										<img src="images/samples/person1.jpg" alt="" class="company_logo">
-									</div>
-									<div class="position">
-										<h3>Front end developer</h3>
-										<div class="company">
-											<strong>Facebook</strong>
-										</div>
-									</div>
-									<div class="location">
-										<i class="fa fa-location-arrow"></i> Palo Alo, CA
-									</div>
-									<div class="rating">
-										<div class="rating-stars">
-											<!-- <i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star-half-o"></i> -->
-										</div>
-										
-									</div>
-									<ul class="meta">
-										<li class="job-type">Job Type</li>
-										<li class="date">
-											Posted 1 month ago
-										</li>
-									</ul>
-								</a>
-							</li>
+							
 							
 						</ul>
 					</div>

@@ -25,13 +25,17 @@ function JobSeekerHomeControllerFn($state,$http,$uibModal) {
 			vm.data.searchText = "";
 		}
 
+
+
 		var reqJSON = {
 			"data": {
 				"keyword": vm.data.searchText 
 			}
 		}
 
-		$http.post("http://localhost:8080/searchByText",reqJSON, {
+		$state.go("jobSearchResults",{reqJSON:reqJSON});
+
+		/*$http.post("http://localhost:8080/searchByText",reqJSON, {
     		headers: {'Access-Control-Allow-Origin' : '*',
                 'Access-Control-Allow-Methods' : 'POST, GET, OPTIONS',
                 'Accept': 'application/json'}
@@ -49,7 +53,7 @@ function JobSeekerHomeControllerFn($state,$http,$uibModal) {
  				vm.data.message = 'Please enter proper details.';
  			}
  			
-		})
+		})*/
 	}
 
 	vm.getSearchResultsByFilter = function() {

@@ -173,7 +173,7 @@ public class SignUpController {
 	//========================================================
 	// Sign up and verification for job seeker
 	//========================================================
-	
+	@CrossOrigin(origins = "*")
 	@RequestMapping(value="/signUpJobSeeker",method = RequestMethod.POST)
 	public ResponseEntity<?> signUpJobSeeker(HttpServletRequest request, HttpServletResponse response) throws JSONException{
 	
