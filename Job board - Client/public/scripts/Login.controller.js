@@ -7,8 +7,8 @@ function LoginControllerFn($state,$http,$uibModal) {
 	vm.home = {};
 	vm.home.message = '';
 	vm.register.educationList = [];
-	vm.register.profileImagePath = 'http://localhost:8080/myImage.jpg';
-
+	vm.register.profileImagePath = "https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-person-128.png";
+	
 	vm.addEducation = function() {
 		var educationTempEmpty = {
 			"school": "",
@@ -21,6 +21,27 @@ function LoginControllerFn($state,$http,$uibModal) {
 
 	vm.removeEducation = function(educationObj) {
 		vm.register.educationList.splice( vm.register.educationList.indexOf(educationObj), 1 );
+	}
+
+	vm.updateProfilePic = function(){
+
+		console.log("inside file picker");
+
+		filepicker.pick(
+		  {
+		    mimetype: 'image/*',
+		    container: 'modal',
+		    services: ['COMPUTER', 'FACEBOOK', 'INSTAGRAM', 'GOOGLE_DRIVE', 'DROPBOX']
+		  },
+		  function(Blob){
+			console.log("got the image");
+		    console.log(JSON.stringify(Blob.url));
+		    vm.register.profileImagePath=Blob.url;
+		    console.log(vm.register.profileImagePath);
+		  },
+		  function(FPError){
+		    console.log(FPError.toString());
+		  });
 	}
 
 
