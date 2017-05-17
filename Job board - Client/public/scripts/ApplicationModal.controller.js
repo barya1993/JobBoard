@@ -45,8 +45,8 @@ function ApplicationModalControllerFn($uibModalInstance,$http,job) {
  		var applicationJSON = {
  			"data":{
 					"jobPostId":job.jobPostId,
-					"applyWithResumeOrProfile":"Profile",
-					"resume":null		
+					"applyWithResumeOrProfile":"Resume",
+					"resume":resumeURL		
 				}
 
  		}
@@ -56,6 +56,7 @@ function ApplicationModalControllerFn($uibModalInstance,$http,job) {
  			if(res.status==200){
  				
  				vm.view = "success";
+ 				alert("Applied Successfully!")
  			}
  		})
  	}

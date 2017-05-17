@@ -53,6 +53,12 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
 	.state('viewApplicants',{
 		url:"/viewApplicants",
 		templateUrl:"view-applicants.html",
+		controller:"ViewApplicationsController",
+		controllerAs:"vm",
+		params: {
+            reqJSON: null
+        },
+
 		
 	})
 

@@ -186,9 +186,9 @@
 									</tr>
 								</thead>
 								<tbody>
-									<tr ng-repeat="jobPostObj in vm.data.jobPostList track by $index">
+									<tr ng-repeat="jobPostObj in vm.data.jobPostList track by $index" >
 										<td class="job_title">
-											<a ui-sref="viewApplicants" class="job_title_link" ng-model="jobPostObj.title">{{jobPostObj.title}}</a>
+											<a ng-click="vm.goToViewApplicants(jobPostObj)" href="" class="job_title_link" ng-model="jobPostObj.title">{{jobPostObj.title}}</a>
 											<ul class="job-dashboard-actions">
 												<li><a ng-click="vm.goToUpdateJobPost(jobPostObj)" class="job-dashboard-action-edit">Edit</a></li>
 												<!-- <li><a href="#" class="job-dashboard-action-mark_filled">Close</a></li>
