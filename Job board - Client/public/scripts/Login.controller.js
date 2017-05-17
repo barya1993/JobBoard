@@ -7,7 +7,7 @@ function LoginControllerFn($state,$http,$uibModal) {
 	vm.home = {};
 	vm.home.message = '';
 	vm.register.educationList = [];
-	vm.register.profileImagePath = 'http://localhost:8080/myImage.jpg';
+	vm.register.profileImagePath = 'http://ec2-54-153-1-152.us-west-1.compute.amazonaws.com:8080/myImage.jpg';
 
 	vm.addEducation = function() {
 		var educationTempEmpty = {
@@ -42,7 +42,7 @@ function LoginControllerFn($state,$http,$uibModal) {
 		}
 
 
- 		$http.post("http://localhost:8080/signUpJobSeeker",reqJSON, {
+ 		$http.post("http://ec2-54-153-1-152.us-west-1.compute.amazonaws.com:8080/signUpJobSeeker",reqJSON, {
     		headers: {'Access-Control-Allow-Origin' : '*',
                 'Access-Control-Allow-Methods' : 'POST, GET, OPTIONS',
                 'Accept': 'application/json'}
@@ -74,7 +74,7 @@ function LoginControllerFn($state,$http,$uibModal) {
 		}
 
 
- 		$http.post("http://localhost:8080/login",reqJSON, {
+ 		$http.post("http://ec2-54-153-1-152.us-west-1.compute.amazonaws.com:8080/login",reqJSON, {
     		headers: {'Access-Control-Allow-Origin' : '*',
                 'Access-Control-Allow-Methods' : 'POST, GET, OPTIONS',
                 'Accept': 'application/json'}

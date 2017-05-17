@@ -5,7 +5,7 @@ function ViewApplicationsControllerFn($state,$http,$uibModal,$stateParams) {
 	var reqJSON = $stateParams.reqJSON;
 	vm.jobPostObj = reqJSON.jobPostObj;
 	vm.fetchJobApplicants = function(){
-		$http.post("http://localhost:8080/fetchJobPostApplications",{"data":reqJSON},{
+		$http.post("http://ec2-54-153-1-152.us-west-1.compute.amazonaws.com:8080/fetchJobPostApplications",{"data":reqJSON},{
     		headers: {'Access-Control-Allow-Origin' : '*',
                 'Access-Control-Allow-Methods' : 'POST, GET, OPTIONS',
                 'Accept': 'application/json'}
@@ -23,7 +23,7 @@ function ViewApplicationsControllerFn($state,$http,$uibModal,$stateParams) {
 
 	vm.logout = function() {
 
- 		$http.get("http://localhost:8080/logout", {
+ 		$http.get("http://ec2-54-153-1-152.us-west-1.compute.amazonaws.com:8080/logout", {
     		headers: {'Access-Control-Allow-Origin' : '*',
                 'Access-Control-Allow-Methods' : 'POST, GET, OPTIONS',
                 'Accept': 'application/json'}
