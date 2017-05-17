@@ -278,11 +278,13 @@ public class CompanyController {
 				{
 					emails.add(applicationList.get(i).getJobSeekerId().getEmailId());
 				}
-			
-				String[] emailArray = emails.toArray(new String[0]);
-				String textToSend = "Job description changed";
-				String subject = "Job description changed";
-				Util.sendBulkEmail(textToSend, emailArray, subject);
+				
+				if(!emails.isEmpty()){
+					String[] emailArray = emails.toArray(new String[0]);
+					String textToSend = "Job description changed";
+					String subject = "Job description changed";
+					Util.sendBulkEmail(textToSend, emailArray, subject);
+				}
 			
 				JSONObject returnJsonObject = new JSONObject();
 				returnJsonObject.put("Response", "Updated successfully.");
