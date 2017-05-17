@@ -240,7 +240,7 @@
 						</form>-->
 
 						<ul class="job_listings">
-							<li class="job_listing" ng-repeat="job in vm.searchResults">
+							<li class="job_listing" ng-repeat="job in vm.searchResults.slice(((vm.currentPage-1)*vm.itemsPerPage), ((vm.currentPage)*vm.itemsPerPage))">
 								<a href="" ng-click="vm.openApplicationModal(job)">
 									<div class="job_img">
 										<img src="images/samples/person1.jpg" alt="" class="company_logo">
@@ -271,6 +271,7 @@
 							
 							
 						</ul>
+						<ul uib-pager items-per-page="vm.itemsPerPage" total-items="vm.searchResults.length" ng-model="vm.currentPage"></ul>
 					</div>
 
 					<div class="spacer"></div>
