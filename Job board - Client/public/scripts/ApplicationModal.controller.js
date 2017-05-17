@@ -48,7 +48,7 @@ function ApplicationModalControllerFn($uibModalInstance,$http,job) {
 
  		}
 
- 		$http.post("http://localhost:8080/applyToJobPost",applicationJSON).
+ 		$http.post("http://ec2-54-153-1-152.us-west-1.compute.amazonaws.com:8080/applyToJobPost",applicationJSON).
  		then(function(res) {
  			if(res.status==200){
  				alert("Applied!");
@@ -67,7 +67,7 @@ function ApplicationModalControllerFn($uibModalInstance,$http,job) {
 
  		}
 
- 		$http.post("http://localhost:8080/applyToJobPost",applicationJSON).
+ 		$http.post("http://ec2-54-153-1-152.us-west-1.compute.amazonaws.com:8080/applyToJobPost",applicationJSON).
  		then(function(res) {
  			if(res.status==200){
  				alert("Applied!");

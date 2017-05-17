@@ -31,7 +31,7 @@ function JobSearchResultsControllerFn($state,$http,$uibModal,$stateParams) {
 			}
 		}
 
-		$http.post("http://localhost:8080/searchByText",reqJSON, {
+		$http.post("http://ec2-54-153-1-152.us-west-1.compute.amazonaws.com:8080/searchByText",reqJSON, {
     		headers: {'Access-Control-Allow-Origin' : '*',
                 'Access-Control-Allow-Methods' : 'POST, GET, OPTIONS',
                 'Accept': 'application/json'}
@@ -95,7 +95,7 @@ function JobSearchResultsControllerFn($state,$http,$uibModal,$stateParams) {
 				}	
 			}
 		}
- 		$http.post("http://localhost:8080/searchByFilter",reqJSON, {
+ 		$http.post("http://ec2-54-153-1-152.us-west-1.compute.amazonaws.com:8080/searchByFilter",reqJSON, {
     		headers: {'Access-Control-Allow-Origin' : '*',
                 'Access-Control-Allow-Methods' : 'POST, GET, OPTIONS',
                 'Accept': 'application/json'}
@@ -119,7 +119,7 @@ function JobSearchResultsControllerFn($state,$http,$uibModal,$stateParams) {
 
 	vm.getCompanies = function() {
 
- 		$http.get("http://localhost:8080/findAllCompanies", {
+ 		$http.get("http://ec2-54-153-1-152.us-west-1.compute.amazonaws.com:8080/findAllCompanies", {
     		headers: {'Access-Control-Allow-Origin' : '*',
                 'Access-Control-Allow-Methods' : 'POST, GET, OPTIONS',
                 'Accept': 'application/json'}
@@ -135,7 +135,7 @@ function JobSearchResultsControllerFn($state,$http,$uibModal,$stateParams) {
 
 	vm.logout = function() {
 
- 		$http.get("http://localhost:8080/logout", {
+ 		$http.get("http://ec2-54-153-1-152.us-west-1.compute.amazonaws.com:8080/logout", {
     		headers: {'Access-Control-Allow-Origin' : '*',
                 'Access-Control-Allow-Methods' : 'POST, GET, OPTIONS',
                 'Accept': 'application/json'}
@@ -190,7 +190,7 @@ function JobSearchResultsControllerFn($state,$http,$uibModal,$stateParams) {
 
  		}
 
- 		$http.post("http://localhost:8080/applyToJobPost",applicationJSON).
+ 		$http.post("http://ec2-54-153-1-152.us-west-1.compute.amazonaws.com:8080/applyToJobPost",applicationJSON).
  		then(function(res) {
  			if(res.status==200){
  				alert("Applied!");

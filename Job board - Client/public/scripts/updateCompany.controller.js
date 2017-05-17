@@ -8,7 +8,7 @@ function UpdateCompanyControllerFn($state,$http,$uibModal) {
 	vm.home.message = '';
 
 	vm.fetchCompanyDetails = function(){
-		$http.get("http://localhost:8080/getCompanyDetails", {
+		$http.get("http://ec2-54-153-1-152.us-west-1.compute.amazonaws.com:8080/getCompanyDetails", {
     		headers: {'Access-Control-Allow-Origin' : '*',
                 'Access-Control-Allow-Methods' : 'POST, GET, OPTIONS',
                 'Accept': 'application/json'}
@@ -26,7 +26,7 @@ function UpdateCompanyControllerFn($state,$http,$uibModal) {
 
 	vm.logout = function() {
 
- 		$http.get("http://localhost:8080/logout", {
+ 		$http.get("http://ec2-54-153-1-152.us-west-1.compute.amazonaws.com:8080/logout", {
     		headers: {'Access-Control-Allow-Origin' : '*',
                 'Access-Control-Allow-Methods' : 'POST, GET, OPTIONS',
                 'Accept': 'application/json'}
@@ -56,7 +56,7 @@ function UpdateCompanyControllerFn($state,$http,$uibModal) {
 		}
 
 
- 		$http.post("http://localhost:8080/updateCompanyDetails",reqJSON, {
+ 		$http.post("http://ec2-54-153-1-152.us-west-1.compute.amazonaws.com:8080/updateCompanyDetails",reqJSON, {
     		headers: {'Access-Control-Allow-Origin' : '*',
                 'Access-Control-Allow-Methods' : 'POST, GET, OPTIONS',
                 'Accept': 'application/json'}
