@@ -5,6 +5,7 @@ function ApplicationModalControllerFn($uibModalInstance,$http,job) {
 	vm.user = {};
 	//vm.user.UserType = "User"
 	//vm.signupView = "signupMethod";
+	vm.job = job;
 	console.log()
 	
 
