@@ -154,7 +154,7 @@
 					<div class="row">
 						<div class="col-md-12">
 							<h1>Job Applicants for</h1>
-							<h3 style="color: rgb(231, 224, 230);">Front end developer</h3>
+							<h3 style="color: rgb(231, 224, 230);">{{vm.jobPostObj.title}}</h3>
 						</div>
 					</div>
 				</div>
@@ -178,25 +178,26 @@
 								<thead>
 									<tr>
 										<th class="job_title">Applicant name</th>
-										<th class="date">Date applied</th>
+										<th class="date">Email</th>
 										<th class="status">Skills</th>
 										<th class="expires">Resume</th>
 										<th class="filled">View Profile</th>
 									</tr>
 								</thead>
 								<tbody>
-									<tr>
+									<tr ng-repeat="application in vm.jobApplications">
+									{{application}}
 										<td class="job_title">
-											<a href="#" class="job_title_link">Vansh Zaveri</a>
+											<a href="#" class="job_title_link">{{application.jobSeekerId.firstName}}</a>
 											<!-- <ul class="job-dashboard-actions">
 												<li><a href="#" class="job-dashboard-action-edit">Edit</a></li>
 												<li><a href="#" class="job-dashboard-action-mark_filled">Mark filled</a></li>
 												<li><a href="#" class="job-dashboard-action-delete">Delete</a></li>
 											</ul> -->
 										</td>
-										<td class="date">April 3, 2015</td>
-										<td class="status">Java, Android, Javascript</td>
-										<td class="expires">Download</td>
+										<td class="date">{{application.jobSeekerId.emailId}}</td>
+										<td class="status">{{application.jobSeekerId.skills}}</td>
+										<td class="expires"><a target="_blank" ng-href="https://{{application.resume}}">Download</td>
 										<td class="filled">Profile</td>
 									</tr>
 									

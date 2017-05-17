@@ -15,6 +15,14 @@ function CompanyHomeControllerFn($state,$http,$uibModal) {
 		$state.go("updateJobPost",{reqJSON:reqJSON});
 	}
 
+	vm.goToViewApplicants = function(jobPostObj){
+		var reqJSON = {};
+		reqJSON.jobPostId = jobPostObj.jobPostId;
+		reqJSON.jobPostObj = jobPostObj;
+		//window.localStorage.setItem('jobPostObj',JSON.stringify(jobPostObj));
+		$state.go("viewApplicants",{reqJSON:reqJSON});
+	}
+
 	vm.logout = function() {
 
  		$http.get("http://localhost:8080/logout", {
@@ -27,7 +35,7 @@ function CompanyHomeControllerFn($state,$http,$uibModal) {
  				$state.go("companyRegisterLogin");
  			}
  		}).catch(function(res) {
- 			vm.data.message = 'Something went wrong. Please try again.';
+ 			//vm.data.message = 'Something went wrong. Please try again.';
 		})
 	}
 	
@@ -46,6 +54,7 @@ function CompanyHomeControllerFn($state,$http,$uibModal) {
  			vm.home.message = 'Something went wrong. Please try again.';
 		})
 	}
+
 
  	vm.fetchJobPostDetails();
 }
