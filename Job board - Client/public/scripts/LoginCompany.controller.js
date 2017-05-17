@@ -6,7 +6,7 @@ function LoginControllerCompanyFn($state,$http,$uibModal) {
 	vm.register = {};
 	vm.home = {};
 	vm.home.message = '';
-	vm.register.imageURL = 'http://localhost:8080/myImage.jpg'
+	vm.register.imageURL = 'http://ec2-54-153-1-152.us-west-1.compute.amazonaws.com:8080/myImage.jpg'
 
 	vm.registerCompany = function() {
  		
@@ -23,7 +23,7 @@ function LoginControllerCompanyFn($state,$http,$uibModal) {
 		}
 
 
- 		$http.post("http://localhost:8080/signUpCompany",reqJSON, {
+ 		$http.post("http://ec2-54-153-1-152.us-west-1.compute.amazonaws.com:8080/signUpCompany",reqJSON, {
     		headers: {'Access-Control-Allow-Origin' : '*',
                 'Access-Control-Allow-Methods' : 'POST, GET, OPTIONS',
                 'Accept': 'application/json'}
@@ -54,7 +54,7 @@ function LoginControllerCompanyFn($state,$http,$uibModal) {
 		}
 
 
- 		$http.post("http://localhost:8080/login",reqJSON, {
+ 		$http.post("http://ec2-54-153-1-152.us-west-1.compute.amazonaws.com:8080/login",reqJSON, {
     		headers: {'Access-Control-Allow-Origin' : '*',
                 'Access-Control-Allow-Methods' : 'POST, GET, OPTIONS',
                 'Accept': 'application/json'}

@@ -25,7 +25,7 @@ function CompanyHomeControllerFn($state,$http,$uibModal) {
 
 	vm.logout = function() {
 
- 		$http.get("http://localhost:8080/logout", {
+ 		$http.get("http://ec2-54-153-1-152.us-west-1.compute.amazonaws.com:8080/logout", {
     		headers: {'Access-Control-Allow-Origin' : '*',
                 'Access-Control-Allow-Methods' : 'POST, GET, OPTIONS',
                 'Accept': 'application/json'}
@@ -40,7 +40,7 @@ function CompanyHomeControllerFn($state,$http,$uibModal) {
 	}
 	
 	vm.fetchJobPostDetails = function(){
-		$http.get("http://localhost:8080/findJobsByCompany", {
+		$http.get("http://ec2-54-153-1-152.us-west-1.compute.amazonaws.com:8080/findJobsByCompany", {
     		headers: {'Access-Control-Allow-Origin' : '*',
                 'Access-Control-Allow-Methods' : 'POST, GET, OPTIONS',
                 'Accept': 'application/json'}
