@@ -1,5 +1,5 @@
 var app = angular.module('JobBoard');
-function UpdateJobSeekerControllerFn($state,$http,$uibModal) {
+function UpdateJobSeekerControllerFn($state,$http,$uibModal,$scope) {
 	
 	var vm = this;
 	vm.user = {};
@@ -7,6 +7,12 @@ function UpdateJobSeekerControllerFn($state,$http,$uibModal) {
 	vm.home = {};
 	vm.home.message = '';
 	vm.update.educationList = [];
+	vm.update.profileImagePath = "https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-person-128.png";
+	$scope.profileImagePath;
+
+	$scope.$watch('profileImagePath', function(newValue, oldValue) {
+  		//$scope.counter = scope.counter + 1;
+	});
 
 	vm.fetchJobSeekerDetails = function(){
 		$http.get("http://ec2-54-153-1-152.us-west-1.compute.amazonaws.com:8080/getJobSeekerDetails", {
@@ -18,7 +24,11 @@ function UpdateJobSeekerControllerFn($state,$http,$uibModal) {
  			if(res.status==200){
  				vm.update = res.data.Response;
  				vm.update.educationList = res.data.Response.education
- 				console.log(vm.update);
+ 				vm.update.profileImagePath = res.data.Response.profileImagePath;
+ 				console.log(res.data.Response);
+ 				console.log("image "+res.data.Response.profileImagePath);
+ 				console.log("retrived image "+vm.update.profileImagePath);
+ 				//console.log(vm.update);
  			}
  		}).catch(function(res) {
  			vm.home.message = 'Something went wrong. Please try again.';
@@ -54,6 +64,29 @@ function UpdateJobSeekerControllerFn($state,$http,$uibModal) {
  			vm.home.message = 'Something went wrong. Please try again.';
 		})
 	}
+
+
+	vm.updateProfilePic = function(){
+		console.log("inside file picker");
+		filepicker.pick(
+		  {
+		    mimetype: 'image/*',
+		    container: 'modal',
+		    services: ['COMPUTER', 'FACEBOOK', 'INSTAGRAM', 'GOOGLE_DRIVE', 'DROPBOX']
+		  },
+		  function(Blob){
+			console.log("got the image");
+		    console.log(JSON.stringify(Blob.url));
+		    vm.update.profileImagePath=Blob.url;
+		    $scope.profileImagePath = vm.update.profileImagePath;
+		    $scope.$apply()
+		    console.log(vm.update.profileImagePath);
+		  },
+		  function(FPError){
+		    console.log(FPError.toString());
+		  });
+	}
+
 
 
 	vm.updateJobSeeker = function() {

@@ -1,5 +1,5 @@
 var app = angular.module('JobBoard');
-function LoginControllerFn($state,$http,$uibModal) {
+function LoginControllerFn($state,$http,$uibModal,$scope) {
 	
 	var vm = this;
 	vm.user = {};
@@ -7,7 +7,14 @@ function LoginControllerFn($state,$http,$uibModal) {
 	vm.home = {};
 	vm.home.message = '';
 	vm.register.educationList = [];
-	vm.register.profileImagePath = 'http://ec2-54-153-1-152.us-west-1.compute.amazonaws.com:8080/myImage.jpg';
+
+	vm.register.profileImagePath = "https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-person-128.png";
+	$scope.profileImagePath;
+
+	$scope.$watch('profileImagePath', function(newValue, oldValue) {
+  		//$scope.counter = scope.counter + 1;
+	});
+
 
 	vm.addEducation = function() {
 		var educationTempEmpty = {
@@ -21,6 +28,29 @@ function LoginControllerFn($state,$http,$uibModal) {
 
 	vm.removeEducation = function(educationObj) {
 		vm.register.educationList.splice( vm.register.educationList.indexOf(educationObj), 1 );
+	}
+
+	vm.updateProfilePic = function(){
+
+		console.log("inside file picker");
+
+		filepicker.pick(
+		  {
+		    mimetype: 'image/*',
+		    container: 'modal',
+		    services: ['COMPUTER', 'FACEBOOK', 'INSTAGRAM', 'GOOGLE_DRIVE', 'DROPBOX']
+		  },
+		  function(Blob){
+			console.log("got the image");
+		    console.log(JSON.stringify(Blob.url));
+		    vm.register.profileImagePath=Blob.url;
+		    $scope.profileImagePath = vm.register.profileImagePath;
+		    $scope.$apply()
+		    console.log(vm.register.profileImagePath);
+		  },
+		  function(FPError){
+		    console.log(FPError.toString());
+		  });
 	}
 
 
