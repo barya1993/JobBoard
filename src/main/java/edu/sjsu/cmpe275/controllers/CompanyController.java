@@ -147,7 +147,6 @@ public class CompanyController {
 		
 	}
 	
-	//changed here
 	@RequestMapping(value="/addJobByCompany",method = RequestMethod.POST)
 	public ResponseEntity<?> addJobByCompany(HttpServletRequest request, HttpServletResponse response) throws JSONException
 	{
@@ -186,7 +185,6 @@ public class CompanyController {
 		
 	}
 	
-	//changed here
 	@RequestMapping(value="/retrieveJobById",method = RequestMethod.POST)
 	public ResponseEntity<?> retrieveJobById(HttpServletRequest request, HttpServletResponse response) throws JSONException
 	{

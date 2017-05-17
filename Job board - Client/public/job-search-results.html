@@ -69,8 +69,8 @@
 						</button>
 						<div class="menu-container">
 							<ul class="header-top-nav header-top-nav__tertiary">
-								<li><a href="page-login.html"><i class="fa fa-user-plus"></i> Register</a></li>
-								<li><a href="page-login.html"><i class="fa fa-sign-in"></i> Login</a></li>
+								<li><a ui-sref="updateJobSeeker"><i class="fa fa-user-plus"></i> Update Profile</a></li>
+								<li><a ng-click="vm.logout()"><i class="fa fa-sign-in"></i> Logout</a></li>
 							</ul>
 						</div>
 					</div>
@@ -108,24 +108,105 @@
 		<!-- Main -->
 		<div class="main" role="main">
 
-			<!-- Page Heading -->
-			<section class="page-heading">
-				<div class="container">
-					<div class="row">
-						<div class="col-md-12">
-							<h1>Jobs List</h1>
+			<!-- Slider -->
+			<section class="slider-holder" >
+				<div class="flexslider carousel">
+					<ul class="slides" >
+						<li>
+							<img src="images/samples/slide1.jpg" alt="" />
+						</li>
+						
+					</ul>
+
+					<div class="search-box" style="top: 30%; height: 100px">
+						<div class="container">
+							<div class="search-box-inner">
+								<h1>Search for Jobs</h1>
+								<form >
+									<div class="row">
+										<div class="col-md-3">
+											<div class="select-style">
+												<select class="form-control" ng-options="option for option in vm.data.searchList" ng-model="vm.data.selectedSearchList" ng-change="vm.changeOfSearchType()" value="option">
+													<option value="">Search by ...</option>
+												</select> 
+											</div>
+										</div>
+									</div>
+									<br/>
+									<div class="row" ng-show="vm.data.showSearchByText">
+										<div class="col-md-3">
+											<div class="form-group">
+												<input type="text" ng-model="vm.data.searchText" class="form-control" placeholder="Enter text to search">
+											</div>
+										</div>
+										<div class="col-md-1">
+											<a ng-click="vm.getSearchResultsByText()" class="btn btn-primary btn-block"><i class="fa fa-search"></i></a>
+										</div>
+									</div>
+
+									<div class="row" ng-hide="vm.data.showSearchByText">
+										<div class="col-md-2 col-md-offset-8">
+											<font color="white">OR provide a range for salary.</font>
+										</div>
+									</div>
+
+									<div class="row" ng-hide="vm.data.showSearchByText">
+										<div class="col-md-3 ">
+											<div class="form-group">
+												<div class="select-style">
+													<select class="form-control" ng-options="option for option in vm.data.locationList" ng-model="vm.data.selectedLocationList" multiple="multiple">
+														<option value="">All Locations</option>
+														
+													</select>
+												</div>
+											</div>
+										</div>
+										<div class="col-md-3">
+											<div class="form-group">
+												<div class="select-style">
+													<select class="form-control" ng-options="option.name for option in vm.data.companyList" ng-model="vm.data.selectedCompanyList" multiple="multiple" value="option.name">
+														<option value="">All Companies</option>
+														
+													</select> 
+												</div>
+											</div>
+										</div>
+										<div class="col-md-2">
+											<div class="form-group">
+												<input type="text" ng-model="vm.data.searchSalarySingleVal" class="form-control" placeholder="Enter exact salary">
+											</div>
+										</div>
+										<div class="col-md-2">
+											<div class="form-group">
+												<input type="text" ng-model="vm.data.searchRangeStart" class="form-control" placeholder="Range Start">
+												<br/>
+												<input type="text" ng-model="vm.data.searchRangeEnd" class="form-control" placeholder="Range End">
+
+											</div>
+										</div>
+										<div class="col-md-1">
+											<a ng-click="vm.getSearchResultsByFilter()" class="btn btn-primary btn-block"><i class="fa fa-search"></i></a>
+										</div>
+
+									</div>
+								</form>
+
+								
+
+							</div>
 						</div>
 					</div>
+
 				</div>
 			</section>
-			<!-- Page Heading / End -->
+			<!-- Slider / End -->
 
 			<!-- Page Content -->
 			<section class="page-content">
 				<div class="container">
 					
 					<div class="job_listings">
-						<form class="job_filters">
+						<!--<form class="job_filters">
 
 							<div class="search_jobs">
 								<div class="search_keywords">
@@ -156,7 +237,7 @@
 									<button class="btn btn-block btn-primary"><i class="fa fa-search"></i></button>
 								</div>
 							</div>
-						</form>
+						</form>-->
 
 						<ul class="job_listings">
 							<li class="job_listing" ng-repeat="job in vm.searchResults">
@@ -175,11 +256,6 @@
 									</div>
 									<div class="rating">
 										<div class="rating-stars">
-											<!-- <i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star-half-o"></i> -->
 										</div>
 										
 									</div>

@@ -15,13 +15,6 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
 		controllerAs:"vm"
 	})
 
-	.state('jobSeekerHome',{
-		url:"/jobSeekerHome",
-		templateUrl:"job-seeker-home.html",
-		controller:"JobSeekerHomeController",
-		controllerAs:"vm"
-	})
-
 	.state('updateJobSeeker',{
 		url:"/updateJobSeeker",
 		templateUrl:"updateJobSeeker.html",
@@ -57,8 +50,8 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
 	})
 
 
-	.state('jobSearchResults',{
-		url:"/jobSearchResults",
+	.state('jobSeekerHome',{
+		url:"/jobSeekerHome",
 		templateUrl:"job-search-results.html",
 		controller:"JobSearchResultsController",
 		controllerAs:"vm",
