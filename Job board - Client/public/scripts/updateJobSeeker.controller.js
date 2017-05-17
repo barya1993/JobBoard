@@ -7,6 +7,7 @@ function UpdateJobSeekerControllerFn($state,$http,$uibModal) {
 	vm.home = {};
 	vm.home.message = '';
 	vm.update.educationList = [];
+	vm.update.profileImagePath = "https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-person-128.png";
 
 	vm.fetchJobSeekerDetails = function(){
 		$http.get("http://localhost:8080/getJobSeekerDetails", {
@@ -54,6 +55,27 @@ function UpdateJobSeekerControllerFn($state,$http,$uibModal) {
  			vm.home.message = 'Something went wrong. Please try again.';
 		})
 	}
+
+
+	vm.updateProfilePic = function(){
+		console.log("inside file picker");
+		filepicker.pick(
+		  {
+		    mimetype: 'image/*',
+		    container: 'modal',
+		    services: ['COMPUTER', 'FACEBOOK', 'INSTAGRAM', 'GOOGLE_DRIVE', 'DROPBOX']
+		  },
+		  function(Blob){
+			console.log("got the image");
+		    console.log(JSON.stringify(Blob.url));
+		    vm.update.profileImagePath=Blob.url;
+		    console.log(vm.update.profileImagePath);
+		  },
+		  function(FPError){
+		    console.log(FPError.toString());
+		  });
+	}
+
 
 
 	vm.updateJobSeeker = function() {
