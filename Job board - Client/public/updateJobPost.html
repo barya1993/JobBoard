@@ -7,7 +7,8 @@
 	<!-- Basic Page Needs
 	================================================== -->
 	<meta charset="utf-8">
-	<title>Dashboard </title>
+	<title>Post a Job</title>
+	
 
 	<!-- Mobile Specific Metas
 	================================================== -->
@@ -24,6 +25,7 @@
 	<link rel="stylesheet" href="vendor/owl-carousel/owl.carousel.css" media="screen">
 	<link rel="stylesheet" href="vendor/owl-carousel/owl.theme.css" media="screen">
 	<link rel="stylesheet" href="vendor/magnific-popup/magnific-popup.css" media="screen">
+	<link rel="stylesheet" href="vendor/flexslider/flexslider.css" media="screen">
 	<link rel="stylesheet" href="vendor/job-manager/frontend.css" media="screen">
 
 	<!-- Theme CSS-->
@@ -58,7 +60,16 @@
 						<button class="btn btn-sm btn-default menu-link menu-link__secondary">
 							<i class="fa fa-bars"></i>
 						</button>
-						
+						<div class="menu-container">
+							<!-- <ul class="header-top-nav header-top-nav__secondary">
+								<li><a href="#"><i class="fa fa-twitter"></i> <span class="nav-label">Twitter</span></a></li>
+								<li><a href="#"><i class="fa fa-facebook"></i> <span class="nav-label">Facebook</span></a></li>
+								<li><a href="#"><i class="fa fa-google-plus"></i> <span class="nav-label">Google+</span></a></li>
+								<li><a href="#"><i class="fa fa-pinterest"></i> <span class="nav-label">Pinterest</span></a></li>
+								<li><a href="#"><i class="fa fa-instagram"></i> <span class="nav-label">Instagram</span></a></li>
+								<li><a href="#"><i class="fa fa-rss"></i> <span class="nav-label">RSS Feed</span></a></li>
+							</ul> -->
+						</div>
 					</div>
 					<div class="header-top-right">
 						<button class="btn btn-sm btn-default menu-link menu-link__tertiary">
@@ -66,8 +77,7 @@
 						</button>
 						<div class="menu-container">
 							<ul class="header-top-nav header-top-nav__tertiary">
-								<li><a ui-sref="updateCompany"><i class="fa fa-user-plus"></i> Update Profile</a></li>
-								<li><a ui-sref="postJob"><i class="fa fa-user-plus"></i> Post a Job</a></li>
+								<!-- <li><a href="page-login.html"><i class="fa fa-user-plus"></i> Register</a></li> -->
 								<li><a ng-click="vm.logout()"><i class="fa fa-sign-in"></i> Logout</a></li>
 							</ul>
 						</div>
@@ -80,7 +90,7 @@
 					<!-- Logo -->
 					<div class="logo">
 						
-						<h1><a><span>Job</span>Board</a></h1>
+						<h1><a href="index.html"><span>Job</span>Board</a></h1>
 					</div>
 					<!-- Logo / End -->
 
@@ -91,50 +101,7 @@
 					<!-- Navigation -->
 					<nav class="nav-main">
 						<div class="nav-main-inner">
-							<ul data-breakpoint="992" class="flexnav">
-								<!-- <li><a href="index.html">Home</a></li>
-								<li><a href="#">Pages</a>
-									<ul>
-										<li><a href="page-about.html">About Us</a></li>
-										<li><a href="page-services.html">Services</a></li>
-										<li><a href="page-team.html">Team</a></li>
-										<li><a href="page-team-member.html">Team Member</a></li>
-										<li><a href="page-faqs.html">FAQs</a></li>
-										<li><a href="page-fullwidth.html">Full Width</a></li>
-										<li><a href="page-left-sidebar.html">Left Sidebar</a></li>
-										<li><a href="page-right-sidebar.html">Right Sidebar</a></li>
-										<li><a href="page-login.html">Login &amp; Register</a></li>
-										<li><a href="page-404.html">404</a></li>
-									</ul>
-								</li>
-								<li><a href="#">Features</a>
-									<ul>
-										<li><a href="features-shortcodes.html">Shortcodes</a></li>
-										<li><a href="features-pricing-tables.html">Pricing Tables</a></li>
-										<li><a href="features-typography.html">Typography</a></li>
-										<li><a href="features-columns.html">Columns</a></li>
-										<li><a href="features-icons.html">Icons</a></li>
-									</ul>
-								</li>
-								<li class="active"><a href="#">Jobs</a>
-									<ul>
-										<li><a href="job-post-profile.html">Post a Profile</a></li>
-										<li><a href="job-post-job.html">Post a Job</a></li>
-										<li><a href="job-professionals.html">Professionals</a></li>
-										<li class="active"><a href="job-dashboard.html">Dashboard</a></li>
-										<li><a href="job-profile.html">Profile</a></li>
-									</ul>
-								</li>
-								<li><a href="blog-right-sidebar.html">Blog</a>
-									<ul>
-										<li><a href="blog-right-sidebar.html">Blog Right Sidebar</a></li>
-										<li><a href="blog-left-sidebar.html">Blog Left Sidebar</a></li>
-										<li><a href="blog-fullwidth.html">Blog Full Width</a></li>
-										<li><a href="blog-post.html">Single Post</a></li>
-									</ul>
-								</li>
-								<li><a href="page-contacts.html">Contacts</a></li> -->
-							</ul>
+							
 						</div>
 					</nav>
 					<!-- Navigation / End -->
@@ -154,7 +121,7 @@
 				<div class="container">
 					<div class="row">
 						<div class="col-md-12">
-							<h1>Job Postings</h1>
+							<h1>Post a Job</h1>
 						</div>
 					</div>
 				</div>
@@ -164,46 +131,76 @@
 			<!-- Page Content -->
 			<section class="page-content">
 				<div class="container">
-					
-					
+					<div class="row">
+						<label >{{vm.home.message}}</label>
+					</div>
 
-					<div id="job-manager-job-dashboard">
-						<!-- <div class="alert alert-info alert-dismissable">
-							<button type="button" class="close" data-dismiss="alert" aria-hidden="true"><i class="fa fa-times"></i></button>
-							Your job listings are shown in the table below. Expired listings will be automatically removed after 30 days.
-						</div> -->
+					<div class="row">
+						<div class="col-md-8 col-md-offset-2">
+							<!-- Job Form -->
+							<form action="#" method="post" id="submit-job-form" class="job-manager-form" enctype="multipart/form-data">
 
-						<div class="table-responsive">
-							<table class="job-manager-jobs table table-bordered table-striped">
-								<thead>
-									<tr>
-										<th >Job Title</th>
-										<th >Description</th>
-										<th >Location</th>
-										<th >Responsibilities</th>
-										<th >Salary</th>
-										<th >Status</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr ng-repeat="jobPostObj in vm.data.jobPostList track by $index">
-										<td class="job_title">
-											<a ui-sref="viewApplicants" class="job_title_link" ng-model="jobPostObj.title">{{jobPostObj.title}}</a>
-											<ul class="job-dashboard-actions">
-												<li><a ng-click="vm.goToUpdateJobPost(jobPostObj)" class="job-dashboard-action-edit">Edit</a></li>
-												<!-- <li><a href="#" class="job-dashboard-action-mark_filled">Close</a></li>
-												<li><a href="#" class="job-dashboard-action-delete">Delete</a></li> -->
-											</ul>
-										</td>
-										<td >{{jobPostObj.description}}</td>
-										<td >{{jobPostObj.officeLocation}}</td>
-										<td >{{jobPostObj.responsibilities}}</td>
-										<td >{{jobPostObj.salary}}</td>
-										<td >{{jobPostObj.status}}</td>
-									</tr>
-									
-								</tbody>
-							</table>
+								<!-- <fieldset>
+									<label>Have an account?</label>
+									<div class="field account-sign-in">
+										<p>
+											<a class="btn btn-primary btn-sm" href="#"><i class="fa fa-key"></i> Sign in</a>
+										</p>
+
+										<div class="alert alert-info alert-dismissable">
+											<button type="button" class="close" data-dismiss="alert" aria-hidden="true"><i class="fa fa-times"></i></button>
+											If you don‘t have an account you can create one below by entering your email address. A password will be  automatically emailed to you.
+										</div>
+									</div>
+								</fieldset> -->
+								
+								<!-- Job Information Fields -->
+								<fieldset class="fieldset-job_title">
+									<label for="job_title">Job Title</label>
+									<div class="field">
+										<input type="text" class="form-control" ng-model="vm.data.title" name="job_title" id="job_title" placeholder="e.g. “Painter”" />
+									</div>
+								</fieldset>
+
+								<fieldset class="fieldset-job_location">
+									<label for="job_location">Job Location <small>(optional)</small></label>
+									<div class="field">
+										<input type="text" class="form-control" name="job_location" id="job_location"  ng-model="vm.data.officeLocation" placeholder="e.g. &quot;London&quot;, &quot;New York&quot;, &quot;Houston&quot;" />
+									</div>
+								</fieldset>
+
+								<fieldset class="fieldset-job_description">
+									<label>Description</label>
+									<div class="field">
+										<textarea  ng-model="vm.data.description" name="textarea" cols="30" rows="8" class="form-control"></textarea>
+									</div>
+								</fieldset>
+
+								<fieldset class="fieldset-job_description">
+									<label>Responsibilities</label>
+									<div class="field">
+										<input type="text" class="form-control" name="job_location" id="job_location" ng-model="vm.data.responsibilities" placeholder="Responsibilities of the job" />
+										
+									</div>
+								</fieldset>
+
+								<fieldset class="fieldset-job_description">
+									<label>Salary (USD)</label>
+									<div class="field">
+										<input type="text" class="form-control" name="job_location" id="job_location"  placeholder="Please enter salary here." ng-model="vm.data.salary"/>
+									</div>
+								</fieldset>
+
+
+								<div class="spacer"></div>
+
+								<p>
+									<a ng-click="vm.updateJobPost()" class="btn btn-primary btn-inline">Update Job</a>&nbsp; &nbsp; &nbsp;
+									<a ng-click="vm.cancelCreateJobPost()" class="btn btn-primary btn-inline">Cancel</a>
+								</p>
+
+							</form>
+							<!-- Job Form / End -->
 						</div>
 					</div>
 
@@ -211,7 +208,6 @@
 			</section>
 			<!-- Page Content / End -->
 
-			
 			
 		</div>
 		<!-- Main / End -->
@@ -235,11 +231,11 @@
 	<script src="vendor/jquery.appear.js"></script>
 	<script src="vendor/jquery.stellar.min.js"></script>
 	<script src="vendor/jquery.countTo.js"></script>
+	
 
 	<!-- Newsletter Form -->
 	<script src="vendor/jquery.validate.js"></script>
-	<script src="js/newsletter.js"></script>
-
+	
 	<script src="js/custom.js"></script>
 
 

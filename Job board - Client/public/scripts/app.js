@@ -43,6 +43,13 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
 		controllerAs:"vm"
 	})
 
+	.state('updateJobPost',{
+		url:"/updateJobPost",
+		templateUrl:"updateJobPost.html",
+		controller:"updateJobPostController",
+		controllerAs:"vm"
+	})
+
 	.state('viewApplicants',{
 		url:"/viewApplicants",
 		templateUrl:"view-applicants.html",

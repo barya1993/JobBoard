@@ -7,6 +7,14 @@ function CompanyHomeControllerFn($state,$http,$uibModal) {
 	vm.home = {};
 	vm.home.message = '';
 
+
+	vm.goToUpdateJobPost = function(jobPostObj){
+		var reqJSON = {};
+		reqJSON.jobPost = jobPostObj;
+		window.localStorage.setItem('jobPostObj',JSON.stringify(jobPostObj));
+		$state.go("updateJobPost",{reqJSON:reqJSON});
+	}
+
 	vm.logout = function() {
 
  		$http.get("http://localhost:8080/logout", {

@@ -1,5 +1,5 @@
 var app = angular.module('JobBoard');
-function CreateJobPostControllerFn($state,$http,$uibModal) {
+function updateJobPostControllerFn($state,$http,$uibModal,$stateParams) {
 	
 	var vm = this;
 	vm.user = {};
@@ -7,27 +7,56 @@ function CreateJobPostControllerFn($state,$http,$uibModal) {
 	vm.home = {};
 	vm.home.message = '';
 
+	/*vm.reqJSON = JSON.parse(window.localStorage.getItem('reqJSON'));
+
+	console.log(vm.reqJSON);
+	console.log($stateParams.reqJSON);
+
 	if($stateParams.reqJSON!=null){
 		window.localStorage.setItem('reqJSON',JSON.stringify($stateParams.reqJSON));
 		vm.reqJSON = $stateParams.reqJSON;
+		console.log(vm.reqJSON);
+		console.log($stateParams.reqJSON);
 	}
 
-	console.log(vm.reqJSON);
+	console.log(vm.reqJSON);*/
+
+	vm.data = JSON.parse(window.localStorage.getItem('jobPostObj'));
+
+	console.log(vm.data.officeLocation);
+
+	/*vm.fetchJobDetails = function(){
+		$http.get("http://localhost:8080/getCompanyDetails", {
+    		headers: {'Access-Control-Allow-Origin' : '*',
+                'Access-Control-Allow-Methods' : 'POST, GET, OPTIONS',
+                'Accept': 'application/json'}
+  		}).
+ 		then(function(res) {
+ 			if(res.status==200){
+ 				vm.update = res.data.Response;
+ 				console.log(vm.update);
+
+ 			}
+ 		}).catch(function(res) {
+ 			vm.home.message = 'Something went wrong. Please try again.';
+		})
+	}*/
 	
-	vm.createJobPost = function() {
+	vm.updateJobPost = function() {
  		
  		var reqJSON = {
 			"data": {
+				"jobId": vm.data.jobPostId,
 				"title": vm.data.title,
 				"description": vm.data.description,
-				"office_location": vm.data.office_location,
+				"office_location": vm.data.officeLocation,
 				"responsibilities": vm.data.responsibilities,
 				"salary": vm.data.salary
 			}
 		}
 
 
- 		$http.post("http://localhost:8080/addJobByCompany",reqJSON, {
+ 		$http.post("http://localhost:8080/updateJobByCompany",reqJSON, {
     		headers: {'Access-Control-Allow-Origin' : '*',
                 'Access-Control-Allow-Methods' : 'POST, GET, OPTIONS',
                 'Accept': 'application/json'}
@@ -68,4 +97,4 @@ function CreateJobPostControllerFn($state,$http,$uibModal) {
  	
 }
 
-app.controller('CreateJobPostController',CreateJobPostControllerFn);
+app.controller('updateJobPostController',updateJobPostControllerFn);
