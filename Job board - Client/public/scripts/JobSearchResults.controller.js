@@ -3,7 +3,8 @@ filepicker.setKey("Agm49GXXQQKecLwsP74odz");
 function JobSearchResultsControllerFn($state,$http,$uibModal,$stateParams) {
 	
 	var vm = this;
-
+	vm.itemsPerPage = 10;
+	vm.currentPage = 1;
 	vm.data={};
 	vm.data.selectedCompanyList = [];
 	vm.data.selectedLocationList = [];
