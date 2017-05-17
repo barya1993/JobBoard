@@ -4,15 +4,152 @@ function JobSearchResultsControllerFn($state,$http,$uibModal,$stateParams) {
 	
 	var vm = this;
 
-	if($stateParams.reqJSON!=null){
-		window.localStorage.setItem('reqJSON',JSON.stringify($stateParams.reqJSON));
-		vm.reqJSON = $stateParams.reqJSON;
+	vm.data={};
+	vm.data.selectedCompanyList = [];
+	vm.data.selectedLocationList = [];
+	vm.data.locationList = ['Washington', 'San Jose', 'Chicago', 'New York', 'Newark', 'Arlington', 'Dallas'];
+	vm.data.searchList = ['Search by Text', 'Search by Filters'];
+	vm.data.showSearchByText = true;
+
+	vm.changeOfSearchType=function(){
+		vm.data.showSearchByText = true;
+
+		if(vm.data.selectedSearchList == 'Search by Filters'){
+			vm.data.showSearchByText = false;
+		}
 	}
 
-	if($stateParams.reqJSON == null){
-		vm.reqJSON = JSON.parse(window.localStorage.getItem('reqJSON'));
+	vm.getSearchResultsByText = function() {
+
+		if(vm.data.searchText == undefined || vm.data.searchText == ""){
+			vm.data.searchText = "";
+		}
+
+		var reqJSON = {
+			"data": {
+				"keyword": vm.data.searchText 
+			}
+		}
+
+		$http.post("http://localhost:8080/searchByText",reqJSON, {
+    		headers: {'Access-Control-Allow-Origin' : '*',
+                'Access-Control-Allow-Methods' : 'POST, GET, OPTIONS',
+                'Accept': 'application/json'}
+  		}).
+ 		then(function(res) {
+ 			if(res.status==200){
+ 				vm.searchResults = res.data.Response;
+ 				console.log(res.data.Response);
+ 				//$state.go("jobSeekerHome");
+ 			}
+ 		}).catch(function(res) {
+ 			if(res.status == 404){
+ 				vm.data.message ="No results found.";
+ 			}
+ 			else{
+ 				vm.data.message = 'Please enter proper details.';
+ 			}
+ 			
+		})
 	}
 
+	vm.getSearchResultsByFilter = function() {
+		var type="none";
+		var start="";
+		var end="";
+
+		if(vm.data.searchSalarySingleVal != undefined && vm.data.searchSalarySingleVal != ''){
+			type="single_value";
+			start=vm.data.searchSalarySingleVal;
+			end="";
+		}else if(vm.data.searchRangeStart != undefined && vm.data.searchRangeStart != '' && (vm.data.searchRangeEnd == undefined || vm.data.searchRangeEnd =='' ) ){
+			type="only_start";
+			start=vm.data.searchRangeStart;
+			end="";
+		}else if((vm.data.searchRangeStart == undefined || vm.data.searchRangeStart == '') && vm.data.searchRangeEnd != undefined && vm.data.searchRangeEnd !='' ){
+			type="only_end";
+			start="";
+			end=vm.data.searchRangeEnd;
+		}else if(vm.data.searchRangeStart != undefined && vm.data.searchRangeEnd != undefined && vm.data.searchRangeStart != '' && vm.data.searchRangeEnd !='' ){
+			type="both";
+			start=vm.data.searchRangeStart;
+			end=vm.data.searchRangeEnd;
+		}
+
+		console.log(vm.data.selectedCompanyList);
+
+		var modifiedCompanyList = [];
+
+		for(var i=0;i<vm.data.selectedCompanyList.length;i++) {
+		  modifiedCompanyList.push(vm.data.selectedCompanyList[i].name);
+		}
+
+		var reqJSON = {
+			"data": {
+				"companies": modifiedCompanyList,
+				"location": vm.data.selectedLocationList,
+				"range": {
+					"start": start,
+					"end": end,
+					"type": type 
+				}	
+			}
+		}
+ 		$http.post("http://localhost:8080/searchByFilter",reqJSON, {
+    		headers: {'Access-Control-Allow-Origin' : '*',
+                'Access-Control-Allow-Methods' : 'POST, GET, OPTIONS',
+                'Accept': 'application/json'}
+  		}).
+ 		then(function(res) {
+ 			if(res.status==200){
+ 				vm.searchResults = res.data.Response;
+ 				console.log(res.data.Response);
+ 				//$state.go("jobSeekerHome");
+ 			}
+ 		}).catch(function(res) {
+ 			if(res.status == 404){
+ 				vm.data.message ="No results found.";
+ 			}
+ 			else{
+ 				vm.data.message = 'Please enter proper details.';
+ 			}
+ 			
+		})
+	}
+
+	vm.getCompanies = function() {
+
+ 		$http.get("http://localhost:8080/findAllCompanies", {
+    		headers: {'Access-Control-Allow-Origin' : '*',
+                'Access-Control-Allow-Methods' : 'POST, GET, OPTIONS',
+                'Accept': 'application/json'}
+  		}).
+ 		then(function(res) {
+ 			if(res.status==200){
+ 				vm.data.companyList = res.data.Response;
+ 			}
+ 		}).catch(function(res) {
+ 			vm.data.message = 'Something went wrong. Please reload the page.';
+		})
+	} 
+
+	vm.logout = function() {
+
+ 		$http.get("http://localhost:8080/logout", {
+    		headers: {'Access-Control-Allow-Origin' : '*',
+                'Access-Control-Allow-Methods' : 'POST, GET, OPTIONS',
+                'Accept': 'application/json'}
+  		}).
+ 		then(function(res) {
+ 			if(res.status==200){
+ 				$state.go("jobSeekerLogin");
+ 			}
+ 		}).catch(function(res) {
+ 			vm.data.message = 'Something went wrong. Please try again.';
+		})
+	}
+
+	
 
 	vm.openApplicationModal = function(job) {
 
@@ -61,61 +198,10 @@ function JobSearchResultsControllerFn($state,$http,$uibModal,$stateParams) {
  		})
  	} 
 
- 	vm.getSearchResultsByText = function() {
+ 	
+	vm.getCompanies();
+	vm.getSearchResultsByFilter();
 
-		
-		$http.post("http://localhost:8080/searchByText",vm.reqJSON, {
-    		headers: {'Access-Control-Allow-Origin' : '*',
-                'Access-Control-Allow-Methods' : 'POST, GET, OPTIONS',
-                'Accept': 'application/json'}
-  		}).
- 		then(function(res) {
- 			if(res.status==200){
- 				
- 				vm.searchResults = res.data.Response;
- 				console.log(vm.searchResults);
- 				//$state.go("jobSeekerHome");
- 			}
- 		}).catch(function(res) {
- 			if(res.status == 404){
- 				vm.data.message ="No results found.";
- 			}
- 			else{
- 				vm.data.message = 'Please enter proper details.';
- 			}
- 			
-		})
-	}
-
-	vm.getSearchResultsByFilter = function() {
-		
- 		$http.post("http://localhost:8080/searchByFilter",vm.reqJSON, {
-    		headers: {'Access-Control-Allow-Origin' : '*',
-                'Access-Control-Allow-Methods' : 'POST, GET, OPTIONS',
-                'Accept': 'application/json'}
-  		}).
- 		then(function(res) {
- 			if(res.status==200){
- 				vm.searchResults = res.data.Response;
- 				console.log(res.data.Response);
- 				//$state.go("jobSeekerHome");
- 			}
- 		}).catch(function(res) {
- 			if(res.status == 404){
- 				vm.data.message ="No results found.";
- 			}
- 			else{
- 				vm.data.message = 'Please enter proper details.';
- 			}
- 			
-		})
-	}
-
-
-	if(vm.reqJSON.type =="text")
-		vm.getSearchResultsByText();
-	else if(vm.reqJSON.type =="filter")
-		vm.getSearchResultsByFilter();
 }
 
 app.controller('JobSearchResultsController',JobSearchResultsControllerFn);
