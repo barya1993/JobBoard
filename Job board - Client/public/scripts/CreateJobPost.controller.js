@@ -7,12 +7,9 @@ function CreateJobPostControllerFn($state,$http,$uibModal) {
 	vm.home = {};
 	vm.home.message = '';
 
-	if($stateParams.reqJSON!=null){
-		window.localStorage.setItem('reqJSON',JSON.stringify($stateParams.reqJSON));
-		vm.reqJSON = $stateParams.reqJSON;
-	}
+	
 
-	console.log(vm.reqJSON);
+	//console.log(vm.reqJSON);
 	
 	vm.createJobPost = function() {
  		
