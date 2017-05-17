@@ -3,6 +3,7 @@ var app = angular.module("JobBoard");
 function ApplicationModalControllerFn($uibModalInstance,$http,job) {
 	var vm = this;
 	vm.user = {};
+	vm.view = "application";
 	//vm.user.UserType = "User"
 	//vm.signupView = "signupMethod";
 	vm.job = job;
@@ -10,7 +11,8 @@ function ApplicationModalControllerFn($uibModalInstance,$http,job) {
 	
 
   
-	vm.ok = function () {
+	vm.dismiss = function () {
+		$uibModalInstance.dismiss();
   	};
 
   		
@@ -52,7 +54,8 @@ function ApplicationModalControllerFn($uibModalInstance,$http,job) {
  		$http.post("http://localhost:8080/applyToJobPost",applicationJSON).
  		then(function(res) {
  			if(res.status==200){
- 				alert("Applied!");
+ 				
+ 				vm.view = "success";
  			}
  		})
  	}
@@ -71,7 +74,8 @@ function ApplicationModalControllerFn($uibModalInstance,$http,job) {
  		$http.post("http://localhost:8080/applyToJobPost",applicationJSON).
  		then(function(res) {
  			if(res.status==200){
- 				alert("Applied!");
+ 				vm.view = "success";
+ 				
  			}
  		})
  	}
