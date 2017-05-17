@@ -171,7 +171,8 @@
 										<label> Profile Image <span class="required"></span></label>
 										<!--<input type="text" ng-model="vm.update.profileImagePath" ng-click = "vm.updateProfilePic()" class="form-control">-->
 
-										<img src = "{{vm.update.profileImagePath}}" ng-model = "vm.update.profileImagePath" ng-click="vm.updateProfilePic()" width="200" height="150"/>
+										<img ng-src = "{{profileImagePath || vm.update.profileImagePath}}" ng-click="vm.updateProfilePic()" width="200" height="150"/>
+
 
 									</div>
 
