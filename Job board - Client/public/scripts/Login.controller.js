@@ -7,7 +7,7 @@ function LoginControllerFn($state,$http,$uibModal) {
 	vm.home = {};
 	vm.home.message = '';
 	vm.register.educationList = [];
-
+	vm.register.profileImagePath = 'http://localhost:8080/myImage.jpg';
 
 	vm.addEducation = function() {
 		var educationTempEmpty = {

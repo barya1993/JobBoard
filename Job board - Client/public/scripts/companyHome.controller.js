@@ -7,6 +7,22 @@ function CompanyHomeControllerFn($state,$http,$uibModal) {
 	vm.home = {};
 	vm.home.message = '';
 
+	vm.logout = function() {
+
+ 		$http.get("http://localhost:8080/logout", {
+    		headers: {'Access-Control-Allow-Origin' : '*',
+                'Access-Control-Allow-Methods' : 'POST, GET, OPTIONS',
+                'Accept': 'application/json'}
+  		}).
+ 		then(function(res) {
+ 			if(res.status==200){
+ 				$state.go("companyRegisterLogin");
+ 			}
+ 		}).catch(function(res) {
+ 			vm.data.message = 'Something went wrong. Please try again.';
+		})
+	}
+	
 	vm.fetchJobPostDetails = function(){
 		$http.get("http://localhost:8080/findJobsByCompany", {
     		headers: {'Access-Control-Allow-Origin' : '*',

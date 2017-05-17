@@ -69,9 +69,8 @@
 						</button>
 						<div class="menu-container">
 							<ul class="header-top-nav header-top-nav__tertiary">
-								<li> For Job Seekers :</li>
 								<li><a ui-sref="jobSeekerLogin"><i class="fa fa-user-plus"></i> Register</a></li>
-								<li><a ui-sref="jobSeekerLogin"><i class="fa fa-sign-in"></i> Login</a></li>
+								<li><a ui-sref="jobSeekerLogin"><i class="fa fa-sign-in"></i> Login As Job Seeker</a></li>
 							</ul>
 						</div>
 					</div>
@@ -141,14 +140,14 @@
 											<label class="pull-left">
 												Password <span class="required">*</span>
 											</label>
-											<span class="pull-right"><a href="#">Lost password?</a></span>
+											<!-- <span class="pull-right"><a href="#">Lost password?</a></span> -->
 										</div>
 										<input type="password" ng-model="vm.user.password" class="form-control">
 									</div>
 									<a ng-click="vm.login()" class="btn btn-primary btn-inline">Login</a>&nbsp; &nbsp; &nbsp; 
-									<label for="remember" class="checkbox-inline">
+									<!-- <label for="remember" class="checkbox-inline">
 										<input type="checkbox" name="remember" id="remember"> Remember me
-									</label>
+									</label> -->
 								</form>
 							</div>
 						</div>
@@ -187,7 +186,7 @@
 										<label> Website <span class="required">*</span></label>
 										<input type="text" ng-model="vm.register.website" ng-init="vm.register.website = 'www.google.com'" class="form-control">
 									</div>
-									<div class="form-group">
+									<div class="form-group" ng-hide="true">
 										<label> Image <span class="required"></span></label>
 										<input type="text" ng-model="vm.register.imageURL" ng-init="vm.register.imageURL = 'http://localhost:8080/myImage.jpg'" class="form-control">
 									</div>

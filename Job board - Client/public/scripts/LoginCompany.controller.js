@@ -6,6 +6,7 @@ function LoginControllerCompanyFn($state,$http,$uibModal) {
 	vm.register = {};
 	vm.home = {};
 	vm.home.message = '';
+	vm.register.imageURL = 'http://localhost:8080/myImage.jpg'
 
 	vm.registerCompany = function() {
  		
