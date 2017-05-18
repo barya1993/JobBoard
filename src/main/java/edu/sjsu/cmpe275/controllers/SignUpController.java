@@ -82,7 +82,6 @@ public class SignUpController {
 	// Logout
 	//========================================================
 	@RequestMapping(value="/logout",method = RequestMethod.GET)
-	@Secured
 	public ResponseEntity<?> logout(HttpServletRequest request, HttpServletResponse response) throws JSONException{
 		
 		HttpSession session=request.getSession(false);  
@@ -101,7 +100,6 @@ public class SignUpController {
 	// get user's email id - for testing purpose of session
 	//========================================================
 	@RequestMapping(value="/giveUserName",method = RequestMethod.GET)
-	@Secured
 	public ResponseEntity<?> giveUserName(HttpServletRequest request, HttpServletResponse response) throws JSONException{
 		
 		JSONObject returnData = new JSONObject();
