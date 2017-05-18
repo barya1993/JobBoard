@@ -156,7 +156,6 @@ public class JobSeekerController {
 	
 	
 	@RequestMapping(value="/applyToJobPost",method = RequestMethod.POST)
-	@Secured
 	public ResponseEntity<?> applyToJobPost(HttpServletRequest request, HttpServletResponse response) throws JSONException{
 		
 		JSONObject jsonObject = new JSONObject(Util.getDataString(request));
