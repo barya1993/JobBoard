@@ -123,12 +123,10 @@
 			<!-- Page Content -->
 			<section class="page-content">
 				<div class="container">
-					
-					<div class="row">
-						<label >{{vm.home.message}}</label>
-					</div>
+
 					<div class="row">
 						<div class="col-md-6">
+						<div class="alert alert-danger" ng-hide="invalidflag"><center>{{vm.home.message}}</center></div>
 							<div class="box">
 								<h3>Login</h3>
 								<form role="form">
@@ -153,6 +151,8 @@
 							</div>
 						</div>
 						<div class="col-md-6">
+							<div class="alert alert-success" ng-hide="validflag"><center>{{vm.home.message2}}</center></div>
+							<div class="alert alert-danger" ng-hide="invalidflag1"><center>{{vm.home.message2}}</center></div>
 							<div class="spacer-lg visible-sm visible-xs"></div>
 							<div class="box">
 								<h3>Register</h3>
