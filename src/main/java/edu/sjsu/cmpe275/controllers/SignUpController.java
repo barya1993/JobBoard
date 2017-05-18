@@ -253,7 +253,7 @@ public class SignUpController {
 		if(isVerifySuccessful){
 			String textToSend = "Dear user, your account has been confirmed.";
 			Util.sendEmail(textToSend, jobSeeker.getEmailId());
-			return new ResponseEntity(returnData.toString(),HttpStatus.OK);
+			return new ResponseEntity("Your email has been confirmed",HttpStatus.OK);
 			
 		}else{
 			return new ResponseEntity(returnData.toString(),HttpStatus.BAD_REQUEST);
@@ -331,7 +331,7 @@ public class SignUpController {
 		if(isVerifySuccessful){
 			String textToSend = "Dear user, your account has been confirmed.";
 			Util.sendEmail(textToSend, company.getEmail());
-			return new ResponseEntity(returnData.toString(),HttpStatus.OK);
+			return new ResponseEntity("Your email has been confirmed",HttpStatus.OK);
 			
 		}else{
 			return new ResponseEntity(returnData.toString(),HttpStatus.BAD_REQUEST);

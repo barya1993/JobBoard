@@ -106,7 +106,7 @@ public class JobSeekerController {
 	public ResponseEntity<?> fetchJobPostApplications(HttpServletRequest request, HttpServletResponse response) throws JSONException{
 	
 		JSONObject jsonObject = new JSONObject(Util.getDataString(request));
-		HttpSession session=request.getSession();
+		HttpSession session=request.getSession(false);
 		String jobPostId = jsonObject.getString("jobPostId");
 		
 		JobPost jobPost = companyService.getJobDetails(jobPostId);
