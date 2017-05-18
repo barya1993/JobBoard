@@ -15,9 +15,17 @@ function CompanyHomeControllerFn($state,$http,$uibModal) {
 		$state.go("updateJobPost",{reqJSON:reqJSON});
 	}
 
+	vm.goToViewApplicants = function(jobPostObj){
+		var reqJSON = {};
+		reqJSON.jobPostId = jobPostObj.jobPostId;
+		reqJSON.jobPostObj = jobPostObj;
+		//window.localStorage.setItem('jobPostObj',JSON.stringify(jobPostObj));
+		$state.go("viewApplicants",{reqJSON:reqJSON});
+	}
+
 	vm.logout = function() {
 
- 		$http.get("http://localhost:8080/logout", {
+ 		$http.get("http://ec2-54-153-1-152.us-west-1.compute.amazonaws.com:8080/logout", {
     		headers: {'Access-Control-Allow-Origin' : '*',
                 'Access-Control-Allow-Methods' : 'POST, GET, OPTIONS',
                 'Accept': 'application/json'}
@@ -27,12 +35,12 @@ function CompanyHomeControllerFn($state,$http,$uibModal) {
  				$state.go("companyRegisterLogin");
  			}
  		}).catch(function(res) {
- 			vm.data.message = 'Something went wrong. Please try again.';
+ 			//vm.data.message = 'Something went wrong. Please try again.';
 		})
 	}
 	
 	vm.fetchJobPostDetails = function(){
-		$http.get("http://localhost:8080/findJobsByCompany", {
+		$http.get("http://ec2-54-153-1-152.us-west-1.compute.amazonaws.com:8080/findJobsByCompany", {
     		headers: {'Access-Control-Allow-Origin' : '*',
                 'Access-Control-Allow-Methods' : 'POST, GET, OPTIONS',
                 'Accept': 'application/json'}
@@ -46,6 +54,7 @@ function CompanyHomeControllerFn($state,$http,$uibModal) {
  			vm.home.message = 'Something went wrong. Please try again.';
 		})
 	}
+
 
  	vm.fetchJobPostDetails();
 }

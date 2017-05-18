@@ -118,7 +118,7 @@ public class JobSeekerController {
 		
 		JSONObject returnObj = new JSONObject();
 		returnObj.put("result", resultArray);
-		return new ResponseEntity(returnObj.toString(),HttpStatus.BAD_REQUEST);
+		return new ResponseEntity(returnObj.toString(),HttpStatus.OK);
 		
 	}
 	
