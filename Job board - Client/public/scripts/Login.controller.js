@@ -9,6 +9,9 @@ function LoginControllerFn($state,$http,$uibModal,$scope) {
 	vm.register.educationList = [];
 	vm.register.profileImagePath = "https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-person-128.png";
 	$scope.profileImagePath;
+	$scope.invalidflag = true;
+	$scope.invalidflag1 = true;
+	$scope.validflag = true;
 
 	$scope.$watch('profileImagePath', function(newValue, oldValue) {
   		//$scope.counter = scope.counter + 1;
@@ -79,14 +82,17 @@ function LoginControllerFn($state,$http,$uibModal,$scope) {
  			
  			if(res.status==200){
  				vm.register = {};
- 				vm.home.message = 'Please go to verification link sent to your email.';
+ 				vm.home.message2 = 'Please go to verification link sent to your email.';
+ 				$scope.validflag = false;
  				$state.go("jobSeekerLogin");
  			}
  		}).catch(function(res) {
  			if(res.status=400){
- 				vm.home.message = 'User already exists.';
+ 				vm.home.message2 = 'User already exists.';
+ 				$scope.invalidflag1 = false;
  			}else{
- 				vm.home.message = 'Please enter proper details.';
+ 				vm.home.message2 = 'Please enter proper details.';
+ 				$scope.invalidflag1 = false;
  			}
 		})
  	} 
@@ -112,7 +118,8 @@ function LoginControllerFn($state,$http,$uibModal,$scope) {
  				$state.go("jobSeekerHome");
  			}
  		}).catch(function(res) {
- 			vm.home.message = 'Please enter proper details.';
+ 			$scope.invalidflag = false;
+ 			vm.home.message = 'Incorrect Credentials';
 		})
  	} 
 }
