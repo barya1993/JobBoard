@@ -66,8 +66,8 @@
 						</button>
 						<div class="menu-container">
 							<ul class="header-top-nav header-top-nav__tertiary">
-								<li><a ui-sref="postJob"><i class="fa fa-user-plus"></i> Post a Job</a></li>
-								<li><a ><i class="fa fa-sign-in"></i> Logout</a></li>
+								<li><a ui-sref="updateJobPost"><i class="fa fa-user-plus"></i> Back</a></li>
+								<li><a ng-click="vm.logout()"><i class="fa fa-sign-in"></i> Logout</a></li>
 							</ul>
 						</div>
 					</div>
@@ -182,13 +182,14 @@
 										<th class="status">Skills</th>
 										<th class="expires">Resume</th>
 										<th class="filled">View Profile</th>
+										<th class="filled">Actions</th>
 									</tr>
 								</thead>
 								<tbody>
 									<tr ng-repeat="application in vm.jobApplications">
 									{{application}}
 										<td class="job_title">
-											<a href="#" class="job_title_link">{{application.jobSeekerId.firstName}}</a>
+											{{application.jobSeekerId.firstName}}
 											<!-- <ul class="job-dashboard-actions">
 												<li><a href="#" class="job-dashboard-action-edit">Edit</a></li>
 												<li><a href="#" class="job-dashboard-action-mark_filled">Mark filled</a></li>
@@ -198,7 +199,15 @@
 										<td class="date">{{application.jobSeekerId.emailId}}</td>
 										<td class="status">{{application.jobSeekerId.skills}}</td>
 										<td class="expires"><a target="_blank" ng-href="https://{{application.resume}}">Download</td>
-										<td class="filled">Profile</td>
+										<td class="filled">
+											<a ng-click="vm.viewProfile(application.jobSeekerId)" class="job_title_link">Profile</a>
+										</td>
+
+										<td >
+											<li ><a ng-click="vm.changeStatus(application, 'REJECTED')" > Reject</a></li>
+											<li ><a ng-click="vm.changeStatus(application,'OFFERED')" > Offer</a></li>
+										</td>
+										
 									</tr>
 									
 								</tbody>

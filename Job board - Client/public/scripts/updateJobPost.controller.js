@@ -5,42 +5,52 @@ function updateJobPostControllerFn($state,$http,$uibModal,$stateParams) {
 	vm.user = {};
 	vm.data = {};
 	vm.home = {};
+	vm.data1={};
 	vm.home.message = '';
+	vm.data1.allowFilled=false;
+	vm.data1.allowCancelled=true;
+	vm.myvars={};
+	vm.myvars.applicantList=['a'];
 
-	/*vm.reqJSON = JSON.parse(window.localStorage.getItem('reqJSON'));
+	myfunction = function(){
+		console.log("myfunction: " ,vm.myvars.applicantList);
 
-	console.log(vm.reqJSON);
-	console.log($stateParams.reqJSON);
+	 	for (var tempObj in vm.myvars.applicantList) { 
+				    	
+	    	if(vm.myvars.applicantList[tempObj].status == 'OFFERACCEPTED'){
+	    		console.log("inside: " + vm.myvars.applicantList[tempObj].status);
+	    		vm.data1.allowCancelled=false;
+	    		vm.data1.allowFilled=true;
+			}
+			
+	    }
+    }
 
-	if($stateParams.reqJSON!=null){
-		window.localStorage.setItem('reqJSON',JSON.stringify($stateParams.reqJSON));
-		vm.reqJSON = $stateParams.reqJSON;
-		console.log(vm.reqJSON);
-		console.log($stateParams.reqJSON);
-	}
+	myfetchJobApplicants = function(){
 
-	console.log(vm.reqJSON);*/
+		var reqJSON = {
+			"data":{
+				"jobPostId":vm.data.jobPostId
+			}
+		}
 
-	vm.data = JSON.parse(window.localStorage.getItem('jobPostObj'));
-
-	console.log(vm.data.officeLocation);
-
-	/*vm.fetchJobDetails = function(){
-		$http.get("http://ec2-54-153-1-152.us-west-1.compute.amazonaws.com:8080/getCompanyDetails", {
+		$http.post("http://localhost:8080/fetchJobPostApplications",reqJSON,{
     		headers: {'Access-Control-Allow-Origin' : '*',
                 'Access-Control-Allow-Methods' : 'POST, GET, OPTIONS',
                 'Accept': 'application/json'}
   		}).
  		then(function(res) {
  			if(res.status==200){
- 				vm.update = res.data.Response;
- 				console.log(vm.update);
 
+ 				vm.myvars.applicantList = res.data.result;
+ 				myfunction();
+ 				//window.localStorage.setItem('vm.myvars.applicantList',JSON.stringify(res.data.result));
  			}
  		}).catch(function(res) {
  			vm.home.message = 'Something went wrong. Please try again.';
 		})
-	}*/
+	}
+
 	
 	vm.updateJobPost = function() {
  		
@@ -51,12 +61,13 @@ function updateJobPostControllerFn($state,$http,$uibModal,$stateParams) {
 				"description": vm.data.description,
 				"office_location": vm.data.officeLocation,
 				"responsibilities": vm.data.responsibilities,
-				"salary": vm.data.salary
+				"salary": vm.data.salary,
+				"status":""
 			}
 		}
 
 
- 		$http.post("http://ec2-54-153-1-152.us-west-1.compute.amazonaws.com:8080/updateJobByCompany",reqJSON, {
+ 		$http.post("http://localhost:8080/updateJobByCompany",reqJSON, {
     		headers: {'Access-Control-Allow-Origin' : '*',
                 'Access-Control-Allow-Methods' : 'POST, GET, OPTIONS',
                 'Accept': 'application/json'}
@@ -75,9 +86,89 @@ function updateJobPostControllerFn($state,$http,$uibModal,$stateParams) {
 		})
  	} 
 
+
+
+ 	vm.cancelJobPost = function() {
+ 		
+ 		var reqJSON = {
+			"data": {
+				"jobId": vm.data.jobPostId,
+				"title": vm.data.title,
+				"description": vm.data.description,
+				"office_location": vm.data.officeLocation,
+				"responsibilities": vm.data.responsibilities,
+				"salary": vm.data.salary,
+				"status":"CANCELLED"
+			}
+		}
+
+
+ 		$http.post("http://localhost:8080/updateJobByCompany",reqJSON, {
+    		headers: {'Access-Control-Allow-Origin' : '*',
+                'Access-Control-Allow-Methods' : 'POST, GET, OPTIONS',
+                'Accept': 'application/json'}
+  		}).
+ 		then(function(res) {
+ 			
+ 			if(res.status==200){
+ 				$state.go("companyHome");
+ 			}
+ 		}).catch(function(res) {
+ 			if(res.status=400){
+ 				vm.home.message = 'Something went wrong. Please try again.';
+ 			}else{
+ 				vm.home.message = 'Please enter proper details.';
+ 			}
+		})
+ 	} 
+
+
+ 	vm.markFillJobPost = function() {
+ 		
+ 		var reqJSON = {
+			"data": {
+				"jobId": vm.data.jobPostId,
+				"title": vm.data.title,
+				"description": vm.data.description,
+				"office_location": vm.data.officeLocation,
+				"responsibilities": vm.data.responsibilities,
+				"salary": vm.data.salary,
+				"status":"FILLED"
+			}
+		}
+
+
+ 		$http.post("http://localhost:8080/updateJobByCompany",reqJSON, {
+    		headers: {'Access-Control-Allow-Origin' : '*',
+                'Access-Control-Allow-Methods' : 'POST, GET, OPTIONS',
+                'Accept': 'application/json'}
+  		}).
+ 		then(function(res) {
+ 			
+ 			if(res.status==200){
+ 				$state.go("companyHome");
+ 			}
+ 		}).catch(function(res) {
+ 			if(res.status=400){
+ 				vm.home.message = 'Something went wrong. Please try again.';
+ 			}else{
+ 				vm.home.message = 'Please enter proper details.';
+ 			}
+		})
+ 	}
+
+ 	vm.goToViewApplicants = function(jobPostObj){
+ 		jobPostObj = JSON.parse(window.localStorage.getItem('jobPostObj'))
+		var reqJSON = {};
+		reqJSON.jobPostId = jobPostObj.jobPostId;
+		reqJSON.jobPostObj = JSON.parse(window.localStorage.getItem('jobPostObj'));
+		//window.localStorage.setItem('jobPostObj',JSON.stringify(jobPostObj));
+		$state.go("viewApplicants",{reqJSON:reqJSON});
+	} 
+
  	vm.logout = function() {
 
- 		$http.get("http://ec2-54-153-1-152.us-west-1.compute.amazonaws.com:8080/logout", {
+ 		$http.get("http://localhost:8080/logout", {
     		headers: {'Access-Control-Allow-Origin' : '*',
                 'Access-Control-Allow-Methods' : 'POST, GET, OPTIONS',
                 'Accept': 'application/json'}
@@ -91,10 +182,20 @@ function updateJobPostControllerFn($state,$http,$uibModal,$stateParams) {
 		})
 	}
 
+
 	vm.cancelCreateJobPost = function() {
+		
+		//window.localStorage.setItem('vm.myvars.applicantList',JSON.stringify(""));
  		$state.go("companyHome");
  	} 
+
+
+ 	vm.data = JSON.parse(window.localStorage.getItem('jobPostObj'));
+ 	myfetchJobApplicants();
+
  	
+    
+	
 }
 
 app.controller('updateJobPostController',updateJobPostControllerFn);

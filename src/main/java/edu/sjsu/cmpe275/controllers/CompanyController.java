@@ -252,6 +252,7 @@ public class CompanyController {
 		String office_location = jsonObject.getString("office_location");
 		String responsibilities = jsonObject.getString("responsibilities");
 		String salary = jsonObject.getString("salary");
+		String status = jsonObject.getString("status");
 		
 		JobPost jobPost = companyService.getJobDetails(jobId);
 		
@@ -263,6 +264,8 @@ public class CompanyController {
 			jobPost.setResponsibilities(responsibilities);
 			jobPost.setSalary(salary);
 			jobPost.setTitle(title);
+			if(status != null && !"".equalsIgnoreCase(status))
+				jobPost.setStatus(status);
 			
 			Boolean successFlag = companyService.updateJobDetails(jobPost);
 			

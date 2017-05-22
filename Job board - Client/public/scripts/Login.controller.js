@@ -75,7 +75,7 @@ function LoginControllerFn($state,$http,$uibModal,$scope) {
 		}
 
 
- 		$http.post("http://ec2-54-153-1-152.us-west-1.compute.amazonaws.com:8080/signUpJobSeeker",reqJSON, {
+ 		$http.post("http://localhost:8080/signUpJobSeeker",reqJSON, {
     		headers: {'Access-Control-Allow-Origin' : '*',
                 'Access-Control-Allow-Methods' : 'POST, GET, OPTIONS',
                 'Accept': 'application/json'}
@@ -110,7 +110,7 @@ function LoginControllerFn($state,$http,$uibModal,$scope) {
 		}
 
 
- 		$http.post("http://ec2-54-153-1-152.us-west-1.compute.amazonaws.com:8080/login",reqJSON, {
+ 		$http.post("http://localhost:8080/login",reqJSON, {
     		headers: {'Access-Control-Allow-Origin' : '*',
                 'Access-Control-Allow-Methods' : 'POST, GET, OPTIONS',
                 'Accept': 'application/json'}

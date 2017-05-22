@@ -18,6 +18,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
+
 import edu.sjsu.cmpe275.Util;
 import edu.sjsu.cmpe275.aspects.Secured;
 import edu.sjsu.cmpe275.model.Application;
@@ -117,7 +122,8 @@ public class JobSeekerController {
 		resultArray.put(applicationList);
 		
 		JSONObject returnObj = new JSONObject();
-		returnObj.put("result", resultArray);
+		returnObj.put("result", applicationList);
+		System.out.println("applicationList" + applicationList);
 		return new ResponseEntity(returnObj.toString(),HttpStatus.OK);
 		
 	}
@@ -144,12 +150,17 @@ public class JobSeekerController {
 		
 		List<Application> applicationList = jobSeekerService.getJobSeekerApplications(jobSeeker);
 		
-		JSONArray resultArray = new JSONArray();
-		resultArray.put(applicationList);
+		JSONArray resultArray = new JSONArray(applicationList);
 		
 		JSONObject returnObj = new JSONObject();
 		returnObj.put("result", resultArray);
-		return new ResponseEntity(returnObj.toString(),HttpStatus.BAD_REQUEST);
+		
+		Gson gson = new GsonBuilder().setPrettyPrinting().create(); 
+		JsonParser jp = new JsonParser();
+		JsonElement je = jp.parse(returnObj.toString());
+		String prettyJsonString = gson.toJson(je);
+		
+		return new ResponseEntity(prettyJsonString,HttpStatus.OK);
 		
 	}
 	
@@ -189,14 +200,14 @@ public class JobSeekerController {
 		
 		List<Application> applicationList = jobSeekerService.getJobSeekerApplications(jobSeeker);
 		
-		//System.out.println(applicationList.size()+"::::::::::::::::::::"+applicationList.get(0).getJobPostId().getJobPostId());
+		
 		int pendingCounter=0;
 		int flag=0;
 		for(int i=0; i<applicationList.size();i++)
 		{
 			if(applicationList.get(i).getStatus().equals("PENDING"))
 				pendingCounter++;
-			if(applicationList.get(i).getJobPostId().getJobPostId().equals(jobPost.getJobPostId()))
+			if(applicationList.get(i).getJobPostId().getJobPostId().equals(jobPost.getJobPostId()) && (applicationList.get(i).getStatus().equalsIgnoreCase("Pending") || applicationList.get(i).getStatus().equalsIgnoreCase("Offered")))
 				flag=1;
 		}
 		
@@ -215,7 +226,7 @@ public class JobSeekerController {
 		}
 		
 		
-		Application newApplication = new Application(jobPost, jobSeeker, resume, "NEW");
+		Application newApplication = new Application(jobPost, jobSeeker, resume, "PENDING");
 		
 		if(jobSeekerService.applyToJobPost(newApplication))
 		{
@@ -236,12 +247,5 @@ public class JobSeekerController {
 		
 		
 	}
-	
-	
-	
-	
-	
-	
-	
 	
 }

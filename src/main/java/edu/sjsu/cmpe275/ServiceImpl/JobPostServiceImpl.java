@@ -33,5 +33,16 @@ public class JobPostServiceImpl implements JobPostService{
 			String rangeType) {
 		return  jobPostDAO.searchByFilter(companyList, locationList, start, end, rangeType);
 	}
+
+	@Override
+	public boolean  updateApplication(Application application) {
+	  return jobPostDAO.updateApplication(application);
+		
+	}
+
+	@Override
+	public Application getApplicationDetails(String applicationId) {
+		return jobPostDAO.getApplicationDetails(applicationId);
+	}
 	
 }

@@ -1,5 +1,5 @@
 var app = angular.module('JobBoard');
-function UpdateJobSeekerControllerFn($state,$http,$uibModal,$scope) {
+function viewJobSeekerProfileControllerFn($state,$http,$uibModal,$scope,$stateParams) {
 	
 	var vm = this;
 	vm.user = {};
@@ -10,11 +10,16 @@ function UpdateJobSeekerControllerFn($state,$http,$uibModal,$scope) {
 	vm.update.profileImagePath = "https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-person-128.png";
 	$scope.profileImagePath;
 
+	vm.update = JSON.parse(window.localStorage.getItem('jobseeker'));;
+
+
 	$scope.$watch('profileImagePath', function(newValue, oldValue) {
   		//$scope.counter = scope.counter + 1;
 	});
 
 	vm.fetchJobSeekerDetails = function(){
+
+		console.log("fetching details for : ", vm.update);
 		$http.get("http://localhost:8080/getJobSeekerDetails", {
     		headers: {'Access-Control-Allow-Origin' : '*',
                 'Access-Control-Allow-Methods' : 'POST, GET, OPTIONS',
@@ -131,8 +136,8 @@ function UpdateJobSeekerControllerFn($state,$http,$uibModal,$scope) {
  		$state.go("jobSeekerHome");
  	} 
 
- 	vm.fetchJobSeekerDetails();
+ 	//vm.fetchJobSeekerDetails();
 
 }
 
-app.controller('UpdateJobSeekerController',UpdateJobSeekerControllerFn);
+app.controller('viewJobSeekerProfileController',viewJobSeekerProfileControllerFn);
