@@ -233,6 +233,34 @@ public class JobPostDAOImpl implements JobPostDAO{
 		return jobPostList;
 	}
 
+	@Override
+	@Transactional
+	public boolean updateApplication(Application application) {
+		try {
+			System.out.println("inside "+application.getApplicationId());
+			em.merge(application);
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	@Override
+	public Application getApplicationDetails(String applicationId) {
+		Application returnObj = null;
+		
+		Query query = em.createQuery("Select a from Application a where a.applicationId=:arg1");
+		query.setParameter("arg1", applicationId);
+		
+		try {
+			returnObj = (Application) query.getSingleResult();
+		} catch (NoResultException e) {
+			e.printStackTrace();
+		}
+		return returnObj;
+	}
+
 	
 
 }

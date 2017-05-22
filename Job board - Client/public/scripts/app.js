@@ -15,10 +15,24 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
 		controllerAs:"vm"
 	})
 
+	.state('viewJobSeekerProfile',{
+		url:"/viewJobSeekerProfile",
+		templateUrl:"viewJobSeekerProfile.html",
+		controller:"viewJobSeekerProfileController",
+		controllerAs:"vm"
+	})
+
 	.state('updateJobSeeker',{
 		url:"/updateJobSeeker",
 		templateUrl:"updateJobSeeker.html",
 		controller:"UpdateJobSeekerController",
+		controllerAs:"vm"
+	})
+
+	.state('jobseekerApplications',{
+		url:"/jobseekerApplications",
+		templateUrl:"jobseekerApplications.html",
+		controller:"jobseekerApplicationsController",
 		controllerAs:"vm"
 	})
 

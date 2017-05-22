@@ -1,14 +1,17 @@
 <div class="modal-body" id="modal-body">
    <div>
+
       <section ng-if="vm.view=='application'">
+         
          <div class="width-100 login-options-wrap">
-               <h4>Company: <span>{{vm.job.company.name}}</span></h4>
+               {{vm.data.message.newmessage}}
+               <h4>Company: <span>{{vm.job.company.name}}lksem</span></h4>
                <h4>Job Description</h4>
          		<span>{{vm.job.description}}</span>
          		<button class="text-center login-option google" ng-click="vm.applyWithProfile()">Apply with Profile</button>	
          </div>
          <div class="or-wrapper text-center">
-         		<span class="or-text bold-font">or</span>
+         		<span class="or-text bold-font">or</span> 
          		<hr></hr>
          </div>
          <div class="login-options-wrap">
@@ -16,6 +19,7 @@
          </div>
        
       </section>
+
       <section ng-if="vm.view=='success'">
          <div>
             <h2> Greetings! You have successfully applied to this Job!</h2>

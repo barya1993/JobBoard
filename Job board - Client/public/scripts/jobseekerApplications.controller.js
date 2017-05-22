@@ -1,9 +1,11 @@
 var app = angular.module('JobBoard');
-function ViewApplicationsControllerFn($state,$http,$uibModal,$stateParams) {
+filepicker.setKey("Agm49GXXQQKecLwsP74odz");
+function jobseekerApplicationsControllerFn($state,$http,$uibModal,$stateParams) {
 	
 	var vm = this;
-	var reqJSON = $stateParams.reqJSON;
-	vm.jobPostObj = reqJSON.jobPostObj;
+	vm.itemsPerPage = 10;
+	vm.currentPage = 1;
+	vm.data={};
 
 	vm.changeStatus = function(application, status) {
 		application.status = status;
@@ -29,15 +31,13 @@ function ViewApplicationsControllerFn($state,$http,$uibModal,$stateParams) {
 		})
 	}
 
-	vm.viewProfile = function(jobseeker){
-		var reqJSON = jobseeker;
-		//console.log("reqJSON in viewProfile : " , reqJSON);
-		window.localStorage.setItem('jobseeker',JSON.stringify(jobseeker));
-		$state.go("viewJobSeekerProfile", {reqJSON : reqJSON});
-	}
+	vm.getApplications = function() {
 
-	vm.fetchJobApplicants = function(){
-		$http.post("http://localhost:8080/fetchJobPostApplications",{"data":reqJSON},{
+		var reqJSON = {
+			"data": {}
+		}
+
+		$http.post("http://localhost:8080/fetchJobSeekerApplications",reqJSON, {
     		headers: {'Access-Control-Allow-Origin' : '*',
                 'Access-Control-Allow-Methods' : 'POST, GET, OPTIONS',
                 'Accept': 'application/json'}
@@ -45,12 +45,22 @@ function ViewApplicationsControllerFn($state,$http,$uibModal,$stateParams) {
  		then(function(res) {
  			if(res.status==200){
  				vm.jobApplications = res.data.result;
-
+ 				console.log(res.data.result);
+ 				//$state.go("jobSeekerHome");
  			}
  		}).catch(function(res) {
- 			vm.home.message = 'Something went wrong. Please try again.';
+ 			console.log(res);
+ 			if(res.status == 404){
+ 				vm.data.message ="No results found.";
+ 			}
+ 			else{
+ 				vm.data.message = 'Something went wrong please try again.';
+ 			}
+ 			
 		})
 	}
+
+	
 
 	vm.logout = function() {
 
@@ -64,13 +74,12 @@ function ViewApplicationsControllerFn($state,$http,$uibModal,$stateParams) {
  				$state.go("jobSeekerLogin");
  			}
  		}).catch(function(res) {
- 			vm.home.message = 'Something went wrong. Please try again.';
+ 			vm.data.message = 'Something went wrong. Please try again.';
 		})
 	}
 
-
- 	vm.fetchJobApplicants(reqJSON);
+	vm.getApplications();
 
 }
 
-app.controller('ViewApplicationsController',ViewApplicationsControllerFn);
+app.controller('jobseekerApplicationsController',jobseekerApplicationsControllerFn);

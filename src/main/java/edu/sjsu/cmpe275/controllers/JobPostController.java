@@ -23,7 +23,9 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
 import edu.sjsu.cmpe275.Util;
+import edu.sjsu.cmpe275.model.Application;
 import edu.sjsu.cmpe275.model.JobPost;
+import edu.sjsu.cmpe275.model.JobSeeker;
 import edu.sjsu.cmpe275.services.JobPostService;
 
 @CrossOrigin(origins = "*")
@@ -33,6 +35,27 @@ public class JobPostController {
 	@Autowired
 	JobPostService jobPostService;
 
+	@RequestMapping(value="/updateApplication",method = RequestMethod.POST)
+	public ResponseEntity<?> updateApplication(HttpServletRequest request, HttpServletResponse response) throws JSONException{
+		
+		JSONObject jsonObject = new JSONObject(Util.getDataString(request));
+		
+		Application application = jobPostService.getApplicationDetails(jsonObject.getString("applicationId"));
+		
+		application.setStatus(jsonObject.getString("status"));
+		
+		jobPostService.updateApplication(application);
+		
+		String textToSend = "Your application's status has been changed for position " + application.getJobPostId().getTitle();
+		String emailId = application.getJobSeekerId().getEmailId();
+		Util.sendEmail(textToSend, emailId);
+		
+		JSONObject returnJsonObject = new JSONObject();
+		returnJsonObject.put("Response", application);
+		
+		return new ResponseEntity(returnJsonObject.toString(),HttpStatus.OK);
+	}
+	
 	@RequestMapping(value="/searchByText",method = RequestMethod.POST)
 	public ResponseEntity<?> searchByText(HttpServletRequest request, HttpServletResponse response) throws JSONException
 	{

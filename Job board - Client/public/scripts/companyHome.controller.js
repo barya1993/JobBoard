@@ -6,6 +6,9 @@ function CompanyHomeControllerFn($state,$http,$uibModal) {
 	vm.data = {};
 	vm.home = {};
 	vm.home.message = '';
+	vm.data.searchList = ['OPEN', 'FILLED', 'CANCELLED'];
+	vm.data.statusToShow = 'OPEN';
+
 
 
 	vm.goToUpdateJobPost = function(jobPostObj){
@@ -25,7 +28,7 @@ function CompanyHomeControllerFn($state,$http,$uibModal) {
 
 	vm.logout = function() {
 
- 		$http.get("http://ec2-54-153-1-152.us-west-1.compute.amazonaws.com:8080/logout", {
+ 		$http.get("http://localhost:8080/logout", {
     		headers: {'Access-Control-Allow-Origin' : '*',
                 'Access-Control-Allow-Methods' : 'POST, GET, OPTIONS',
                 'Accept': 'application/json'}
@@ -40,7 +43,7 @@ function CompanyHomeControllerFn($state,$http,$uibModal) {
 	}
 	
 	vm.fetchJobPostDetails = function(){
-		$http.get("http://ec2-54-153-1-152.us-west-1.compute.amazonaws.com:8080/findJobsByCompany", {
+		$http.get("http://localhost:8080/findJobsByCompany", {
     		headers: {'Access-Control-Allow-Origin' : '*',
                 'Access-Control-Allow-Methods' : 'POST, GET, OPTIONS',
                 'Accept': 'application/json'}
@@ -48,7 +51,7 @@ function CompanyHomeControllerFn($state,$http,$uibModal) {
  		then(function(res) {
  			if(res.status==200){
  				vm.data.jobPostList = res.data.Response;
-
+ 				console.log(res.data.Response);
  			}
  		}).catch(function(res) {
  			vm.home.message = 'Something went wrong. Please try again.';

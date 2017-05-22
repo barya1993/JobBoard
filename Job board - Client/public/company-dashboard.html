@@ -172,7 +172,14 @@
 							<button type="button" class="close" data-dismiss="alert" aria-hidden="true"><i class="fa fa-times"></i></button>
 							Your job listings are shown in the table below. Expired listings will be automatically removed after 30 days.
 						</div> -->
-
+						<div class="row">
+							<div class="col-md-3">
+								<div class="select-style">
+									<select class="form-control" ng-options="option for option in vm.data.searchList" ng-model="vm.data.statusToShow" value="option">
+									</select> 
+								</div>
+							</div>
+						</div>
 						<div class="table-responsive">
 							<table class="job-manager-jobs table table-bordered table-striped">
 								<thead>
@@ -186,9 +193,10 @@
 									</tr>
 								</thead>
 								<tbody>
-									<tr ng-repeat="jobPostObj in vm.data.jobPostList track by $index" >
-										<td class="job_title">
-											<a ng-click="vm.goToViewApplicants(jobPostObj)" href="" class="job_title_link" ng-model="jobPostObj.title">{{jobPostObj.title}}</a>
+									<tr ng-repeat="jobPostObj in vm.data.jobPostList | filter: {status: vm.data.statusToShow}" >
+										<td class="job_title" >
+											<!-- <a ng-click="vm.goToViewApplicants(jobPostObj)" href="" class="job_title_link" ng-model="jobPostObj.title">{{jobPostObj.title}}</a> -->
+											{{jobPostObj.title}}
 											<ul class="job-dashboard-actions">
 												<li><a ng-click="vm.goToUpdateJobPost(jobPostObj)" class="job-dashboard-action-edit">Edit</a></li>
 												<!-- <li><a href="#" class="job-dashboard-action-mark_filled">Close</a></li>
@@ -200,6 +208,7 @@
 										<td >{{jobPostObj.responsibilities}}</td>
 										<td >{{jobPostObj.salary}}</td>
 										<td >{{jobPostObj.status}}</td>
+										
 									</tr>
 									
 								</tbody>

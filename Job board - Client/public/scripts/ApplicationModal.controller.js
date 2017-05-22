@@ -7,9 +7,8 @@ function ApplicationModalControllerFn($uibModalInstance,$http,job) {
 	//vm.user.UserType = "User"
 	//vm.signupView = "signupMethod";
 	vm.job = job;
-	console.log()
-	
-
+	vm.data ={};
+	vm.data.message ={};
   
 	vm.dismiss = function () {
 		$uibModalInstance.dismiss();
@@ -51,14 +50,18 @@ function ApplicationModalControllerFn($uibModalInstance,$http,job) {
 
  		}
 
- 		$http.post("http://ec2-54-153-1-152.us-west-1.compute.amazonaws.com:8080/applyToJobPost",applicationJSON).
+ 		$http.post("http://localhost:8080/applyToJobPost",applicationJSON).
  		then(function(res) {
  			if(res.status==200){
  				
  				vm.view = "success";
  				alert("Applied Successfully!")
  			}
- 		})
+ 		}).catch(function(res) {
+ 			console.log(res);
+ 			vm.message = 'Something went wrong please try again: ' + res.data.result;
+ 			
+		})
  	}
 
  	vm.applyWithProfile = function() {
@@ -72,13 +75,17 @@ function ApplicationModalControllerFn($uibModalInstance,$http,job) {
 
  		}
 
- 		$http.post("http://ec2-54-153-1-152.us-west-1.compute.amazonaws.com:8080/applyToJobPost",applicationJSON).
+ 		$http.post("http://localhost:8080/applyToJobPost",applicationJSON).
  		then(function(res) {
  			if(res.status==200){
  				vm.view = "success";
  				
  			}
- 		})
+ 		}).catch(function(res) {
+ 			console.log(res);
+ 			vm.data.message.newmessage = 'Something went wrong please try again: ' + res;
+ 			
+		})
  	}
 
 
