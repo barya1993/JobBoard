@@ -51,6 +51,7 @@ public class JobSeekerController {
 	EducationService educationService;
 	
 	@RequestMapping(value="/getJobSeekerDetails",method = RequestMethod.GET)
+	@Secured
 	public ResponseEntity<?> getJobSeekerDetails(HttpServletRequest request, HttpServletResponse response) throws JSONException{
 		JSONObject returnData = new JSONObject();
 		String email = "";
@@ -68,6 +69,7 @@ public class JobSeekerController {
 	}
 	
 	@RequestMapping(value="/updateJobSeekerProfile",method = RequestMethod.POST)
+	@Secured
 	public ResponseEntity<?> updateJobSeekerProfile(HttpServletRequest request, HttpServletResponse response) throws JSONException{
 		URI location;
 		
@@ -109,6 +111,7 @@ public class JobSeekerController {
 	
 	
 	@RequestMapping(value="/fetchJobPostApplications",method = RequestMethod.POST)
+	@Secured
 	public ResponseEntity<?> fetchJobPostApplications(HttpServletRequest request, HttpServletResponse response) throws JSONException{
 	
 		JSONObject jsonObject = new JSONObject(Util.getDataString(request));
@@ -131,6 +134,7 @@ public class JobSeekerController {
 	
 	
 	@RequestMapping(value="/fetchJobSeekerApplications",method = RequestMethod.POST)
+	@Secured
 	public ResponseEntity<?> fetchJobSeekerApplications(HttpServletRequest request, HttpServletResponse response) throws JSONException{
 	
 		JSONObject jsonObject = new JSONObject(Util.getDataString(request));
@@ -168,6 +172,7 @@ public class JobSeekerController {
 	
 	
 	@RequestMapping(value="/applyToJobPost",method = RequestMethod.POST)
+	@Secured
 	public ResponseEntity<?> applyToJobPost(HttpServletRequest request, HttpServletResponse response) throws JSONException{
 		
 		JSONObject jsonObject = new JSONObject(Util.getDataString(request));
@@ -250,6 +255,7 @@ public class JobSeekerController {
 	}
 	
 	@RequestMapping(value="/markAsInterested",method = RequestMethod.POST)
+	@Secured
 	public ResponseEntity<?> markAsInterested(HttpServletRequest request, HttpServletResponse response) throws JSONException{
 		
 		JSONObject jsonObject = new JSONObject(Util.getDataString(request));
@@ -317,6 +323,7 @@ public class JobSeekerController {
 	}
 
 	@RequestMapping(value="/fetchJobSeekerInterestedList",method = RequestMethod.POST)
+	@Secured
 	public ResponseEntity<?> fetchJobSeekerInterestedList(HttpServletRequest request, HttpServletResponse response) throws JSONException{
 		
 		
