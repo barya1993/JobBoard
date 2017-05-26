@@ -8,7 +8,7 @@ function JobSearchResultsControllerFn($state,$http,$uibModal,$stateParams) {
 	vm.data={};
 	vm.data.selectedCompanyList = [];
 	vm.data.selectedLocationList = [];
-	vm.data.locationList = ['Washington', 'San Jose', 'Chicago', 'New York', 'Newark', 'Arlington', 'Dallas'];
+	vm.data.locationList = ['Washington', 'San Jose', 'Chicago', 'New York', 'Newark', 'Arlington', 'Dallas','Adelanto','Agoura Hills','Alameda','Alhambra','Aliso Viejo','Alpine','Altadena','Alturas','American Canyon','Anaheim','Anaheim Hills','Anderson','Angels Camp','Angelus Oaks','Antioch','Apple Valley','Aptos','Arcadia','Arcata','Arnold','Arroyo Grande','Artesia','Atascadero','Auburn','Avalon','Avila Beach','Azusa','Baker','Bakersfield','Balboa Island','Baldwin Park','Banning','Barstow','Beaumont','Bell Gardens','Bellflower','Belmont','Belmont Shore','Ben Lomond','Benicia','Berkeley','Bermuda Dunes','Beverly Hills','Big Bear Lake','Big Sur','Bishop','Blythe','Bodega','Bodega Bay','Borrego Springs','Boyes Hot Springs','Brawley','Brea','Brentwood','Brisbane','Buck Meadows','Buellton','Buena Park','Burbank','Burlingame','Buttonwillow','Calabasas','Calexico','California City','Calimesa','Calistoga','Camarillo','Cambria','Cameron Park','Campbell'];
 	vm.data.searchList = ['Search by Text', 'Search by Filters'];
 	vm.data.showSearchByText = true;
 
