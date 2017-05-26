@@ -35,7 +35,7 @@ function JobSeekerHomeControllerFn($state,$http,$uibModal) {
 		reqJSON.type = "text";
 		$state.go("jobSearchResults",{reqJSON:reqJSON});
 
-		/*$http.post("http://localhost:8080/searchByText",reqJSON, {
+		/*$http.post("http://ec2-54-153-93-47.us-west-1.compute.amazonaws.com/searchByText",reqJSON, {
     		headers: {'Access-Control-Allow-Origin' : '*',
                 'Access-Control-Allow-Methods' : 'POST, GET, OPTIONS',
                 'Accept': 'application/json'}
@@ -100,7 +100,7 @@ function JobSeekerHomeControllerFn($state,$http,$uibModal) {
 		}
 		reqJSON.type = "filter";
 		$state.go("jobSearchResults",{reqJSON:reqJSON});
- 	/*	$http.post("http://localhost:8080/searchByFilter",reqJSON, {
+ 	/*	$http.post("http://ec2-54-153-93-47.us-west-1.compute.amazonaws.com/searchByFilter",reqJSON, {
     		headers: {'Access-Control-Allow-Origin' : '*',
                 'Access-Control-Allow-Methods' : 'POST, GET, OPTIONS',
                 'Accept': 'application/json'}
@@ -123,7 +123,7 @@ function JobSeekerHomeControllerFn($state,$http,$uibModal) {
 
 	vm.getCompanies = function() {
 
- 		$http.get("http://localhost:8080/findAllCompanies", {
+ 		$http.get("http://ec2-54-153-93-47.us-west-1.compute.amazonaws.com/findAllCompanies", {
     		headers: {'Access-Control-Allow-Origin' : '*',
                 'Access-Control-Allow-Methods' : 'POST, GET, OPTIONS',
                 'Accept': 'application/json'}
@@ -139,7 +139,7 @@ function JobSeekerHomeControllerFn($state,$http,$uibModal) {
 
 	vm.logout = function() {
 
- 		$http.get("http://localhost:8080/logout", {
+ 		$http.get("http://ec2-54-153-93-47.us-west-1.compute.amazonaws.com/logout", {
     		headers: {'Access-Control-Allow-Origin' : '*',
                 'Access-Control-Allow-Methods' : 'POST, GET, OPTIONS',
                 'Accept': 'application/json'}

@@ -34,7 +34,7 @@ function updateJobPostControllerFn($state,$http,$uibModal,$stateParams) {
 			}
 		}
 
-		$http.post("http://localhost:8080/fetchJobPostApplications",reqJSON,{
+		$http.post("http://ec2-54-153-93-47.us-west-1.compute.amazonaws.com/fetchJobPostApplications",reqJSON,{
     		headers: {'Access-Control-Allow-Origin' : '*',
                 'Access-Control-Allow-Methods' : 'POST, GET, OPTIONS',
                 'Accept': 'application/json'}
@@ -67,7 +67,7 @@ function updateJobPostControllerFn($state,$http,$uibModal,$stateParams) {
 		}
 
 
- 		$http.post("http://localhost:8080/updateJobByCompany",reqJSON, {
+ 		$http.post("http://ec2-54-153-93-47.us-west-1.compute.amazonaws.com/updateJobByCompany",reqJSON, {
     		headers: {'Access-Control-Allow-Origin' : '*',
                 'Access-Control-Allow-Methods' : 'POST, GET, OPTIONS',
                 'Accept': 'application/json'}
@@ -103,7 +103,7 @@ function updateJobPostControllerFn($state,$http,$uibModal,$stateParams) {
 		}
 
 
- 		$http.post("http://localhost:8080/updateJobByCompany",reqJSON, {
+ 		$http.post("http://ec2-54-153-93-47.us-west-1.compute.amazonaws.com/updateJobByCompany",reqJSON, {
     		headers: {'Access-Control-Allow-Origin' : '*',
                 'Access-Control-Allow-Methods' : 'POST, GET, OPTIONS',
                 'Accept': 'application/json'}
@@ -138,7 +138,7 @@ function updateJobPostControllerFn($state,$http,$uibModal,$stateParams) {
 		}
 
 
- 		$http.post("http://localhost:8080/updateJobByCompany",reqJSON, {
+ 		$http.post("http://ec2-54-153-93-47.us-west-1.compute.amazonaws.com/updateJobByCompany",reqJSON, {
     		headers: {'Access-Control-Allow-Origin' : '*',
                 'Access-Control-Allow-Methods' : 'POST, GET, OPTIONS',
                 'Accept': 'application/json'}
@@ -168,7 +168,7 @@ function updateJobPostControllerFn($state,$http,$uibModal,$stateParams) {
 
  	vm.logout = function() {
 
- 		$http.get("http://localhost:8080/logout", {
+ 		$http.get("http://ec2-54-153-93-47.us-west-1.compute.amazonaws.com/logout", {
     		headers: {'Access-Control-Allow-Origin' : '*',
                 'Access-Control-Allow-Methods' : 'POST, GET, OPTIONS',
                 'Accept': 'application/json'}
