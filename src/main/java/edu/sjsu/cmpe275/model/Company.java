@@ -8,6 +8,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 @Entity
 @Table(name="Company")
@@ -54,6 +56,7 @@ Is_verified*/
 	@Column(name="IS_VERIFIED")
 	private String isVerified;
 	
+	@JsonIgnore
 	@Column(name="PASSWORD")
 	private String password;
 	

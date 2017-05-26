@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import edu.sjsu.cmpe275.model.Application;
+import edu.sjsu.cmpe275.model.InterestedJobPost;
+import edu.sjsu.cmpe275.model.JobPost;
 import edu.sjsu.cmpe275.model.JobSeeker;
 
 @Repository
@@ -22,5 +24,8 @@ public interface JobSeekerDAO {
 	public JobSeeker getJobSeekerProfile(String emailid);
 	
 	public List<Application> getJobSeekerApplications(JobSeeker jobSeekerId);
+	
+	public boolean markAsInterested(InterestedJobPost jobpost);
 
+	public List<InterestedJobPost> getJobSeekerInterestedList(JobSeeker jobSeekerId);
 }

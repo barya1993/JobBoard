@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 
 import edu.sjsu.cmpe275.dao.JobSeekerDAO;
 import edu.sjsu.cmpe275.model.Application;
+import edu.sjsu.cmpe275.model.InterestedJobPost;
+import edu.sjsu.cmpe275.model.JobPost;
 import edu.sjsu.cmpe275.model.JobSeeker;
 import edu.sjsu.cmpe275.services.JobSeekerService;
 
@@ -49,6 +51,18 @@ public class JobSeekerServiceImpl implements JobSeekerService {
 	public List<Application> getJobSeekerApplications(JobSeeker jobSeekerId){
 		
 		return jobSeekerDAO.getJobSeekerApplications(jobSeekerId);
+	}
+
+	@Override
+	public boolean markAsInterested(InterestedJobPost jobpost) {
+		// TODO Auto-generated method stub
+		return jobSeekerDAO.markAsInterested(jobpost);
+	}
+
+	@Override
+	public List<InterestedJobPost> getJobSeekerInterestedList(JobSeeker jobSeekerId) {
+		// TODO Auto-generated method stub
+		return jobSeekerDAO.getJobSeekerInterestedList(jobSeekerId);
 	}
 
 

@@ -4,6 +4,8 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import edu.sjsu.cmpe275.model.Application;
+import edu.sjsu.cmpe275.model.InterestedJobPost;
+import edu.sjsu.cmpe275.model.JobPost;
 import edu.sjsu.cmpe275.model.JobSeeker;
 
 
@@ -20,5 +22,7 @@ public interface JobSeekerService {
 	
 	public List<Application> getJobSeekerApplications(JobSeeker jobSeekerId);
 
-
+	public boolean markAsInterested(InterestedJobPost interestedJobPost);
+	
+	public List<InterestedJobPost> getJobSeekerInterestedList(JobSeeker jobSeekerId);  
 }

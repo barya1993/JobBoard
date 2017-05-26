@@ -16,6 +16,8 @@ import edu.sjsu.cmpe275.dao.EducationDAO;
 import edu.sjsu.cmpe275.dao.JobSeekerDAO;
 import edu.sjsu.cmpe275.model.Application;
 import edu.sjsu.cmpe275.model.Education;
+import edu.sjsu.cmpe275.model.InterestedJobPost;
+import edu.sjsu.cmpe275.model.JobPost;
 import edu.sjsu.cmpe275.model.JobSeeker;
 
 @Repository
@@ -159,6 +161,34 @@ public class JobSeekerDAOImpl implements JobSeekerDAO{
 		}
 		return returnObj;
 		
+	}
+	
+	@Override
+	@Transactional
+	public boolean markAsInterested(InterestedJobPost jobpost){
+		try{
+			em.merge(jobpost);
+			return true;
+		}catch(Exception e){
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<InterestedJobPost> getJobSeekerInterestedList(JobSeeker jobSeeker) {
+		List<InterestedJobPost> returnObj = null;
+		
+		Query query = em.createQuery("Select j from InterestedJobPost j where j.jobSeeker=:arg1");
+		query.setParameter("arg1", jobSeeker);
+		
+		try {
+			returnObj = (List<InterestedJobPost>) query.getResultList();
+		} catch (NoResultException e) {
+			e.printStackTrace();
+		}
+		return returnObj;
 	}
 
 	

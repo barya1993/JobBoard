@@ -12,6 +12,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name="JobSeeker")
 public class JobSeeker {
@@ -58,6 +60,7 @@ public class JobSeeker {
 	private String isVerified;
 	@Column(name="PROFILE_IMAGE_PATH")
 	private String profileImagePath;
+	@JsonIgnore
 	@Column(name="PASSWORD")
 	private String password;
 	

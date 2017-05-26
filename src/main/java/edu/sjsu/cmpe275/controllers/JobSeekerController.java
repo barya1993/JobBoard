@@ -26,6 +26,7 @@ import com.google.gson.JsonParser;
 import edu.sjsu.cmpe275.Util;
 import edu.sjsu.cmpe275.aspects.Secured;
 import edu.sjsu.cmpe275.model.Application;
+import edu.sjsu.cmpe275.model.InterestedJobPost;
 import edu.sjsu.cmpe275.model.JobPost;
 import edu.sjsu.cmpe275.model.JobSeeker;
 import edu.sjsu.cmpe275.services.CompanyService;
@@ -247,5 +248,138 @@ public class JobSeekerController {
 		
 		
 	}
+	
+	@RequestMapping(value="/markAsInterested",method = RequestMethod.POST)
+	public ResponseEntity<?> markAsInterested(HttpServletRequest request, HttpServletResponse response) throws JSONException{
+		
+		JSONObject jsonObject = new JSONObject(Util.getDataString(request));
+		
+		String jobPostId = jsonObject.getString("jobPostId");
+		HttpSession session=request.getSession(false);
+		String jobSeekerEmailId;
+		/*if(session!=null)
+		{
+			jobSeekerEmailId = (String)session.getAttribute("email");
+		}
+		else
+		{
+			JSONObject returnObj = new JSONObject();
+			returnObj.put("result", "Log in first!");
+			return new ResponseEntity(returnObj.toString(),HttpStatus.BAD_REQUEST);
+		}*/
+		
+		//String jobSeekerEmailId = (String)session.getAttribute("email");
+		jobSeekerEmailId = "parvezsaeedpatel@gmail.com";
+		System.out.println("session email::::::"+jobSeekerEmailId);
+		
+		JobSeeker jobSeeker = jobSeekerService.getJobSeekerProfile(jobSeekerEmailId);
+		JobPost jobPost = companyService.getJobDetails(jobPostId);
+		
+		/*List<Application> applicationList = jobSeekerService.getJobSeekerApplications(jobSeeker);
+		
+		
+		int pendingCounter=0;
+		int flag=0;
+		for(int i=0; i<applicationList.size();i++)
+		{
+			if(applicationList.get(i).getStatus().equals("PENDING"))
+				pendingCounter++;
+			if(applicationList.get(i).getJobPostId().getJobPostId().equals(jobPost.getJobPostId()) && (applicationList.get(i).getStatus().equalsIgnoreCase("Pending") || applicationList.get(i).getStatus().equalsIgnoreCase("Offered")))
+				flag=1;
+		}
+		
+		if(flag==1)
+		{
+			JSONObject returnObj = new JSONObject();
+			returnObj.put("result", "You already applied for this Job Post!");
+			return new ResponseEntity(returnObj.toString(),HttpStatus.BAD_REQUEST);
+		}
+		
+		if(pendingCounter>=5)
+		{
+			JSONObject returnObj = new JSONObject();
+			returnObj.put("result", "You cannot apply in more then 5 JobPosts in a Pending State");
+			return new ResponseEntity(returnObj.toString(),HttpStatus.BAD_REQUEST);
+		}
+		
+		*/
+		List<InterestedJobPost> interestedList = jobSeekerService.getJobSeekerInterestedList(jobSeeker);
+		boolean exists = false;
+		InterestedJobPost interestedJobPost = null;
+		if(interestedList!=null && !interestedList.isEmpty()){
+			//check if it is in the interested list, if yes check if status.true;
+			for (InterestedJobPost tempInterestedJobPost : interestedList) {
+				if(tempInterestedJobPost.getJobPost().getJobPostId().equals(jobPost.getJobPostId())){
+					exists = true;
+					interestedJobPost = tempInterestedJobPost;
+					break;
+				}
+			}
+		}
+		if(!exists){
+			interestedJobPost = new InterestedJobPost(jobPost, jobSeeker, true);
+		}
+		//toggle the interested status
+		interestedJobPost.setStatus(!interestedJobPost.getStatus());
+		
+		if(jobSeekerService.markAsInterested(interestedJobPost))
+		{
+			
+			/*String textToSend = "You have marked job post "+jobPost.getTitle()+"as interested. \n Good luck!";
+			String emailId = jobSeeker.getEmailId();
+			Util.sendEmail(textToSend, emailId);*/
+			
+			JSONObject returnObj = new JSONObject();
+			returnObj.put("result", "Marked as interested");
+			returnObj.put("isInterested", interestedJobPost.getStatus());
+			return new ResponseEntity(returnObj.toString(),HttpStatus.OK);
+		}
+		else
+		{
+			JSONObject returnObj = new JSONObject();
+			returnObj.put("result", "Error in marking the desired Job Post as interested!");
+			return new ResponseEntity(returnObj.toString(),HttpStatus.BAD_REQUEST);
+		}
+		
+		
+	}
+
+	@RequestMapping(value="/fetchJobSeekerInterestedList",method = RequestMethod.POST)
+	public ResponseEntity<?> fetchJobSeekerInterestedList(HttpServletRequest request, HttpServletResponse response) throws JSONException{
+		
+		
+		HttpSession session=request.getSession(false);
+		String jobSeekerEmailId;
+		/*if(session!=null)
+		{
+			jobSeekerEmailId = (String)session.getAttribute("email");
+		}
+		else
+		{
+			JSONObject returnObj = new JSONObject();
+			returnObj.put("result", "Log in first!");
+			return new ResponseEntity(returnObj.toString(),HttpStatus.BAD_REQUEST);
+		}*/
+		jobSeekerEmailId = "parvezsaeedpatel@gmail.com";
+		JobSeeker jobSeeker = jobSeekerService.getJobSeekerProfile(jobSeekerEmailId);
+		//JobPost jobPost = companyService.getJobDetails("4028e3815c181fef015c183bcfc90000");
+		
+		List<InterestedJobPost> interestedList = jobSeekerService.getJobSeekerInterestedList(jobSeeker);
+		//System.out.println(interestedList.contains(jobPost));
+		JSONArray resultArray = new JSONArray(interestedList);
+		
+		JSONObject returnObj = new JSONObject();
+		returnObj.put("result", resultArray);
+		
+		Gson gson = new GsonBuilder().setPrettyPrinting().create(); 
+		JsonParser jp = new JsonParser();
+		JsonElement je = jp.parse(returnObj.toString());
+		String prettyJsonString = gson.toJson(je);
+		
+		return new ResponseEntity(prettyJsonString,HttpStatus.OK);
+		
+		
+	}
+	
 	
 }
