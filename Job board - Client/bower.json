@@ -1,7 +1,7 @@
 {
-  "name": "Airbnb_simulation",
+  "name": "JobBoard",
   
-  "description": "CMPE273 class project",
+  "description": "CMPE275 class project",
   "main": "app.js",
   "private": true,
   "ignore": [
