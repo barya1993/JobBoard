@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import edu.sjsu.cmpe275.Util;
+import edu.sjsu.cmpe275.aspects.Secured;
 import edu.sjsu.cmpe275.model.Application;
 import edu.sjsu.cmpe275.model.Company;
 import edu.sjsu.cmpe275.model.JobPost;
@@ -37,6 +38,7 @@ public class CompanyController {
 	
 	
 	@RequestMapping(value="/updateCompanyDetails",method = RequestMethod.POST)
+	@Secured
 	public ResponseEntity<?> updateCompanyDetails(HttpServletRequest request, HttpServletResponse response) throws JSONException
 	{
 		
@@ -89,6 +91,7 @@ public class CompanyController {
 	
 	
 	@RequestMapping(value="/findAllCompanies",method = RequestMethod.GET)
+	@Secured
 	public ResponseEntity<?> findAllCompanies() throws JSONException
 	{
 		
@@ -113,6 +116,7 @@ public class CompanyController {
 	
 	
 	@RequestMapping(value="/findCompanyById",method = RequestMethod.POST)
+	@Secured
 	public ResponseEntity<?> findCompanyById(HttpServletRequest request, HttpServletResponse response) throws JSONException
 	{
 		JSONObject jsonObject = new JSONObject(Util.getDataString(request));
@@ -148,6 +152,7 @@ public class CompanyController {
 	}
 	
 	@RequestMapping(value="/addJobByCompany",method = RequestMethod.POST)
+	@Secured
 	public ResponseEntity<?> addJobByCompany(HttpServletRequest request, HttpServletResponse response) throws JSONException
 	{
 		JSONObject jsonObject = new JSONObject(Util.getDataString(request));
@@ -186,6 +191,7 @@ public class CompanyController {
 	}
 	
 	@RequestMapping(value="/retrieveJobById",method = RequestMethod.POST)
+	@Secured
 	public ResponseEntity<?> retrieveJobById(HttpServletRequest request, HttpServletResponse response) throws JSONException
 	{
 		
@@ -195,7 +201,6 @@ public class CompanyController {
 		
 		JobPost jobPost = companyService.getJobDetails(jobid);
 		
-		System.out.println("jobPost "+jobPost);
 		
 		if(jobPost !=null)
 		{
@@ -225,6 +230,7 @@ public class CompanyController {
 	
 	
 	@RequestMapping(value="/getCompanyDetails",method = RequestMethod.GET)
+	@Secured
 	public ResponseEntity<?> getCompanyDetails(HttpServletRequest request, HttpServletResponse response) throws JSONException
 	{
 		HttpSession session=request.getSession(false); 
@@ -238,6 +244,7 @@ public class CompanyController {
 	
 	//changed here
 	@RequestMapping(value="/updateJobByCompany",method = RequestMethod.POST)
+	@Secured
 	public ResponseEntity<?> updateJobByCompany(HttpServletRequest request, HttpServletResponse response) throws JSONException
 	{
 		JSONObject jsonObject = new JSONObject(Util.getDataString(request));
@@ -310,6 +317,7 @@ public class CompanyController {
 	}
 	
 	@RequestMapping(value="/findJobsByCompany",method = RequestMethod.GET)
+	@Secured
 	public ResponseEntity<?> findAllJobsOfCompany(HttpServletRequest request, HttpServletResponse response) throws JSONException
 	{
 		HttpSession session=request.getSession(false); 

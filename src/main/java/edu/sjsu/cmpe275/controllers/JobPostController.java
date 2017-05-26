@@ -23,6 +23,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
 import edu.sjsu.cmpe275.Util;
+import edu.sjsu.cmpe275.aspects.Secured;
 import edu.sjsu.cmpe275.model.Application;
 import edu.sjsu.cmpe275.model.JobPost;
 import edu.sjsu.cmpe275.model.JobSeeker;
@@ -36,6 +37,7 @@ public class JobPostController {
 	JobPostService jobPostService;
 
 	@RequestMapping(value="/updateApplication",method = RequestMethod.POST)
+	@Secured
 	public ResponseEntity<?> updateApplication(HttpServletRequest request, HttpServletResponse response) throws JSONException{
 		
 		JSONObject jsonObject = new JSONObject(Util.getDataString(request));
@@ -57,6 +59,7 @@ public class JobPostController {
 	}
 	
 	@RequestMapping(value="/searchByText",method = RequestMethod.POST)
+	@Secured
 	public ResponseEntity<?> searchByText(HttpServletRequest request, HttpServletResponse response) throws JSONException
 	{
 		JSONObject jsonObject = new JSONObject(Util.getDataString(request));
@@ -75,6 +78,7 @@ public class JobPostController {
 	}
 	
 	@RequestMapping(value="/searchByFilter",method = RequestMethod.POST)
+	@Secured
 	public ResponseEntity<?> searchByFilter(HttpServletRequest request, HttpServletResponse response) throws JSONException
 	{
 		JSONObject jsonObject = new JSONObject(Util.getDataString(request));
