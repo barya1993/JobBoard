@@ -32,7 +32,7 @@ function JobSearchResultsControllerFn($state,$http,$uibModal,$stateParams) {
 			}
 		}
 
-		$http.post("http://ec2-54-153-93-47.us-west-1.compute.amazonaws.com/searchByText",reqJSON, {
+		$http.post("http://ec2-54-153-93-47.us-west-1.compute.amazonaws.com:8080/searchByText",reqJSON, {
     		headers: {'Access-Control-Allow-Origin' : '*',
                 'Access-Control-Allow-Methods' : 'POST, GET, OPTIONS',
                 'Accept': 'application/json'}
@@ -96,7 +96,7 @@ function JobSearchResultsControllerFn($state,$http,$uibModal,$stateParams) {
 				}	
 			}
 		}
- 		$http.post("http://ec2-54-153-93-47.us-west-1.compute.amazonaws.com/searchByFilter",reqJSON, {
+ 		$http.post("http://ec2-54-153-93-47.us-west-1.compute.amazonaws.com:8080/searchByFilter",reqJSON, {
     		headers: {'Access-Control-Allow-Origin' : '*',
                 'Access-Control-Allow-Methods' : 'POST, GET, OPTIONS',
                 'Accept': 'application/json'}
@@ -120,7 +120,7 @@ function JobSearchResultsControllerFn($state,$http,$uibModal,$stateParams) {
 
 	vm.getCompanies = function() {
 
- 		$http.get("http://ec2-54-153-93-47.us-west-1.compute.amazonaws.com/findAllCompanies", {
+ 		$http.get("http://ec2-54-153-93-47.us-west-1.compute.amazonaws.com:8080/findAllCompanies", {
     		headers: {'Access-Control-Allow-Origin' : '*',
                 'Access-Control-Allow-Methods' : 'POST, GET, OPTIONS',
                 'Accept': 'application/json'}
@@ -136,7 +136,7 @@ function JobSearchResultsControllerFn($state,$http,$uibModal,$stateParams) {
 
 	vm.logout = function() {
 
- 		$http.get("http://ec2-54-153-93-47.us-west-1.compute.amazonaws.com/logout", {
+ 		$http.get("http://ec2-54-153-93-47.us-west-1.compute.amazonaws.com:8080/logout", {
     		headers: {'Access-Control-Allow-Origin' : '*',
                 'Access-Control-Allow-Methods' : 'POST, GET, OPTIONS',
                 'Accept': 'application/json'}
@@ -191,7 +191,7 @@ function JobSearchResultsControllerFn($state,$http,$uibModal,$stateParams) {
 
  		}
 
- 		$http.post("http://ec2-54-153-93-47.us-west-1.compute.amazonaws.com/applyToJobPost",applicationJSON).
+ 		$http.post("http://ec2-54-153-93-47.us-west-1.compute.amazonaws.com:8080/applyToJobPost",applicationJSON).
  		then(function(res) {
  			if(res.status==200){
  				alert("Applied!");

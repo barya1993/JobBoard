@@ -50,7 +50,7 @@ function ApplicationModalControllerFn($uibModalInstance,$http,job) {
 
  		}
 
- 		$http.post("http://ec2-54-153-93-47.us-west-1.compute.amazonaws.com/applyToJobPost",applicationJSON).
+ 		$http.post("http://ec2-54-153-93-47.us-west-1.compute.amazonaws.com:8080/applyToJobPost",applicationJSON).
  		then(function(res) {
  			if(res.status==200){
  				
@@ -75,7 +75,7 @@ function ApplicationModalControllerFn($uibModalInstance,$http,job) {
 
  		}
 
- 		$http.post("http://ec2-54-153-93-47.us-west-1.compute.amazonaws.com/applyToJobPost",applicationJSON).
+ 		$http.post("http://ec2-54-153-93-47.us-west-1.compute.amazonaws.com:8080/applyToJobPost",applicationJSON).
  		then(function(res) {
  			if(res.status==200){
  				vm.view = "success";
