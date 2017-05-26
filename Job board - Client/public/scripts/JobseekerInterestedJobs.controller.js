@@ -8,7 +8,7 @@ function JobseekerInterestedJobsControllerFn($state,$http,$uibModal,$stateParams
 
 	vm.getInterestedJobPost = function() {
 
-		$http.post("http://localhost:8080/fetchJobSeekerInterestedList",{}, {
+		$http.post("http://ec2-54-153-93-47.us-west-1.compute.amazonaws.com:8080/fetchJobSeekerInterestedList",{}, {
     		headers: {'Access-Control-Allow-Origin' : '*',
                 'Access-Control-Allow-Methods' : 'POST, GET, OPTIONS',
                 'Accept': 'application/json'}
@@ -63,7 +63,7 @@ function JobseekerInterestedJobsControllerFn($state,$http,$uibModal,$stateParams
 	
 	vm.removeFromInterested = function(jobPost) {
 		console.log(jobPost)
-		$http.post("http://localhost:8080/markAsInterested",{
+		$http.post("http://ec2-54-153-93-47.us-west-1.compute.amazonaws.com:8080/markAsInterested",{
 			data:{
 				jobPostId:jobPost.jobPostId
 			}
@@ -93,7 +93,7 @@ function JobseekerInterestedJobsControllerFn($state,$http,$uibModal,$stateParams
 			"data":  application
 		}
 
-		$http.post("http://localhost:8080/updateApplication",reqJSON, {
+		$http.post("http://ec2-54-153-93-47.us-west-1.compute.amazonaws.com:8080/updateApplication",reqJSON, {
     		headers: {'Access-Control-Allow-Origin' : '*',
                 'Access-Control-Allow-Methods' : 'POST, GET, OPTIONS',
                 'Accept': 'application/json'}
@@ -113,7 +113,7 @@ function JobseekerInterestedJobsControllerFn($state,$http,$uibModal,$stateParams
 
 	/*vm.getApplications = function() {
 
-		$http.post("http://localhost:8080/fetchJobSeekerInterestedList",{}, {
+		$http.post("http://ec2-54-153-93-47.us-west-1.compute.amazonaws.com:8080/fetchJobSeekerInterestedList",{}, {
     		headers: {'Access-Control-Allow-Origin' : '*',
                 'Access-Control-Allow-Methods' : 'POST, GET, OPTIONS',
                 'Accept': 'application/json'}
@@ -140,7 +140,7 @@ function JobseekerInterestedJobsControllerFn($state,$http,$uibModal,$stateParams
 
 	/*vm.logout = function() {
 
- 		$http.get("http://localhost:8080/logout", {
+ 		$http.get("http://ec2-54-153-93-47.us-west-1.compute.amazonaws.com:8080/logout", {
     		headers: {'Access-Control-Allow-Origin' : '*',
                 'Access-Control-Allow-Methods' : 'POST, GET, OPTIONS',
                 'Accept': 'application/json'}
