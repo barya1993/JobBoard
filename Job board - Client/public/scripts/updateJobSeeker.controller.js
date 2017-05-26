@@ -15,7 +15,7 @@ function UpdateJobSeekerControllerFn($state,$http,$uibModal,$scope) {
 	});
 
 	vm.fetchJobSeekerDetails = function(){
-		$http.get("http://ec2-54-153-93-47.us-west-1.compute.amazonaws.com/getJobSeekerDetails", {
+		$http.get("http://ec2-54-153-93-47.us-west-1.compute.amazonaws.com:8080/getJobSeekerDetails", {
     		headers: {'Access-Control-Allow-Origin' : '*',
                 'Access-Control-Allow-Methods' : 'POST, GET, OPTIONS',
                 'Accept': 'application/json'}
@@ -51,7 +51,7 @@ function UpdateJobSeekerControllerFn($state,$http,$uibModal,$scope) {
 
 	vm.logout = function() {
 
- 		$http.get("http://ec2-54-153-93-47.us-west-1.compute.amazonaws.com/logout", {
+ 		$http.get("http://ec2-54-153-93-47.us-west-1.compute.amazonaws.com:8080/logout", {
     		headers: {'Access-Control-Allow-Origin' : '*',
                 'Access-Control-Allow-Methods' : 'POST, GET, OPTIONS',
                 'Accept': 'application/json'}
@@ -109,7 +109,7 @@ function UpdateJobSeekerControllerFn($state,$http,$uibModal,$scope) {
 		}
 
 
- 		$http.post("http://ec2-54-153-93-47.us-west-1.compute.amazonaws.com/updateJobSeeker",reqJSON, {
+ 		$http.post("http://ec2-54-153-93-47.us-west-1.compute.amazonaws.com:8080/updateJobSeeker",reqJSON, {
     		headers: {'Access-Control-Allow-Origin' : '*',
                 'Access-Control-Allow-Methods' : 'POST, GET, OPTIONS',
                 'Accept': 'application/json'}

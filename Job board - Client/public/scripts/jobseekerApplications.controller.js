@@ -13,7 +13,7 @@ function jobseekerApplicationsControllerFn($state,$http,$uibModal,$stateParams) 
 			"data":  application
 		}
 
-		$http.post("http://ec2-54-153-93-47.us-west-1.compute.amazonaws.com/updateApplication",reqJSON, {
+		$http.post("http://ec2-54-153-93-47.us-west-1.compute.amazonaws.com:8080/updateApplication",reqJSON, {
     		headers: {'Access-Control-Allow-Origin' : '*',
                 'Access-Control-Allow-Methods' : 'POST, GET, OPTIONS',
                 'Accept': 'application/json'}
@@ -37,7 +37,7 @@ function jobseekerApplicationsControllerFn($state,$http,$uibModal,$stateParams) 
 			"data": {}
 		}
 
-		$http.post("http://ec2-54-153-93-47.us-west-1.compute.amazonaws.com/fetchJobSeekerApplications",reqJSON, {
+		$http.post("http://ec2-54-153-93-47.us-west-1.compute.amazonaws.com:8080/fetchJobSeekerApplications",reqJSON, {
     		headers: {'Access-Control-Allow-Origin' : '*',
                 'Access-Control-Allow-Methods' : 'POST, GET, OPTIONS',
                 'Accept': 'application/json'}
@@ -64,7 +64,7 @@ function jobseekerApplicationsControllerFn($state,$http,$uibModal,$stateParams) 
 
 	vm.logout = function() {
 
- 		$http.get("http://ec2-54-153-93-47.us-west-1.compute.amazonaws.com/logout", {
+ 		$http.get("http://ec2-54-153-93-47.us-west-1.compute.amazonaws.com:8080/logout", {
     		headers: {'Access-Control-Allow-Origin' : '*',
                 'Access-Control-Allow-Methods' : 'POST, GET, OPTIONS',
                 'Accept': 'application/json'}
