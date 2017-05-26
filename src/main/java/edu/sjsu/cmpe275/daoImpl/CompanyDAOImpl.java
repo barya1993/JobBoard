@@ -58,7 +58,6 @@ public class CompanyDAOImpl implements CompanyDAO{
 			
 			@SuppressWarnings("unchecked")
 			List<Company> companies = query.getResultList();
-			System.out.println("company "+companies.get(0));
 			
 			return companies;
 		} 

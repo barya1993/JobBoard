@@ -14,7 +14,7 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 
 public class Util {
 	
-	public final static String BASE_URL = "http://ec2-54-153-1-152.us-west-1.compute.amazonaws.com:8080/";
+	public final static String BASE_URL = "http://ec2-54-153-93-47.us-west-1.compute.amazonaws.com:8080/";
 	
 	public static boolean sendEmail(String textToSend, String emailId){
 		JavaMailSenderImpl mailSender = new JavaMailSenderImpl(); 
