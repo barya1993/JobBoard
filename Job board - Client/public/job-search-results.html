@@ -69,8 +69,9 @@
 						</button>
 						<div class="menu-container">
 							<ul class="header-top-nav header-top-nav__tertiary">
-								<li><a ui-sref="jobseekerApplications"><i class="fa fa-user-plus"></i> Your Applications</a></li>
-								<li><a ui-sref="updateJobSeeker"><i class="fa fa-user-plus"></i> Update Profile</a></li>
+								<li><a ui-sref="jobseekerApplications"><i class="fa fa-user-plus"></i> Applications</a></li>
+								<li><a ui-sref="jobseekerInterestedJobs"><i class="fa fa-user-plus"></i> Starred Jobs</a></li>
+								<li><a ui-sref="updateJobSeeker"><i class="fa fa-user-plus"></i>Update Profile</a></li>
 								<li><a ng-click="vm.logout()"><i class="fa fa-sign-in"></i> Logout</a></li>
 							</ul>
 						</div>
@@ -244,15 +245,19 @@
 						</ul>
 						<ul class="job_listings">
 							<li class="job_listing" ng-repeat="job in vm.searchResults.slice(((vm.currentPage-1)*vm.itemsPerPage), ((vm.currentPage)*vm.itemsPerPage))">
-								<a href="" ng-click="vm.openApplicationModal(job)">
+								<a href="">
 									<div class="job_img">
 										<img src="images/samples/person1.jpg" alt="" class="company_logo">
 									</div>
 									<div class="position">
+
 										<h3>{{job.title}}</h3>
 										<div class="company">
 											<strong>{{job.company.name}}</strong>
 										</div>
+										<span href="" ng-if="job.isInterested" ng-click="vm.toggleInterested(job)">Remove from interested? </span>
+										<span href="" ng-if="!job.isInterested" ng-click="vm.toggleInterested(job)"> Mark as interested?</span>
+										<span href="" ng-if="true" ng-click="vm.openApplicationModal(job)"><u>Apply</u></span>
 									</div>
 									<div class="location">
 										<i class="fa fa-location-arrow"></i> {{job.officeLocation}}
@@ -267,6 +272,7 @@
 										<li class="date">
 											{{job.status}}
 										</li>
+										<span ></span>
 									</ul>
 								</a>
 							</li>

@@ -12,6 +12,49 @@ function JobSearchResultsControllerFn($state,$http,$uibModal,$stateParams) {
 	vm.data.searchList = ['Search by Text', 'Search by Filters'];
 	vm.data.showSearchByText = true;
 
+	function filterInterestedJobs(){
+		
+		vm.searchResults =_.map(vm.searchResults,function(job) {
+								job.isInterested = false;
+								_.each(vm.interestedJobs,function(interested) {
+									if(interested.jobPost.jobPostId == job.jobPostId){
+										job.isInterested = interested.status;
+									}
+								})
+								return job;
+							});
+		console.log(vm.searchResults);
+		//in search results, check if it matches job post id in interstedlist;
+		//if yes insert true
+	}
+
+	vm.toggleInterested = function(jobPost) {
+		console.log(jobPost);
+		$http.post("http://localhost:8080/markAsInterested",{
+			data:{
+				jobPostId:jobPost.jobPostId
+			}
+		}, {
+    		headers: {'Access-Control-Allow-Origin' : '*',
+                'Access-Control-Allow-Methods' : 'POST, GET, OPTIONS',
+                'Accept': 'application/json'}
+  		}).
+  		then(function(res) {
+ 			if(res.status==200){
+ 				vm.getInterestedJobPost();
+ 			}
+ 		}).catch(function(res) {
+ 			console.log(res);
+ 			if(res.status == 404){
+ 				vm.data.message ="No results found.";
+ 			}
+ 			else{
+ 				vm.data.message = 'Something went wrong please try again.';
+ 			}
+ 			
+		})
+	}
+
 	vm.changeOfSearchType=function(){
 		vm.data.showSearchByText = true;
 
@@ -40,6 +83,7 @@ function JobSearchResultsControllerFn($state,$http,$uibModal,$stateParams) {
  		then(function(res) {
  			if(res.status==200){
  				vm.searchResults = res.data.Response;
+ 				vm.getInterestedJobPost();
  				console.log(res.data.Response);
  				//$state.go("jobSeekerHome");
  			}
@@ -104,6 +148,7 @@ function JobSearchResultsControllerFn($state,$http,$uibModal,$stateParams) {
  		then(function(res) {
  			if(res.status==200){
  				vm.searchResults = res.data.Response;
+ 				vm.getInterestedJobPost();
  				console.log(res.data.Response);
  				//$state.go("jobSeekerHome");
  			}
@@ -203,9 +248,37 @@ function JobSearchResultsControllerFn($state,$http,$uibModal,$stateParams) {
 		})
  	} 
 
- 	
+ 	vm.getInterestedJobPost = function() {
+
+		$http.post("http://localhost:8080/fetchJobSeekerInterestedList",{}, {
+    		headers: {'Access-Control-Allow-Origin' : '*',
+                'Access-Control-Allow-Methods' : 'POST, GET, OPTIONS',
+                'Accept': 'application/json'}
+  		}).
+ 		then(function(res) {
+ 			if(res.status==200){
+ 				vm.interestedJobs = res.data.result;
+ 				filterInterestedJobs();
+ 				console.log(res.data.result);
+ 				//$state.go("jobSeekerHome");
+ 			}
+ 		}).catch(function(res) {
+ 			console.log(res);
+ 			if(res.status == 404){
+ 				vm.data.message ="No results found.";
+ 			}
+ 			else{
+ 				vm.data.message = 'Something went wrong please try again.';
+ 			}
+ 			
+		})
+	}
+
+
 	vm.getCompanies();
 	vm.getSearchResultsByFilter();
+
+	
 
 }
 
