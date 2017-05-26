@@ -127,7 +127,7 @@
 								<form >
 									<div class="row">
 										<div class="col-md-3">
-											<div class="select-style">
+											<div class="select-style" ng-if="false">
 												<select class="form-control" ng-options="option for option in vm.data.searchList" ng-model="vm.data.selectedSearchList" ng-change="vm.changeOfSearchType()" value="option">
 													<option value="">Search by ...</option>
 												</select> 
@@ -135,7 +135,7 @@
 										</div>
 									</div>
 									<br/>
-									<div class="row" ng-show="vm.data.showSearchByText">
+									<div class="row" ng-show="true">
 										<div class="col-md-3">
 											<div class="form-group">
 												<input type="text" ng-model="vm.data.searchText" class="form-control" placeholder="Enter text to search">
@@ -146,13 +146,13 @@
 										</div>
 									</div>
 
-									<div class="row" ng-hide="vm.data.showSearchByText">
+									<div class="row" ng-hide="false">
 										<div class="col-md-2 col-md-offset-8">
 											<font color="white">OR provide a range for salary.</font>
 										</div>
 									</div>
 
-									<div class="row" ng-hide="vm.data.showSearchByText">
+									<div class="row" ng-hide="false">
 										<div class="col-md-3 ">
 											<div class="form-group">
 												<div class="select-style">
