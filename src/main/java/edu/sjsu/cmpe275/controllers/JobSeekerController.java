@@ -257,7 +257,7 @@ public class JobSeekerController {
 		String jobPostId = jsonObject.getString("jobPostId");
 		HttpSession session=request.getSession(false);
 		String jobSeekerEmailId;
-		/*if(session!=null)
+		if(session!=null)
 		{
 			jobSeekerEmailId = (String)session.getAttribute("email");
 		}
@@ -266,43 +266,15 @@ public class JobSeekerController {
 			JSONObject returnObj = new JSONObject();
 			returnObj.put("result", "Log in first!");
 			return new ResponseEntity(returnObj.toString(),HttpStatus.BAD_REQUEST);
-		}*/
+		}
 		
 		//String jobSeekerEmailId = (String)session.getAttribute("email");
-		jobSeekerEmailId = "parvezsaeedpatel@gmail.com";
+		//jobSeekerEmailId = "parvezsaeedpatel@gmail.com";
 		System.out.println("session email::::::"+jobSeekerEmailId);
 		
 		JobSeeker jobSeeker = jobSeekerService.getJobSeekerProfile(jobSeekerEmailId);
 		JobPost jobPost = companyService.getJobDetails(jobPostId);
 		
-		/*List<Application> applicationList = jobSeekerService.getJobSeekerApplications(jobSeeker);
-		
-		
-		int pendingCounter=0;
-		int flag=0;
-		for(int i=0; i<applicationList.size();i++)
-		{
-			if(applicationList.get(i).getStatus().equals("PENDING"))
-				pendingCounter++;
-			if(applicationList.get(i).getJobPostId().getJobPostId().equals(jobPost.getJobPostId()) && (applicationList.get(i).getStatus().equalsIgnoreCase("Pending") || applicationList.get(i).getStatus().equalsIgnoreCase("Offered")))
-				flag=1;
-		}
-		
-		if(flag==1)
-		{
-			JSONObject returnObj = new JSONObject();
-			returnObj.put("result", "You already applied for this Job Post!");
-			return new ResponseEntity(returnObj.toString(),HttpStatus.BAD_REQUEST);
-		}
-		
-		if(pendingCounter>=5)
-		{
-			JSONObject returnObj = new JSONObject();
-			returnObj.put("result", "You cannot apply in more then 5 JobPosts in a Pending State");
-			return new ResponseEntity(returnObj.toString(),HttpStatus.BAD_REQUEST);
-		}
-		
-		*/
 		List<InterestedJobPost> interestedList = jobSeekerService.getJobSeekerInterestedList(jobSeeker);
 		boolean exists = false;
 		InterestedJobPost interestedJobPost = null;
@@ -350,7 +322,7 @@ public class JobSeekerController {
 		
 		HttpSession session=request.getSession(false);
 		String jobSeekerEmailId;
-		/*if(session!=null)
+		if(session!=null)
 		{
 			jobSeekerEmailId = (String)session.getAttribute("email");
 		}
@@ -359,8 +331,8 @@ public class JobSeekerController {
 			JSONObject returnObj = new JSONObject();
 			returnObj.put("result", "Log in first!");
 			return new ResponseEntity(returnObj.toString(),HttpStatus.BAD_REQUEST);
-		}*/
-		jobSeekerEmailId = "parvezsaeedpatel@gmail.com";
+		}
+		//jobSeekerEmailId = "parvezsaeedpatel@gmail.com";
 		JobSeeker jobSeeker = jobSeekerService.getJobSeekerProfile(jobSeekerEmailId);
 		//JobPost jobPost = companyService.getJobDetails("4028e3815c181fef015c183bcfc90000");
 		

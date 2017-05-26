@@ -36,6 +36,13 @@ app.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
 		controllerAs:"vm"
 	})
 
+	.state('jobseekerInterestedJobs',{
+		url:"/jobseekerInterestedJobs",
+		templateUrl:"jobseekerInterestedJobs.html",
+		controller:"JobseekerInterestedJobsController",
+		controllerAs:"vm"
+	})
+
 	.state('companyHome',{
 		url:"/companyHome",
 		templateUrl:"company-dashboard.html",
