@@ -30,7 +30,7 @@ function JobSearchResultsControllerFn($state,$http,$uibModal,$stateParams) {
 
 	vm.toggleInterested = function(jobPost) {
 		console.log(jobPost);
-		$http.post("http://localhost:8080/markAsInterested",{
+		$http.post("http://ec2-54-153-93-47.us-west-1.compute.amazonaws.com:8080/markAsInterested",{
 			data:{
 				jobPostId:jobPost.jobPostId
 			}
@@ -250,7 +250,7 @@ function JobSearchResultsControllerFn($state,$http,$uibModal,$stateParams) {
 
  	vm.getInterestedJobPost = function() {
 
-		$http.post("http://localhost:8080/fetchJobSeekerInterestedList",{}, {
+		$http.post("http://ec2-54-153-93-47.us-west-1.compute.amazonaws.com:8080/fetchJobSeekerInterestedList",{}, {
     		headers: {'Access-Control-Allow-Origin' : '*',
                 'Access-Control-Allow-Methods' : 'POST, GET, OPTIONS',
                 'Accept': 'application/json'}
